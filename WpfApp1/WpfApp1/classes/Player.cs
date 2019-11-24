@@ -3,16 +3,33 @@
 public class Player
 {
     public String playerName { get; set; }
-    public Space[] safetySpaceAndHome;
+    public ISpace[] safetySpaceAndHome;
+    public Pawn[] pawns;
 
-	public Player()
+	public Player(String playerName)
 	{
-        for (int i = 0; i < 5; i++)
+        this.playerName = playerName;
+        for (int i = 0; i < 3; i++)
         {
-            safetySpaceAndHome[i] = new SafetySpace(Player p);
+            pawns[i] = new Pawn(this, i);
         }
-        safetySpaceAndHome[5] = new HomeSpace();
+
 	}
 
+    public void initialisePlayersBoard()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            safetySpaceAndHome[i] = new SafetySpace(this);
+        }
+        safetySpaceAndHome[5] = new HomeSpace();
+    }
+
+    public void runTurn()
+    {
+        //stuff involving picking a card, running the card's whenPicked (or whatever its called) method
+        //doing what the card entails
+        //end of turn?
+    }
     
 }

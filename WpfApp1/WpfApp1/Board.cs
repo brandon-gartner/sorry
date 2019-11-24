@@ -6,7 +6,7 @@ public class Board
     public Board(Player[] players) {
 
         //each corner is a multiple of 15
-        Space[] landingSpaces = new Space[60];
+        ISpace[] landingSpaces = new ISpace[60];
 
         //creates the board based on the number of players
         for (int i = 0; i < players.Length; i++)
@@ -19,7 +19,7 @@ public class Board
         }
 
         //if there are only 3 players, make some slides that don't belong to anyone.
-        Player nullPlayer = new Player();
+        Player nullPlayer = new Player("false");
         if (players.Length < 4)
         {
             landingSpaces[46] = new SlideStart(nullPlayer);
@@ -42,8 +42,8 @@ public class Board
 
     public void movePawn(Pawn p, int movementDistance)
     {
-        possibleLocation = p.validateFutureLocation();
-        p.spaceNumber = possibleLocation;
+        int possibleLocation = p.validateFutureLocation(movementDistance);
+        p.setSpaceNumber(possibleLocation);
 
     }
         /*//loop to create startExits

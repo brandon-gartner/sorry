@@ -1,8 +1,7 @@
 ﻿using System;
 
-public interface Space
+public interface ISpace
 {
-    Boolean occupied;
     //occurs when a space is landed on
     void landedOn(Pawn p);
 
