@@ -26,5 +26,8 @@ public class Player
         this.SafetySpaceAndHome[5] = new HomeSpace();
     }
 
-    
+    internal void playTurn()
+    {
+        throw new NotImplementedException();
+    }
 }

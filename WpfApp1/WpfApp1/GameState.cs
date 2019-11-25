@@ -31,7 +31,7 @@ public class GameState
         Boolean ended = false;
         for (int playerTurn = 0; ended; playerTurn++)
         {
-            players[playerTurn % players.Length].runTurn();
+            players[playerTurn % players.Length].playTurn();
         }
     }
 }

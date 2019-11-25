@@ -25,7 +25,7 @@ public class Player
         safetySpaceAndHome[5] = new HomeSpace();
     }
 
-    public void runTurn()
+    public void playTurn()
     {
         //stuff involving picking a card, running the card's whenPicked (or whatever its called) method
         //doing what the card entails
