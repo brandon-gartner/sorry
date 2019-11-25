@@ -24,6 +24,7 @@ namespace WpfApp1
         public MainWindow()
         {
             InitializeComponent();
+            GameState gameState = new GameState();
         }
     }
 }
