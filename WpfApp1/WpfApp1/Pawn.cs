@@ -2,12 +2,14 @@
 
 public class Pawn
 {
-    public int spaceNumber { get; set; }
-    public Boolean safe;
-    public Boolean inStart;
+    int spaceNumber;
+    Boolean safe;
+    Boolean inStart;
 
     public Pawn(Player p, int numbering)
     {
+        safe = false;
+        inStart = true;
     }
 
     //is run in the boards movePawn method
@@ -30,5 +32,10 @@ public class Pawn
             return potentialFutureLocation;
         }
 
+    }
+
+    public void setSpaceNumber(int newSpaceNumber)
+    {
+        this.spaceNumber = newSpaceNumber;
     }
 }

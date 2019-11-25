@@ -1,8 +1,9 @@
 ﻿using System;
 
-public class NormalSpace
+public class NormalSpace : ISpace
 {
-	public NormalSpace() : Space;
+    boolean occupied;
+	public NormalSpace()
 	{
 	}
 }
