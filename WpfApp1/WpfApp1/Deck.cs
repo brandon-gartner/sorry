@@ -89,12 +89,14 @@ public class Deck
             }
         }
     }
+
+    //this method is used to shuffle the position of the cards randomly
     public void shuffle (){
         Card swapCard;
         Card currentCard;
         int randPosition;
         int randNum = new Random();
-        for (int i = 0; i < this.deck.length ){
+        for (int i = 0; i < this.deck.Length;i++ ){
             randPosition = randNum.Next(0, 44);
             currentCard=this.deck[i];
             swapCard=this.deck[randPosition];
@@ -103,8 +105,9 @@ public class Deck
         }
         deckCount=0;
     }
+    //this method will get the next card in the neck and if it reaches the end of the deck and it will reshuffle the deck reset the deckCount
     public Card getNextCard(){
-        if(deckCount == 45){
+        if(deckCount == this.deck.Length){
             shuffle();
         }
         deckCount++;
