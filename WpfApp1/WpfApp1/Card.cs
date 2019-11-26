@@ -10,4 +10,7 @@ public class Card
 	{
         this.cardId = cardId;
     }
+    public int getCard_Id(){
+        return this.cardId;
+    }
 }
