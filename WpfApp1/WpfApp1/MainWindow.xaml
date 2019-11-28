@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="809.477" Width="1163.21">
-    <Grid HorizontalAlignment="Left" Margin="10,10,0,0" Height="658" VerticalAlignment="Top" Width="967">
+        Title="MainWindow" Height="893.477" Width="1281.21">
+    <Grid HorizontalAlignment="Left" Margin="72,144,0,0" Height="658" VerticalAlignment="Top" Width="967">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
@@ -134,5 +134,9 @@
         <Border BorderBrush="Black" CornerRadius="10" BorderThickness="2" Grid.Column="4" Grid.Row="1"/>
         <Border BorderBrush="Black" CornerRadius="10" BorderThickness="2" Grid.Column="14" Grid.Row="4"/>
         <Border BorderBrush="Black" CornerRadius="10" BorderThickness="2" Grid.Column="11" Grid.Row="14"/>
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="SORRY!" VerticalAlignment="Top" Grid.ColumnSpan="4" Grid.Column="6" Margin="46,-120,0,0" Height="58" Width="196" FontFamily="Georgia" FontSize="48"/>
+        <Button Content="Start" HorizontalAlignment="Left" VerticalAlignment="Top" Width="149" Grid.Column="15" Margin="102,0,-190,0" Height="82" Grid.RowSpan="2" Click="Button_Click" IsCancel="True" FontFamily="Georgia" FontSize="22"/>
+        <Button Content="Save" Grid.Column="15" HorizontalAlignment="Left" Margin="102,5,-190,0" Grid.Row="2" VerticalAlignment="Top" Width="149" Height="77" Grid.RowSpan="2" Click="Button_Click_1" FontFamily="Georgia" FontSize="22"/>
+        <Button Content="Draw Card" Grid.Column="15" HorizontalAlignment="Left" Margin="102,5,-190,0" Grid.Row="4" VerticalAlignment="Top" Width="149" Height="77" Grid.RowSpan="2" Click="Button_Click_1" FontFamily="Georgia" FontSize="22"/>
     </Grid>
 </Window>

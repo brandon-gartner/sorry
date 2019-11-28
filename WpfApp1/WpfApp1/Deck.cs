@@ -95,7 +95,7 @@ public class Deck
         Card swapCard;
         Card currentCard;
         int randPosition;
-        int randNum = new Random();
+        Random randNum = new Random();
         for (int i = 0; i < this.deck.Length;i++ ){
             randPosition = randNum.Next(0, 44);
             currentCard=this.deck[i];

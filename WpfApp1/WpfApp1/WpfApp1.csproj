@@ -56,6 +56,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Card.cs" />
+    <Compile Include="Deck.cs" />
     <Compile Include="HomeSpace.cs" />
     <Compile Include="NormalSpace.cs" />
     <Compile Include="SafetyEntry.cs" />

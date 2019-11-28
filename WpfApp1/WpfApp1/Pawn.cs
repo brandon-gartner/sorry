@@ -1,15 +1,21 @@
 ﻿using System;
+using System.Windows.Controls;
 
 public class Pawn
 {
     int spaceNumber;
     Boolean safe;
     Boolean inStart;
+    int numberOfPawn;
+    public Label image;
 
-    public Pawn(Player p, int numbering)
+    /*So basically the color is going to be the color of the pawn*/
+    public Pawn(int numberOfPawn, String color)
     {
+        this.numberOfPawn = numberOfPawn;
         safe = false;
         inStart = true;
+        image.Background =;
     }
 
     //is run in the boards movePawn method
