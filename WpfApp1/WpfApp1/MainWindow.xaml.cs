@@ -14,6 +14,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.VisualBasic;
 
+/**Dzien dobry Nagi. Chialbym ci powiedziec ze jestes cholerna suka*/ 
+
 namespace WpfApp1
 {
     /// <summary>
