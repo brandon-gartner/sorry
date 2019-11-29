@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 public class Pawn
 {
@@ -15,7 +16,24 @@ public class Pawn
         this.numberOfPawn = numberOfPawn;
         safe = false;
         inStart = true;
-        image.Background =;
+        if(color.Equals("Red"))
+        {
+            image.Background = Brushes.Red;
+        }
+        else if(color.Equals("Green"))
+        {
+            image.Background = Brushes.Green;
+        }
+        else if(color.Equals("Blue"))
+        {
+            image.Background = Brushes.Blue;
+        }
+        else
+        {
+            image.Background = Brushes.Yellow;
+        }
+        image.Content = numberOfPawn;
+        inStart = true;
     }
 
     //is run in the boards movePawn method

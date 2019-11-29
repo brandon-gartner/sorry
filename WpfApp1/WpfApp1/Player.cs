@@ -6,7 +6,7 @@ public class Player
     public ISpace[] SafetySpaceAndHome;
     public Pawn[] pawns;
 
-
+    /*So the constructor sets the player's name as well as which color they chose */
 	public Player(string playerName, String color)
 	{
         this.pawns = new Pawn[3];

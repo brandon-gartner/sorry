@@ -18,7 +18,8 @@ public class GameState
 
         players = new Player[playerCount];
 
-        /*Asking their names and what colour they want*/
+        /*Asking their names and what colour they want (probably the easiest way to do this is to use the same idea 
+          as for the player names but correspond an integer with a color(here i just hardcoded it for ease of use*/
         String[] colors = { "Blue", "Red", "Green", "Yellow" };
 
         for (int i = 0; i < playerCount; i++)
@@ -27,10 +28,9 @@ public class GameState
             players[i] = new Player(playerName, colors[i]);
         }
 
+        /*Creating board (locations)*/
 
 
-
-        /*Creating pawns as well as their locations*/
     }
 
     public void run()
