@@ -1,13 +1,16 @@
 ﻿using System;
 using Microsoft.VisualBasic;
+using WpfApp1;
 
 public class GameState
 {
 
     int playerCount = 0;
     Player[] players;
-	public GameState()
+    MainWindow main;
+	public GameState(MainWindow main)
 	{
+        this.main = main;
         /*Creating the three players and getting their names and such*/
         String playerCountInput;
         do
@@ -25,10 +28,17 @@ public class GameState
         for (int i = 0; i < playerCount; i++)
         {
             String playerName = Interaction.InputBox("What is player " + i + "'s name?", "Name?");
-            players[i] = new Player(playerName, colors[i]);
+            players[i] = new Player(playerName, colors[i], main);
         }
 
         /*Creating board (locations)*/
+        Board mainBoard = new Board(players, this.main);
+
+        /*Drawing players*/
+        for(int i = 0; i < this.players.Length; i++)
+        {
+            this.players[i].drawPlayer();
+        }
 
 
     }
