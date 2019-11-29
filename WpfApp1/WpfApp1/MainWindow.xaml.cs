@@ -14,8 +14,6 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.VisualBasic;
 
-/**Dzien dobry Nagi. Chialbym ci powiedziec ze jestes cholerna suka*/ 
-
 namespace WpfApp1
 {
     /// <summary>
@@ -33,7 +31,7 @@ namespace WpfApp1
         {
             if(!isGameRunning)
             {
-                GameState gameState = new GameState();
+                GameState gameState = new GameState(this);
                 isGameRunning = true;
             }
         }

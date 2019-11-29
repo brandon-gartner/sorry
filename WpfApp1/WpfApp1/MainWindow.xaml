@@ -44,7 +44,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Border BorderBrush="Black" BorderThickness="2, 2, 1, 1" Grid.Column="0" Grid.Row="0"/>
+        <Border x:Name="_0" BorderBrush="Black" BorderThickness="2, 2, 1, 1" Grid.Column="0" Grid.Row="0"/>
         <Border BorderBrush="Black" BorderThickness="2, 1, 2, 1" Grid.Column="0" Grid.Row="1"/>
         <Border BorderBrush="Black" BorderThickness="2, 1, 2, 1" Grid.Column="0" Grid.Row="2"/>
         <Border BorderBrush="Black" BorderThickness="2, 1, 2, 1" Grid.Column="0" Grid.Row="3"/>

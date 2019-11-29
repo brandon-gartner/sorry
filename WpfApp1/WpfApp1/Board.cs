@@ -1,10 +1,14 @@
 ﻿using System;
+using WpfApp1;
 
 public class Board
 {
 
-    public Board(Player[] players) {
+    MainWindow main;
 
+    public Board(Player[] players, MainWindow main) {
+
+        this.main = main;
         //each corner is a multiple of 15
         ISpace[] landingSpaces = new ISpace[60];
 
@@ -19,7 +23,7 @@ public class Board
         }
 
         //if there are only 3 players, make some slides that don't belong to anyone.
-        Player nullPlayer = new Player("false", "null");
+        Player nullPlayer = new Player("false", "null", this.main);
         if (players.Length < 4)
         {
             landingSpaces[46] = new SlideStart(nullPlayer);
