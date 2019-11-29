@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -9,7 +10,7 @@ public class Pawn
     Boolean safe;
     Boolean inStart;
     int numberOfPawn;
-    public Label image;
+    public Border image;
 
     /*So basically the color is going to be the color of the pawn*/
     public Pawn(int numberOfPawn, String color)
@@ -17,7 +18,7 @@ public class Pawn
         this.numberOfPawn = numberOfPawn;
         safe = false;
         inStart = true;
-        this.image = new Label();
+        this.image = new Border();
         if (color.Equals("Red"))
         {
             image.Background = Brushes.Red;
@@ -34,9 +35,13 @@ public class Pawn
         {
             image.Background = Brushes.Yellow;
         }
-        
-        this.image.Content = numberOfPawn;
-        inStart = true;
+        TextBlock text = new TextBlock();
+        text.Text = Convert.ToString(numberOfPawn);
+        image.Child = text;
+        image.CornerRadius = new CornerRadius(25);
+        image.Margin = new Thickness(5);
+        text.Margin = new Thickness(5);
+         
     }
 
     //is run in the boards movePawn method
