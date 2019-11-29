@@ -1,14 +1,38 @@
 ﻿using System;
+using System.Windows.Controls;
+using System.Windows.Media;
 
 public class Pawn
 {
     int spaceNumber;
     Boolean safe;
     Boolean inStart;
+    int numberOfPawn;
+    public Label image;
 
-    public Pawn(Player p, int numbering)
+    /*So basically the color is going to be the color of the pawn*/
+    public Pawn(int numberOfPawn, String color)
     {
+        this.numberOfPawn = numberOfPawn;
         safe = false;
+        inStart = true;
+        if(color.Equals("Red"))
+        {
+            image.Background = Brushes.Red;
+        }
+        else if(color.Equals("Green"))
+        {
+            image.Background = Brushes.Green;
+        }
+        else if(color.Equals("Blue"))
+        {
+            image.Background = Brushes.Blue;
+        }
+        else
+        {
+            image.Background = Brushes.Yellow;
+        }
+        image.Content = numberOfPawn;
         inStart = true;
     }
 

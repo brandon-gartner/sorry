@@ -8,9 +8,8 @@ public class GameState
     Player[] players;
 	public GameState()
 	{
-        int playercount;
+        /*Creating the three players and getting their names and such*/
         String playerCountInput;
-        Boolean numberAllowed = false;
         do
         {
             playerCountInput = Interaction.InputBox("How many players are there?", "Player Count", "Please enter a number between 2 and 4");
@@ -19,11 +18,19 @@ public class GameState
 
         players = new Player[playerCount];
 
+        /*Asking their names and what colour they want (probably the easiest way to do this is to use the same idea 
+          as for the player names but correspond an integer with a color(here i just hardcoded it for ease of use*/
+        String[] colors = { "Blue", "Red", "Green", "Yellow" };
+
         for (int i = 0; i < playerCount; i++)
         {
             String playerName = Interaction.InputBox("What is player " + i + "'s name?", "Name?");
-            players[i] = new Player(playerName);
+            players[i] = new Player(playerName, colors[i]);
         }
+
+        /*Creating board (locations)*/
+
+
     }
 
     public void run()

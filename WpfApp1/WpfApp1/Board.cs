@@ -46,22 +46,4 @@ public class Board
         p.setSpaceNumber(possibleLocation);
 
     }
-        /*//loop to create startExits
-        for (int i = 4; i < 60; i += 15)
-        {
-            landingSpaces[i] = new SlideEndStartExit();
-        }
-
-        //creates one of each player's slide starts
-        for (int i = 1; i < 60; i += 15)
-        {
-            landingSpaces[i] = new SlideStart(Player p);
-        }
-
-        //creates the locations where players enter the safety zones
-        for (int i = 2; i < 60; i += 15)
-        {
-            landingSpaces[i] = new SafetyEntry(Player p);
-        }
-        */
 }

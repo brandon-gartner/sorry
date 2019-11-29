@@ -14,6 +14,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.VisualBasic;
 
+/**Dzien dobry Nagi. Chialbym ci powiedziec ze jestes cholerna suka*/ 
+
 namespace WpfApp1
 {
     /// <summary>
@@ -21,10 +23,24 @@ namespace WpfApp1
     /// </summary>
     public partial class MainWindow : Window
     {
+        Boolean isGameRunning = false;
         public MainWindow()
         {
             InitializeComponent();
-            GameState gameState = new GameState();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if(!isGameRunning)
+            {
+                GameState gameState = new GameState();
+                isGameRunning = true;
+            }
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
