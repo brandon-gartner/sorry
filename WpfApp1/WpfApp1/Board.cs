@@ -19,7 +19,7 @@ public class Board
         }
 
         //if there are only 3 players, make some slides that don't belong to anyone.
-        Player nullPlayer = new Player("false");
+        Player nullPlayer = new Player("false", "null");
         if (players.Length < 4)
         {
             landingSpaces[46] = new SlideStart(nullPlayer);
@@ -37,7 +37,12 @@ public class Board
             landingSpaces[34] = new SlideEnd(nullPlayer);
         }
 
-
+        for (int i = 0; i < landingSpaces.Length; i++)
+        {
+            if (landingSpaces[i] == null) {
+                landingSpaces[i] = new NormalSpace();
+            }
+        }
     }
 
     public void movePawn(Pawn p, int movementDistance)

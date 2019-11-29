@@ -29,7 +29,7 @@ namespace WpfApp1
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void GameStart (object sender, RoutedEventArgs e)
         {
             if(!isGameRunning)
             {
@@ -38,7 +38,24 @@ namespace WpfApp1
             }
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void clickDraw (object sender, RoutedEventArgs e)
+        {
+            if (isGameRunning)
+            {
+
+            }
+            else
+            {
+                return;
+            }
+        }
+
+        private void GameLoad (object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void GameSave (object sender, RoutedEventArgs e)
         {
 
         }

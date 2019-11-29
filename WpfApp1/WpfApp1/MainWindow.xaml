@@ -135,8 +135,9 @@
         <Border BorderBrush="Black" CornerRadius="10" BorderThickness="2" Grid.Column="14" Grid.Row="4"/>
         <Border BorderBrush="Black" CornerRadius="10" BorderThickness="2" Grid.Column="11" Grid.Row="14"/>
         <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="SORRY!" VerticalAlignment="Top" Grid.ColumnSpan="4" Grid.Column="6" Margin="46,-120,0,0" Height="58" Width="196" FontFamily="Georgia" FontSize="48"/>
-        <Button Content="Start" HorizontalAlignment="Left" VerticalAlignment="Top" Width="149" Grid.Column="15" Margin="102,0,-190,0" Height="82" Grid.RowSpan="2" Click="Button_Click" IsCancel="True" FontFamily="Georgia" FontSize="22"/>
-        <Button Content="Save" Grid.Column="15" HorizontalAlignment="Left" Margin="102,5,-190,0" Grid.Row="2" VerticalAlignment="Top" Width="149" Height="77" Grid.RowSpan="2" Click="Button_Click_1" FontFamily="Georgia" FontSize="22"/>
-        <Button Content="Draw Card" Grid.Column="15" HorizontalAlignment="Left" Margin="102,5,-190,0" Grid.Row="4" VerticalAlignment="Top" Width="149" Height="77" Grid.RowSpan="2" Click="Button_Click_1" FontFamily="Georgia" FontSize="22"/>
+        <Button Name = "Start" Content="Start" HorizontalAlignment="Left" VerticalAlignment="Top" Width="149" Grid.Column="15" Margin="102,0,-190,0" Height="82" Grid.RowSpan="2" Click="GameStart" IsCancel="True" FontFamily="Georgia" FontSize="22"/>
+        <Button Name = "Save" Content="Save" Grid.Column="15" HorizontalAlignment="Left" Margin="102,5,-190,0" Grid.Row="2" VerticalAlignment="Top" Width="149" Height="77" Grid.RowSpan="2" Click="GameSave" FontFamily="Georgia" FontSize="22"/>
+        <Button Name = "Load" Content="Load" Grid.Column="15" HorizontalAlignment="Left" Margin="102,5,-190,0" Grid.Row="4" VerticalAlignment="Top" Width="149" Height="77" Grid.RowSpan="2" Click="GameLoad" FontFamily="Georgia" FontSize="22"/>
+        <Button Name = "DrawCard" Content="Draw Card" Grid.Column="15" HorizontalAlignment="Left" Margin="102,5,-191,0" Grid.Row="6" VerticalAlignment="Top" Width="149" Height="77" Grid.RowSpan="2" Click="clickDraw" FontFamily="Georgia" FontSize="22" IsEnabled="False"/>
     </Grid>
 </Window>
