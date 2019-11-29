@@ -1,10 +1,12 @@
-﻿internal class SlideStart : ISpace
+﻿//the class for the beginning of a slide
+internal class SlideStart : ISpace
 {
-    private Player nullPlayer;
+    private Player player;
 
-    public SlideStart(Player nullPlayer)
+    //takes a player from the program and reads it as the owner player
+    public SlideStart(Player player)
     {
-        this.nullPlayer = nullPlayer;
+        this.player = player;
     }
 
     public void landedOn(Pawn p)
