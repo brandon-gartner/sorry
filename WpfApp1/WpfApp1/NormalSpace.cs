@@ -9,6 +9,6 @@ public class NormalSpace : ISpace
 
     public void landedOn(Pawn p)
     {
-        throw new NotImplementedException();
+        return;
     }
 }
