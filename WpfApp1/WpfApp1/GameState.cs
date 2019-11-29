@@ -29,6 +29,7 @@ public class GameState
         }
 
         /*Creating board (locations)*/
+        Board mainBoard = new Board(players);
 
 
     }
