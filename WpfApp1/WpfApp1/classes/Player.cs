@@ -29,7 +29,26 @@ public class Player
     {
         //stuff involving picking a card, running the card's whenPicked (or whatever its called) method
         //doing what the card entails
-        //end of turn?
+        Pawn selectedPawn = this.selectPawn();
+
+    }
+
+    public Pawn selectPawn()
+    {
+        String options = "";
+        for (int i = 0; i < pawns.Length; i++)
+        {
+            if (pawns[i].safe)
+            {
+                options += Convert.ToString(i) + ", ";
+            }
+            do
+            {
+                int optionSelected = (Microsoft.VisualBasic.Interaction.InputBox("Which pawn would you like to select?  Your options are " + options, "Pawn to select?", "Please enter one of the options."));
+            } while ((optionSelected < 1 || optionSelected > 3) || pawns[optionSelected].safe);
+
+            return pawns[optionSelected];
+        }
     }
     
 }
