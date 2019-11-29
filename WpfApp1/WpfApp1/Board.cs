@@ -1,14 +1,19 @@
 ﻿using System;
 using WpfApp1;
 
+//the board class, holds our entire internal implementation of the board class
 public class Board
 {
-
+    //stores a mainwindow (our mainwindow)
     MainWindow main;
+    Player[] players;
 
+    //takes an array of players, and a mainWindow
     public Board(Player[] players, MainWindow main) {
 
+        //saves the mainwindow as the mainwindow
         this.main = main;
+        this.players = players;
         //each corner is a multiple of 15
         ISpace[] landingSpaces = new ISpace[60];
 
@@ -41,6 +46,7 @@ public class Board
             landingSpaces[34] = new SlideEnd(nullPlayer);
         }
 
+        //fill the rest of the board with empty spaces
         for (int i = 0; i < landingSpaces.Length; i++)
         {
             if (landingSpaces[i] == null) {
@@ -49,10 +55,33 @@ public class Board
         }
     }
 
+
     public void movePawn(Pawn p, int movementDistance)
     {
         int possibleLocation = p.validateFutureLocation(movementDistance);
         p.setSpaceNumber(possibleLocation);
 
+    }
+
+    public Boolean pawnStep(Pawn p, Boolean last)
+    {
+        if (!last)
+        {
+            return false;
+        }
+        else
+        {
+            for (int i = 0; i < players.Length; i++)
+            {
+                for (int j = 0; i < players[i].pawns.Length; i++)
+                {
+                    if (players[i].pawns[j].spaceNumber == p.spaceNumber + 1)
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 }

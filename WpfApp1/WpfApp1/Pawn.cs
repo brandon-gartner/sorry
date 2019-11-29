@@ -5,10 +5,11 @@ using System.Windows.Media;
 
 public class Pawn
 {
-    int spaceNumber;
-    Boolean safe;
-    Boolean inStart;
-    int numberOfPawn;
+    public int spaceNumber;
+    public Boolean safe;
+    public Boolean inStart;
+    public Boolean decommisioned;
+    public int numberOfPawn;
     public Border image;
 
     /*So basically the color is going to be the color of the pawn*/

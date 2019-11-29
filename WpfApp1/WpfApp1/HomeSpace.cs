@@ -3,6 +3,6 @@
 
     public void landedOn(Pawn p)
     {
-        throw new System.NotImplementedException();
+        return;
     }
 }
