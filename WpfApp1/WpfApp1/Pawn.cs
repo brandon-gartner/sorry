@@ -71,4 +71,10 @@ public class Pawn
     {
         this.spaceNumber = newSpaceNumber;
     }
+
+    public void returnHome()
+    {
+        this.inStart = true;
+        this.spaceNumber = 99;
+    }
 }

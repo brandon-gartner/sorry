@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.VisualBasic;
+using WpfApp1;
 
 namespace WpfApp1
 {
@@ -56,6 +57,10 @@ namespace WpfApp1
         private void GameSave (object sender, RoutedEventArgs e)
         {
 
+        }
+        private void save()
+        {
+            GameState saveTheGame = new GameState(main: MainWindow);
         }
     }
 }

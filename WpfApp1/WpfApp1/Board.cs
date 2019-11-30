@@ -58,15 +58,28 @@ public class Board
 
     public void movePawn(Pawn p, int movementDistance)
     {
-        int possibleLocation = p.validateFutureLocation(movementDistance);
-        p.setSpaceNumber(possibleLocation);
+        for (int i = 0; i < movementDistance - 1; i++)
+        {
+            pawnStep(p, false);
+        }
+        Boolean collision = pawnStep(p, true);
+        if (collision)
+        {
+            handleCollision(p, (p.spaceNumber + movementDistance);
+        }
+    }
+
+    public void handleCollision(Pawn p, int location)
+    {
 
     }
 
+    //moves a paw
     public Boolean pawnStep(Pawn p, Boolean last)
     {
         if (!last)
         {
+            p.setSpaceNumber(p.spaceNumber + 1);
             return false;
         }
         else

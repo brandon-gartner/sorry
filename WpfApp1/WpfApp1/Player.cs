@@ -33,9 +33,11 @@ public class Player
         this.SafetySpaceAndHome[5] = new HomeSpace();
     }
 
-    public void playTurn()
+
+    public Boolean playTurn()
     {
         main.DrawCard.IsEnabled = true;
+        return false;
     }
     
     /*This method is for actually drawing everything relating to the player on the xaml page*/

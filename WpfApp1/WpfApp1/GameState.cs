@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Controls;
 using Microsoft.VisualBasic;
 using WpfApp1;
+
 
 public class GameState
 {
@@ -12,7 +14,7 @@ public class GameState
     MainWindow main;
     Dictionary<int, Border> numberToSpace = new Dictionary<int, Border>();
     Dictionary<Border, int> spaceToNumber = new Dictionary<Border, int>();
-    public GameState(MainWindow main)
+    public GameState(MainWindow main, Player[] allPlayers)
 	{
         this.main = main;
         generateDictionaries();
@@ -48,18 +50,25 @@ public class GameState
 
     }
 
+    //runs the game, until a player wins.  playTurn will constantly set ended to false, until a player wins
     public void run()
     {
+        int turnPlayer = -1;
         Boolean ended = false;
         for (int playerTurn = 0; ended; playerTurn++)
         {
-            players[playerTurn % players.Length].playTurn();
+            ended = players[playerTurn % players.Length].playTurn();
+            turnPlayer = playerTurn % players.Length;
         }
+
+        MessageBox.Show("Player " + turnPlayer + " wins!");
     }
 
+
+    //creates the dictionaries we will be using to easily get between space position and actualy border location on the XAML file
     public void generateDictionaries()
     {
-        //numberToSpace.Add(0, main._0);
+        numberToSpace.Add(0, main._0);
         spaceToNumber.Add(main._0, 0);
         numberToSpace.Add(1, main._1);
         spaceToNumber.Add(main._1, 1);
@@ -181,4 +190,17 @@ public class GameState
         spaceToNumber.Add(main._59, 59);
 
     }
+    [Serializable]
+    class saveGameState
+    {
+        int playerCount ;
+        Player[] players;
+        MainWindow main;
+        public saveGameState(int numOfPlayers,Player[] allOfPlayers,)
+        {
+
+        }
+    }
+
+
 }
