@@ -3,7 +3,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-
 public class Pawn
 {
     public int spaceNumber;
@@ -36,13 +35,20 @@ public class Pawn
         {
             image.Background = Brushes.Yellow;
         }
+
+        /*Setting the design properties*/
         TextBlock text = new TextBlock();
         text.Text = Convert.ToString(numberOfPawn);
         image.Child = text;
         image.CornerRadius = new CornerRadius(25);
-        image.Margin = new Thickness(5);
-        text.Margin = new Thickness(5);
-         
+        image.Margin = new Thickness(8);
+        image.BorderThickness = new Thickness(2);
+        image.BorderBrush = Brushes.Black;
+        text.VerticalAlignment = VerticalAlignment.Center;
+        text.HorizontalAlignment = HorizontalAlignment.Center;
+        text.FontWeight = FontWeights.Bold;
+
+
     }
 
     //is run in the boards movePawn method
