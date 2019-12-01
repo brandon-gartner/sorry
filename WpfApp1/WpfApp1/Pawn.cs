@@ -111,7 +111,7 @@ namespace WpfApp1
         }
         public String pawnToString()
         {
-            return (this.playerName + );
+            return (this.playerName + "'s Pawn #" + this.numberOfPawn);
         }
 
     }

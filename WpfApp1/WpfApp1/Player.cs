@@ -9,7 +9,7 @@ namespace WpfApp1
     public class Player
     {
         public String PlayerName { get; set; }
-        public ISpace[] SafetySpaceAndHome = new ISpace[6];
+        public Space[] SafetySpaceAndHome = new Space[6];
         public Pawn[] pawns;
         public Boolean realPlayer;
         public MainWindow main;
@@ -28,7 +28,7 @@ namespace WpfApp1
             this.PlayerName = playerName;
             for (int i = 0; i < 3; i++)
             {
-                this.pawns[i] = new Pawn(i, color, this.playerNumber);
+                this.pawns[i] = new Pawn(i, color, this.playerNumber, this.PlayerName);
             }
             InitialisePlayersBoard();
             realPlayer = true;
@@ -37,10 +37,11 @@ namespace WpfApp1
         //if it is an AI player
         public Player(String color)
         {
+            this.PlayerName = "AI";
             this.pawns = new Pawn[3];
             for (int i = 0; i <= 3; i++)
             {
-                this.pawns[i] = new Pawn(i+1, color, this.playerNumber);
+                this.pawns[i] = new Pawn(i+1, color, this.playerNumber, this.PlayerName);
             }
             this.PlayerName = "CPU";
             InitialisePlayersBoard();
@@ -50,9 +51,9 @@ namespace WpfApp1
         {
             for (int i = 0; i < 5; i++)
             {
-                this.SafetySpaceAndHome[i] = new SafetySpace(this);
+                this.SafetySpaceAndHome[i] = new Space(4, this);
             }
-            this.SafetySpaceAndHome[5] = new HomeSpace();
+            this.SafetySpaceAndHome[5] = new Space(2);
         }
 
 
@@ -132,9 +133,19 @@ namespace WpfApp1
             else if(nextPosition > 30 && nextPosition <= 45)
             {
                 rowNum = 15;
-                colNum = nextPosition - 30;
+                colNum = (nextPosition - 30);
+                colNum = (colNum + 15) - colNum;
+            }
+            else
+            {
+                colNum = 0;
+                rowNum = (nextPosition - 30);
+                rowNum = (rowNum + 15) - rowNum;
 
             }
+            Grid.SetRow(this.pawns[pawnNumber].image, rowNum);
+            Grid.SetColumn(this.pawns[pawnNumber].image, colNum);
+            this.main.MainGrid.Children.Add(this.pawns[pawnNumber].image);
         }
     }
 }

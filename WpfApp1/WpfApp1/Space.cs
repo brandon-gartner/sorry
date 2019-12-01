@@ -63,31 +63,40 @@ namespace WpfApp1{
         {
             switch (this.type)
             {
+                //if you land on a non-safe space, your safety should be set to false
                 //if you land on a NormalSpace, nothing special happens
                 case 0:
+                    p.safe = false;
                     break;
                 //if you land on a SlideEnd, nothing special happens
                 case 1:
+                    p.safe = false;
                     break;
                 //if you land on a HomeSpace, the pawn is decommissioned and no longer is active
                 case 2:
+                    p.safe = true;
                     p.decommissioned = true;
                     MessageBox.Show("Congratulations!  " + p.playerName + "'s pawn number " + p.numberOfPawn + " has reached its Home space!");
                     break;
-                //if you land on a SlideEndStartExit
+                //if you land on a SlideEndStartExit, nothing special happens
                 case 3:
+                    p.safe = false;
                     break;
-                //if you land on a SafetySpace
+                //if you land on a SafetySpace, you should become safe
                 case 4:
+                    p.safe = true;
                     break;
-                //if you land on a SafetyEntry
+                //if you land on a SafetyEntry, if your next movement is forward, it should move you onto the safety array of the player.  if not, nothing
                 case 5:
+                    p.safe = false;
                     break;
-                //if you land on a ConnectingSpace
+                //if you land on a ConnectingSpace, nothing special should happen
                 case 6:
+                    p.safe = false;
                     break;
                 //if you land on a SlideStart
                 case 7:
+                    p.safe = false;
                     break;
             }
         }
@@ -98,28 +107,29 @@ namespace WpfApp1{
             {
                 //if you step on a NormalSpace, nothing special happens
                 case 0:
-                    break;
+                    return;
                 //if you step on a SlideEnd, nothing special happens
                 case 1:
-                    break;
-                //if you step on a HomeSpace
+                    return;
+                //if you step on a HomeSpace, you should return to wherever you started, as you did not get into home with the exact amount of steps
                 case 2:
                     break;
-                //if you step on a SlideEndStartExit
+                //if you step on a SlideEndStartExit, nothing special should happen
                 case 3:
                     break;
-                //if you step on a SafetySpace
+                //if you step on a SafetySpace, it shouldn't do anything, as you may be getting sent back anyway
                 case 4:
+
                     break;
-                //if you step on a SafetyEntry
+                //if you step on a SafetyEntry, your next step should be onto the safety array
                 case 5:
                     break;
-                //if you step on a ConnectingSpace
+                //if you step on a ConnectingSpace, nothing special should happen
                 case 6:
-                    break;
-                //if you step on a SlideStart
+                    return;
+                //if you step on a SlideStart, nothing should happen, because you need to land on it
                 case 7:
-                    break;
+                    return;
             }
         }
     }
