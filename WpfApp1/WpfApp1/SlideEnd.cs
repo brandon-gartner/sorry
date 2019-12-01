@@ -1,23 +1,28 @@
 ﻿using System;
+using WpfApp1;
 
-[Serializable]
-internal class SlideEnd : ISpace
+namespace WpfApp1
 {
-    private Player player;
 
-    public SlideEnd(Player player)
+    [Serializable]
+    internal class SlideEnd : ISpace
     {
-        this.player = player;
-    }
+        private Player player;
 
-    //when the special slide step touches this or slideendstartexit, they stop moving here.
-    public void LandedOn(Pawn p)
-    {
-        throw new System.NotImplementedException();
-    }
+        public SlideEnd(Player player)
+        {
+            this.player = player;
+        }
 
-    public void SteppedOn(Pawn p)
-    {
+        //when the special slide step touches this or slideendstartexit, they stop moving here.
+        public void LandedOn(Pawn p)
+        {
+            throw new System.NotImplementedException();
+        }
 
+        public void SteppedOn(Pawn p)
+        {
+
+        }
     }
 }

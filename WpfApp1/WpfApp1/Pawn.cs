@@ -2,89 +2,94 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using WpfApp1;
 
-[Serializable]
-public class Pawn
+namespace WpfApp1
 {
-    public int spaceNumber;
-    public Boolean safe;
-    public Boolean inStart;
-    public Boolean decommissioned;
-    public int numberOfPawn;
-    //public Border image;
-
-    /*So basically the color is going to be the color of the pawn*/
-    public Pawn(int numberOfPawn, String color)
+    [Serializable]
+    public class Pawn
     {
-        this.numberOfPawn = numberOfPawn;
-        safe = false;
-        inStart = true;
-        //this.image = new Border();
-        if (color.Equals("Red"))
+        public int spaceNumber;
+        public Boolean safe;
+        public Boolean inStart;
+        public Boolean decommissioned;
+        public int numberOfPawn;
+        public Border image;
+        public int playerNumber;
+
+        /*So basically the color is going to be the color of the pawn*/
+        public Pawn(int numberOfPawn, String color, int playerNumber)
         {
-            //image.Background = Brushes.Red;
-        }
-        else if (color.Equals("Green"))
-        {
-            //image.Background = Brushes.Green;
-        }
-        else if (color.Equals("Blue"))
-        {
-            //image.Background = Brushes.Blue;
-        }
-        else
-        {
-            //image.Background = Brushes.Yellow;
+            this.numberOfPawn = numberOfPawn;
+            safe = false;
+            inStart = true;
+            this.image = new Border();
+            if (color.Equals("Red"))
+            {
+                image.Background = Brushes.Red;
+            }
+            else if (color.Equals("Green"))
+            {
+                image.Background = Brushes.Green;
+            }
+            else if (color.Equals("Blue"))
+            {
+                image.Background = Brushes.Blue;
+            }
+            else
+            {
+                image.Background = Brushes.Yellow;
+            }
+
+            /*Setting the design properties*/
+            TextBlock text = new TextBlock();
+            text.Text = Convert.ToString(numberOfPawn);
+            image.Child = text;
+            image.CornerRadius = new CornerRadius(25);
+            image.Margin = new Thickness(8);
+            image.BorderThickness = new Thickness(2);
+            image.BorderBrush = Brushes.Black;
+            text.VerticalAlignment = VerticalAlignment.Center;
+            text.HorizontalAlignment = HorizontalAlignment.Center;
+            text.FontWeight = FontWeights.Bold;
+
+
         }
 
-        /*Setting the design properties*/
-        TextBlock text = new TextBlock();
-        text.Text = Convert.ToString(numberOfPawn);
-        //image.Child = text;
-        //image.CornerRadius = new CornerRadius(25);
-        //image.Margin = new Thickness(8);
-        //image.BorderThickness = new Thickness(2);
-       // image.BorderBrush = Brushes.Black;
-        text.VerticalAlignment = VerticalAlignment.Center;
-        text.HorizontalAlignment = HorizontalAlignment.Center;
-        text.FontWeight = FontWeights.Bold;
+        //is run in the boards movePawn method
+        public int ValidateFutureLocation(int movement)
+        {
+            int potentialFutureLocation = (this.spaceNumber + movement);
+            //if the pawn has passed the starting position, move it there
+            if (potentialFutureLocation >= 60)
+            {
+                return potentialFutureLocation - 60;
+            }
+            //if the pawn has wrapped around backwards past the starting position, move it here
+            else if (potentialFutureLocation <= 0)
+            {
+                return potentialFutureLocation + 60;
+            }
+            //otherwise return the position it should be at
+            else
+            {
+                return potentialFutureLocation;
+            }
+
+        }
+
+        public void SetSpaceNumber(int newSpaceNumber)
+        {
+            this.spaceNumber = newSpaceNumber;
+        }
+
+        public void ReturnHome()
+        {
+            this.inStart = true;
+            this.spaceNumber = 99;
+        }
+
 
 
     }
-
-    //is run in the boards movePawn method
-    public int ValidateFutureLocation(int movement)
-    {
-        int potentialFutureLocation = (this.spaceNumber + movement);
-        //if the pawn has passed the starting position, move it there
-        if (potentialFutureLocation >= 60)
-        {
-            return potentialFutureLocation - 60;
-        }
-        //if the pawn has wrapped around backwards past the starting position, move it here
-        else if (potentialFutureLocation <= 0)
-        {
-            return potentialFutureLocation + 60;
-        }
-        //otherwise return the position it should be at
-        else
-        {
-            return potentialFutureLocation;
-        }
-
-    }
-
-    public void SetSpaceNumber(int newSpaceNumber)
-    {
-        this.spaceNumber = newSpaceNumber;
-    }
-
-    public void ReturnHome()
-    {
-        this.inStart = true;
-        this.spaceNumber = 99;
-    }
-
-
-
 }

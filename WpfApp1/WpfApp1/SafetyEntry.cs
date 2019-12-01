@@ -1,4 +1,5 @@
 ﻿using System;
+using WpfApp1;
 
 [Serializable]
 internal class SafetyEntry : ISpace

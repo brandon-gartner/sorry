@@ -1,23 +1,28 @@
 ﻿using System;
+using WpfApp1;
 
-[Serializable]
-internal class SafetySpace : ISpace
+namespace WpfApp1
 {
-    private Player ThisPlayer { get; }
 
-    public SafetySpace(Player player)
+    [Serializable]
+    internal class SafetySpace : ISpace
     {
-        this.ThisPlayer = player;
-    }
+        private Player ThisPlayer { get; }
 
-    //this is a space inside of a player's safety zone.  they can't move past the end, must move in exact numbers, and 
-    public void LandedOn(Pawn p)
-    {
-        p.safe = true;
-    }
+        public SafetySpace(Player player)
+        {
+            this.ThisPlayer = player;
+        }
 
-    public void SteppedOn(Pawn p)
-    {
+        //this is a space inside of a player's safety zone.  they can't move past the end, must move in exact numbers, and 
+        public void LandedOn(Pawn p)
+        {
+            p.safe = true;
+        }
 
+        public void SteppedOn(Pawn p)
+        {
+
+        }
     }
 }
