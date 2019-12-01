@@ -1,14 +1,23 @@
-﻿internal class SafetySpace : ISpace
+﻿using System;
+
+[Serializable]
+internal class SafetySpace : ISpace
 {
-    private Player player { get; }
+    private Player ThisPlayer { get; }
 
     public SafetySpace(Player player)
     {
-        this.player = player;
+        this.ThisPlayer = player;
     }
 
-    public void landedOn(Pawn p)
+    //this is a space inside of a player's safety zone.  they can't move past the end, must move in exact numbers, and 
+    public void LandedOn(Pawn p)
     {
-        throw new System.NotImplementedException();
+        p.safe = true;
+    }
+
+    public void SteppedOn(Pawn p)
+    {
+
     }
 }

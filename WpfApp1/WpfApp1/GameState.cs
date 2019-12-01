@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Controls;
 using Microsoft.VisualBasic;
 using WpfApp1;
@@ -15,7 +16,7 @@ public class GameState
     public GameState(MainWindow main)
 	{
         this.main = main;
-        generateDictionaries();
+        GenerateDictionaries();
         /*Creating the three players and getting their names and such*/
         String playerCountInput;
         do
@@ -25,7 +26,6 @@ public class GameState
         } while (playerCount <= 1 || playerCount >= 5);
 
         players = new Player[playerCount];
-
         /*Asking their names and what colour they want (probably the easiest way to do this is to use the same idea 
           as for the player names but correspond an integer with a color(here i just hardcoded it for ease of use*/
         String[] colors = { "Blue", "Red", "Green", "Yellow" };
@@ -33,7 +33,7 @@ public class GameState
         for (int i = 0; i < playerCount; i++)
         {
             String playerName = Interaction.InputBox("What is player " + i + "'s name?", "Name?");
-            players[i] = new Player(playerName, colors[i], main);
+            players[i] = new Player(playerName, colors[i]/*, main*/);
         }
 
         /*Creating board (locations)*/
@@ -42,24 +42,31 @@ public class GameState
         /*Drawing players*/
         for(int i = 0; i < this.players.Length; i++)
         {
-            this.players[i].drawPlayer();
+            this.players[i].DrawPlayer();
         }
 
 
     }
 
-    public void run()
+    //runs the game, until a player wins.  playTurn will constantly set ended to false, until a player wins
+    public void Run()
     {
+        int turnPlayer = -1;
         Boolean ended = false;
         for (int playerTurn = 0; ended; playerTurn++)
         {
-            players[playerTurn % players.Length].playTurn();
+            ended = players[playerTurn % players.Length].PlayTurn();
+            turnPlayer = playerTurn % players.Length;
         }
+
+        MessageBox.Show("Player " + turnPlayer + " wins!");
     }
 
-    public void generateDictionaries()
+
+    //creates the dictionaries we will be using to easily get between space position and actualy border location on the XAML file
+    public void GenerateDictionaries()
     {
-        //numberToSpace.Add(0, main._0);
+        numberToSpace.Add(0, main._0);
         spaceToNumber.Add(main._0, 0);
         numberToSpace.Add(1, main._1);
         spaceToNumber.Add(main._1, 1);
@@ -180,5 +187,18 @@ public class GameState
         numberToSpace.Add(59, main._59);
         spaceToNumber.Add(main._59, 59);
 
+    }
+    public Player[] GetPlayers()
+    {
+        return this.players;
+    }
+
+    public MainWindow GetMainWindow()
+    {
+        return this.main;
+    }
+    public int GetPlayerCount()
+    {
+        return this.playerCount;
     }
 }

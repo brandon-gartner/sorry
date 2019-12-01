@@ -1,4 +1,7 @@
-﻿internal class SafetyEntry : ISpace
+﻿using System;
+
+[Serializable]
+internal class SafetyEntry : ISpace
 {
     //stores the player which this space belongs to
     private Player player;
@@ -11,8 +14,13 @@
     }
 
     //if a pawn steps over it, which belongs to the owner player, they will move onto the safety space next;
-    public void landedOn(Pawn p)
+    public void LandedOn(Pawn p)
     {
         throw new System.NotImplementedException();
+    }
+
+    public void SteppedOn(Pawn p)
+    {
+
     }
 }

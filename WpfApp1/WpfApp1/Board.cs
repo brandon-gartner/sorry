@@ -2,6 +2,7 @@
 using WpfApp1;
 
 //the board class, holds our entire internal implementation of the board class
+[Serializable]
 public class Board
 {
     //stores a mainwindow (our mainwindow)
@@ -18,21 +19,22 @@ public class Board
         ISpace[] landingSpaces = new ISpace[60];
 
         //creates the board based on the number of players
+        //still need to properly implement creating the slide connecting pieces
         for (int i = 0; i < players.Length; i++)
         {
             landingSpaces[(i * 15) + 4] = new SlideEndStartExit(players[i]);
-            landingSpaces[(i * 15) + 1] = new SlideStart(players[i]);
-            landingSpaces[(i * 15) + 9] = new SlideStart(players[i]);
+            landingSpaces[(i * 15) + 1] = new SlideStart(players[i], 1);
+            landingSpaces[(i * 15) + 9] = new SlideStart(players[i], 1);
             landingSpaces[(i * 15) + 13] = new SlideEnd(players[i]);
             landingSpaces[(i * 15) + 2] = new SafetyEntry(players[i]);
         }
 
         //if there are only 3 players, make some slides that don't belong to anyone.
-        Player nullPlayer = new Player("false", "null", this.main);
+        Player nullPlayer = new Player("null"/*, this.main*/);
         if (players.Length < 4)
         {
-            landingSpaces[46] = new SlideStart(nullPlayer);
-            landingSpaces[54] = new SlideStart(nullPlayer);
+            landingSpaces[46] = new SlideStart(nullPlayer, 1);
+            landingSpaces[54] = new SlideStart(nullPlayer, 1);
             landingSpaces[58] = new SlideEnd(nullPlayer);
             landingSpaces[49] = new SlideEnd(nullPlayer);
         }
@@ -40,8 +42,8 @@ public class Board
         //if there are only 2 players, make more slides that don't belong to anyone
         if (players.Length < 3)
         {
-            landingSpaces[31] = new SlideStart(nullPlayer);
-            landingSpaces[31] = new SlideStart(nullPlayer);
+            landingSpaces[31] = new SlideStart(nullPlayer, 1);
+            landingSpaces[31] = new SlideStart(nullPlayer, 1);
             landingSpaces[43] = new SlideEnd(nullPlayer);
             landingSpaces[34] = new SlideEnd(nullPlayer);
         }
@@ -56,17 +58,30 @@ public class Board
     }
 
 
-    public void movePawn(Pawn p, int movementDistance)
+    public void MovePawn(Pawn p, int movementDistance)
     {
-        int possibleLocation = p.validateFutureLocation(movementDistance);
-        p.setSpaceNumber(possibleLocation);
+        for (int i = 0; i < movementDistance - 1; i++)
+        {
+            PawnStep(p, false);
+        }
+        Boolean collision = PawnStep(p, true);
+        if (collision)
+        {
+            HandleCollision(p, (p.spaceNumber + movementDistance));
+        }
+    }
+
+    public void HandleCollision(Pawn p, int location)
+    {
 
     }
 
-    public Boolean pawnStep(Pawn p, Boolean last)
+    //moves a paw
+    public Boolean PawnStep(Pawn p, Boolean last)
     {
         if (!last)
         {
+            p.SetSpaceNumber(p.spaceNumber + 1);
             return false;
         }
         else

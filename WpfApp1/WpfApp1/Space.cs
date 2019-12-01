@@ -4,7 +4,10 @@
 public interface ISpace
 {
     //occurs when a space is landed on
-    void landedOn(Pawn p);
+    void LandedOn(Pawn p);
+
+    //occurs when a space is being stepped over (aka you step on it, but your pawn continues after that move)
+    void SteppedOn(Pawn p);
 
 
 }
