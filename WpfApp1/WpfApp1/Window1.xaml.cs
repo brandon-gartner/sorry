@@ -19,9 +19,19 @@ namespace WpfApp1
     /// </summary>
     public partial class Window1 : Window
     {
-        public Window1()
+        public Window1(int numberType, String playerName, int value)
         {
             InitializeComponent();
+            if(numberType == 0)
+            {
+                Instructions.Text = playerName + "! Pick which pawn to move " + value + " spaces!";
+            }
+        }
+
+        /*Ok so here is all the stuff to submit from the form*/
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

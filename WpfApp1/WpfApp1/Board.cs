@@ -20,7 +20,7 @@ namespace WpfApp1
             this.main = main;
             this.players = players;
             //each corner is a multiple of 15
-            ISpace[] landingSpaces = new ISpace[60];
+            Space[] landingSpaces = new Space[60];
 
             //creates the board based on the number of players
             //still need to properly implement creating the slide connecting pieces
