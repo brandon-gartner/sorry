@@ -67,25 +67,25 @@ namespace WpfApp1{
                 //if you land on a NormalSpace, nothing special happens
                 case 0:
                     p.safe = false;
-                    break;
+                    return;
                 //if you land on a SlideEnd, nothing special happens
                 case 1:
                     p.safe = false;
-                    break;
+                    return;
                 //if you land on a HomeSpace, the pawn is decommissioned and no longer is active
                 case 2:
                     p.safe = true;
                     p.decommissioned = true;
                     MessageBox.Show("Congratulations!  " + p.playerName + "'s pawn number " + p.numberOfPawn + " has reached its Home space!");
-                    break;
+                    return;
                 //if you land on a SlideEndStartExit, nothing special happens
                 case 3:
                     p.safe = false;
-                    break;
+                    return;
                 //if you land on a SafetySpace, you should become safe
                 case 4:
                     p.safe = true;
-                    break;
+                    return;
                 //if you land on a SafetyEntry, if your next movement is forward, it should move you onto the safety array of the player.  if not, nothing
                 case 5:
                     p.safe = false;
@@ -93,7 +93,7 @@ namespace WpfApp1{
                 //if you land on a ConnectingSpace, nothing special should happen
                 case 6:
                     p.safe = false;
-                    break;
+                    return;
                 //if you land on a SlideStart
                 case 7:
                     p.safe = false;

@@ -49,7 +49,7 @@ namespace WpfApp1
         {
             InitializeComponent();
         }
-
+        //this will start the game and initiate the gamestate
         private void GameStart (object sender, RoutedEventArgs e)
         {
             if(!isGameRunning)
@@ -63,6 +63,7 @@ namespace WpfApp1
 
         private void ClickDraw (object sender, RoutedEventArgs e)
         {
+            //if the gams is not running then it will exit the method
             if (isGameRunning)
             {
                 Card card = this.gameState.deck.getNextCard();
@@ -74,9 +75,10 @@ namespace WpfApp1
                 return;
             }
         }
-
+        //this will load the game
         private void GameLoad (object sender, RoutedEventArgs e)
         {
+            //check if the game is runnig and if not display a message
             if (isGameRunning)
             {
                 BinaryFormatter load = new BinaryFormatter();
@@ -92,7 +94,7 @@ namespace WpfApp1
                 MessageBox.Show("The game has not started");
             }
         }
-
+        //this method will save the game
         private void GameSave (object sender, RoutedEventArgs e)
         {
             if (isGameRunning)
@@ -111,8 +113,10 @@ namespace WpfApp1
             }
 
         }
+        //this method will manage the card that has been drawn
         private void activateCard(int cardId, int playerId)
         {
+            //this switch case will manage everycard differently
             switch (cardId)
             {
                 
