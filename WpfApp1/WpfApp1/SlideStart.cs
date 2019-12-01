@@ -1,4 +1,7 @@
 ﻿//the class for the beginning of a slide
+using System;
+
+[Serializable]
 internal class SlideStart : ISpace
 {
     private Player player;
@@ -11,7 +14,12 @@ internal class SlideStart : ISpace
 
     //when this gets landed on, should check whether you slide or not.  if you do, steps to the connectedPiece, which steps to the connectedPiece.
     //this will use a modified step method, which returns pieces to their home bases if you step on them.  they continue to move forward until a connectedpiece sends you to one which is a slideend.
-    public void landedOn(Pawn p)
+    public void LandedOn(Pawn p)
+    {
+
+    }
+
+    public void SteppedOn(Pawn p)
     {
 
     }

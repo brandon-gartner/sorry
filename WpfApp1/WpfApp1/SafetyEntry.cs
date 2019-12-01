@@ -1,4 +1,7 @@
-﻿internal class SafetyEntry : ISpace
+﻿using System;
+
+[Serializable]
+internal class SafetyEntry : ISpace
 {
     //stores the player which this space belongs to
     private Player player;
@@ -14,5 +17,10 @@
     public void landedOn(Pawn p)
     {
         throw new System.NotImplementedException();
+    }
+
+    public void SteppedOn(Pawn p)
+    {
+
     }
 }

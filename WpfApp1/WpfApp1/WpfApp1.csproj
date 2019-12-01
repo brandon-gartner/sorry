@@ -62,6 +62,7 @@
     <Compile Include="NormalSpace.cs" />
     <Compile Include="SafetyEntry.cs" />
     <Compile Include="SafetySpace.cs" />
+    <Compile Include="saveableGameState.cs" />
     <Compile Include="SlideEnd.cs" />
     <Compile Include="SlideEndStartExit.cs" />
     <Compile Include="SlideStart.cs" />

@@ -5,7 +5,6 @@ using System.Windows.Controls;
 using Microsoft.VisualBasic;
 using WpfApp1;
 
-
 public class GameState
 {
 
@@ -14,7 +13,7 @@ public class GameState
     MainWindow main;
     Dictionary<int, Border> numberToSpace = new Dictionary<int, Border>();
     Dictionary<Border, int> spaceToNumber = new Dictionary<Border, int>();
-    public GameState(MainWindow main, Player[] allPlayers)
+    public GameState(MainWindow main)
 	{
         this.main = main;
         generateDictionaries();
@@ -27,7 +26,6 @@ public class GameState
         } while (playerCount <= 1 || playerCount >= 5);
 
         players = new Player[playerCount];
-
         /*Asking their names and what colour they want (probably the easiest way to do this is to use the same idea 
           as for the player names but correspond an integer with a color(here i just hardcoded it for ease of use*/
         String[] colors = { "Blue", "Red", "Green", "Yellow" };
@@ -35,7 +33,7 @@ public class GameState
         for (int i = 0; i < playerCount; i++)
         {
             String playerName = Interaction.InputBox("What is player " + i + "'s name?", "Name?");
-            players[i] = new Player(playerName, colors[i], main);
+            players[i] = new Player(playerName, colors[i]/*, main*/);
         }
 
         /*Creating board (locations)*/
@@ -190,17 +188,17 @@ public class GameState
         spaceToNumber.Add(main._59, 59);
 
     }
-    [Serializable]
-    class saveGameState
+    public Player[] getPlayers()
     {
-        int playerCount ;
-        Player[] players;
-        MainWindow main;
-        public saveGameState(int numOfPlayers,Player[] allOfPlayers,)
-        {
-
-        }
+        return this.players;
     }
 
-
+    public MainWindow getMainWindow()
+    {
+        return this.main;
+    }
+    public int GetPlayerCount()
+    {
+        return this.playerCount;
+    }
 }
