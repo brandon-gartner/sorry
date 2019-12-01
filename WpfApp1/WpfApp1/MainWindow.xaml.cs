@@ -55,7 +55,7 @@ namespace WpfApp1
             if(!isGameRunning)
             {
                 gameState = new GameState(this);
-                
+
                 isGameRunning = true;
                 gameState.Run();
             }
@@ -65,6 +65,8 @@ namespace WpfApp1
         {
             if (isGameRunning)
             {
+                Card card = this.gameState.deck.getNextCard();
+                activateCard(card.getCard_Id(), gameState.currentPlayer);
 
             }
             else
@@ -108,6 +110,110 @@ namespace WpfApp1
                 
             }
 
+        }
+        private void activateCard(int cardId, int playerId)
+        {
+            switch (cardId)
+            {
+                
+                case 1:
+
+                break;
+
+                case 2:
+
+                break;
+
+                case 3:
+                case 4:
+                case 5:
+
+                break;
+
+                case 7:
+
+                break;
+
+                case 8:
+
+                break;
+
+                case 10:
+
+                break;
+
+                case 11:
+
+                break;
+
+                case 12:
+
+                break;
+
+                case -1:
+                    Pawn allSwitchablePawn = findWhichPawnsCanSwitch();
+                    allSwitchablePawn = removeAllOfOwnPlayerCard(allSwitchablePawn, playerId);
+                break;
+            }
+        }
+
+        //this will return an array of pawns that can have their place switched
+        private Pawn[] findWhichPawnsCanSwitch()
+        {
+            Pawn allPossiblePawns = new Pawn[numberOfAvailablePawns()];
+            int arraycount = 0;
+            for (int i = 0; i < gameState.GetPlayers().Length; i++)
+            {
+                for (int j = 0; i < 3;i++)
+                {
+                    if (gameState.GetPlayers()[i].pawns[i].canYouSwitchWithPawn())
+                    {
+                        allPossiblePawns[arraycount] = gameState.GetPlayers()[i].pawns[i];
+                        arraycount++;
+                    }
+                }
+            }
+            return allPossiblePawns;
+        }
+        //this method will return the number of pawns that can be used to switch
+        private int numberOfAvailablePawns()
+        {
+            int count = 0;
+            for (int i = 0; i<gameState.GetPlayers().Length; i++)
+            {
+                for (int j = 0; j < 3;j++)
+                {
+                    if ( gameState.GetPlayers()[i].pawns[i].canYouSwitchWithPawn() )
+                    {
+                        count++;
+                    }
+                }
+            }
+            return count;
+        }
+        private Pawn[] removeAllOfOwnPlayerCard(Pawn[] listOfPawn,int playerNum)
+        {
+            //gets the number of available pawn
+            int count = 0;
+            for (int i = 0; i < listOfPawn.Length; i++)
+            {
+                if(!(listOfPawn[i].playerNumber == playerNum))
+                {
+                    count++;
+                }
+            }
+            Pawn[] finalPawnArray = Pawn[count];
+            //creates the array of the valid length and pawns
+            int arraycount = 0;
+            for (int i = 0; i < count; i++)
+            {
+                if (!(listOfPawn[i].playerNumber == playerNum))
+                {
+                    finalPawnArray[arraycount] = listOfPawn[i].playerNumber;
+                    arraycount++;
+                }
+            }
+            return finalPawnArray;
         }
     }
 }

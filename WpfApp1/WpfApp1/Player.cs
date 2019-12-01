@@ -1,6 +1,7 @@
 ﻿using System;
 using WpfApp1;
 using System.Windows.Controls;
+using System.Threading.Tasks;
 
 namespace WpfApp1
 {
@@ -67,6 +68,11 @@ namespace WpfApp1
                 }
             }
             main.DrawCard.IsEnabled = true;
+
+            while(!endedTurn)
+            {
+                
+            }
             return hasWon;
         }
 
@@ -102,6 +108,32 @@ namespace WpfApp1
                     Grid.SetColumn(this.pawns[i].image, 11);
                     this.main.MainGrid.Children.Add(this.pawns[i].image);
                 }
+            }
+        }
+
+        public void drawAtNextPosition(int pawnNumber)
+        {
+            //Setting the row and column numbers by checking which position it's at
+            int nextPosition = this.pawns[pawnNumber].spaceNumber;
+            int rowNum;
+            int colNum;
+
+            //Checking absolute positions of all pawns
+            if(nextPosition <= 15)
+            {
+                rowNum = 0;
+                colNum = nextPosition;
+            }
+            else if(nextPosition > 15 && nextPosition <= 30)
+            {
+                colNum = 15;
+                rowNum = nextPosition - 15;
+            }
+            else if(nextPosition > 30 && nextPosition <= 45)
+            {
+                rowNum = 15;
+                colNum = nextPosition - 30;
+
             }
         }
     }
