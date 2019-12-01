@@ -5,7 +5,7 @@ namespace WpfApp1
 {
 
     [Serializable]
-    internal class SafetySpace : ISpace
+    internal class SafetySpace
     {
         private Player ThisPlayer { get; }
 

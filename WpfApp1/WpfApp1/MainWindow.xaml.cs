@@ -151,7 +151,7 @@ namespace WpfApp1
                 break;
 
                 case -1:
-                    Pawn allSwitchablePawn = findWhichPawnsCanSwitch();
+                    Pawn[] allSwitchablePawn = findWhichPawnsCanSwitch();
                     allSwitchablePawn = removeAllOfOwnPlayerCard(allSwitchablePawn, playerId);
                 break;
             }
@@ -160,7 +160,7 @@ namespace WpfApp1
         //this will return an array of pawns that can have their place switched
         private Pawn[] findWhichPawnsCanSwitch()
         {
-            Pawn allPossiblePawns = new Pawn[numberOfAvailablePawns()];
+            Pawn[] allPossiblePawns = new Pawn[numberOfAvailablePawns()];
             int arraycount = 0;
             for (int i = 0; i < gameState.GetPlayers().Length; i++)
             {
@@ -202,14 +202,14 @@ namespace WpfApp1
                     count++;
                 }
             }
-            Pawn[] finalPawnArray = Pawn[count];
+            Pawn[] finalPawnArray = new Pawn[count];
             //creates the array of the valid length and pawns
             int arraycount = 0;
             for (int i = 0; i < count; i++)
             {
                 if (!(listOfPawn[i].playerNumber == playerNum))
                 {
-                    finalPawnArray[arraycount] = listOfPawn[i].playerNumber;
+                    finalPawnArray[arraycount] = listOfPawn[i];
                     arraycount++;
                 }
             }

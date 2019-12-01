@@ -6,7 +6,7 @@ namespace WpfApp1
 {
 
     [Serializable]
-    internal class SlideStart : ISpace
+    internal class SlideStart
     {
         public Player player;
         public int connectedSpace;

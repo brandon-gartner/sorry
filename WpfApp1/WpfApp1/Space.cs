@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using WpfApp1;
 
 namespace WpfApp1{
@@ -58,5 +59,68 @@ namespace WpfApp1{
             this.connectedSpace = connectedSpace;
         }
 
+        public void LandedOn(Pawn p)
+        {
+            switch (this.type)
+            {
+                //if you land on a NormalSpace, nothing special happens
+                case 0:
+                    break;
+                //if you land on a SlideEnd, nothing special happens
+                case 1:
+                    break;
+                //if you land on a HomeSpace, the pawn is decommissioned and no longer is active
+                case 2:
+                    p.decommissioned = true;
+                    MessageBox.Show("Congratulations!  " + p.playerName + "'s pawn number " + p.numberOfPawn + " has reached its Home space!");
+                    break;
+                //if you land on a SlideEndStartExit
+                case 3:
+                    break;
+                //if you land on a SafetySpace
+                case 4:
+                    break;
+                //if you land on a SafetyEntry
+                case 5:
+                    break;
+                //if you land on a ConnectingSpace
+                case 6:
+                    break;
+                //if you land on a SlideStart
+                case 7:
+                    break;
+            }
+        }
+
+        public void SteppedOn(Pawn p)
+        {
+            switch (this.type)
+            {
+                //if you step on a NormalSpace, nothing special happens
+                case 0:
+                    break;
+                //if you step on a SlideEnd, nothing special happens
+                case 1:
+                    break;
+                //if you step on a HomeSpace
+                case 2:
+                    break;
+                //if you step on a SlideEndStartExit
+                case 3:
+                    break;
+                //if you step on a SafetySpace
+                case 4:
+                    break;
+                //if you step on a SafetyEntry
+                case 5:
+                    break;
+                //if you step on a ConnectingSpace
+                case 6:
+                    break;
+                //if you step on a SlideStart
+                case 7:
+                    break;
+            }
+        }
     }
 }

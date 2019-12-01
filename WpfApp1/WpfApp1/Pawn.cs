@@ -16,12 +16,14 @@ namespace WpfApp1
         public int numberOfPawn;
         public Border image;
         public int playerNumber;
+        public String playerName;
         public Boolean isFire;
 
         /*So basically the color is going to be the color of the pawn*/
-        public Pawn(int numberOfPawn, String color, int playerNumber)
+        public Pawn(int numberOfPawn, String color, int playerNumber, String playerName)
         {
             this.isFire = false;
+            this.playerName = playerName;
             this.numberOfPawn = numberOfPawn;
             safe = false;
             inStart = true;
@@ -106,6 +108,10 @@ namespace WpfApp1
                 return false;
             }
             return true;
+        }
+        public String pawnToString()
+        {
+            return (this.playerName + );
         }
 
     }
