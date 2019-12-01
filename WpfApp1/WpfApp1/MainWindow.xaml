@@ -139,7 +139,7 @@
         <Ellipse Grid.ColumnSpan="3" Grid.Column="1" Fill="#e31e1e" HorizontalAlignment="Left" Height="114" Margin="6,0,0,10" Grid.RowSpan="4" Stroke="Black" VerticalAlignment="Bottom" Width="112" Grid.Row="4"/>
         <Ellipse Grid.ColumnSpan="4" Grid.Column="4" Fill="#f6fc3a" HorizontalAlignment="Left" Height="113" Margin="39,4,0,0" Grid.Row="12" Grid.RowSpan="3" Stroke="Black" VerticalAlignment="Top" Width="113"/>
         <Ellipse Grid.ColumnSpan="3" Grid.Column="1" Fill="#f6fc3a" HorizontalAlignment="Left" Height="113" Margin="0,3,0,0" Grid.Row="10" Grid.RowSpan="3" Stroke="Black" VerticalAlignment="Top" Width="113"/>
-        
+
         <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Grid.ColumnSpan="4" Margin="37,35,0,0" Height="28" Width="125" FontFamily="Georgia" FontSize="18" Grid.Row="2" Text="S  A  F  E  T  Y" RenderTransformOrigin="0.5,0.5" Grid.RowSpan="2">
             <TextBlock.RenderTransform>
                 <TransformGroup>
@@ -180,6 +180,8 @@
                 </TransformGroup>
             </TextBlock.RenderTransform>
         </TextBlock>
+        <TextBlock x:Name="ContentLog" Grid.Column="15" HorizontalAlignment="Left" Height="41" Margin="93.5,0,-224.5,0" Grid.Row="10" Grid.RowSpan="2" TextWrapping="Wrap" VerticalAlignment="Top" Width="172" TextAlignment="Center" FontSize="24"><Run Text="Content Log"/></TextBlock>
+        <TextBlock Grid.Column="15" HorizontalAlignment="Left" Height="41" Margin="93.5,35,-224.5,0" Grid.Row="11" Grid.RowSpan="2" TextWrapping="Wrap" VerticalAlignment="Top" Width="172" TextAlignment="Center" FontSize="16" Text="Displays player turn"/>
 
     </Grid>
 </Window>

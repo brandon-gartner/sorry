@@ -11,7 +11,7 @@ namespace WpfApp1
     {
 
         int playerCount = 0;
-        Player[] players;
+        public Player[] players;
         MainWindow main;
         Dictionary<int, Border> numberToSpace = new Dictionary<int, Border>();
         Dictionary<Border, int> spaceToNumber = new Dictionary<Border, int>();

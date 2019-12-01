@@ -16,6 +16,7 @@ using Microsoft.VisualBasic;
 using WpfApp1;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using System.Collections;
 
 namespace WpfApp1
 {
@@ -120,6 +121,7 @@ namespace WpfApp1
             switch (cardId)
             {
                 
+                //For fire and ice cards
                 case 1:
 
                 break;
@@ -131,14 +133,14 @@ namespace WpfApp1
                 case 3:
                 case 4:
                 case 5:
+                case 8:
+                case 12:
+
+                    moveCard(cardId, playerId);
 
                 break;
 
                 case 7:
-
-                break;
-
-                case 8:
 
                 break;
 
@@ -150,16 +152,47 @@ namespace WpfApp1
 
                 break;
 
-                case 12:
-
-                break;
-
                 case -1:
                     Pawn[] allSwitchablePawn = findWhichPawnsCanSwitch();
                     allSwitchablePawn = removeAllOfOwnPlayerCard(allSwitchablePawn, playerId);
                 break;
             }
         }
+
+        private void moveCard(int value, int playerId)
+        {
+            Pawn[] availablePawns = getWhichPawnsCanMove();
+            if(availablePawns == null)
+            {
+                ContentLog.Text = "Unfortunately you have no pawns that can move that distance!";
+            }
+            ContentLog.Text = "Picked up a card of value " + value + "!";
+            //Wait a bit
+            String player = this.gameState.players[this.gameState.currentPlayer].PlayerName;
+            Window1 options = new Window1(0, player, value);
+
+        }
+
+        /*Make it so it returns the pawns the player himself can move (for the generic cards)*/
+        private Pawn[] getWhichPawnsCanMove()
+        {
+            Player currentPlayer = this.gameState.players[this.gameState.currentPlayer];
+            Pawn[] allPawns = currentPlayer.pawns;
+            ArrayList availablePawns = new ArrayList();
+
+            for(int i = 0; i < allPawns.Length; i++)
+            {
+                Pawn currentPawn = allPawns[i];
+                if(currentPawn.decommissioned || currentPawn.inStart)
+                {
+                    availablePawns.Add(currentPawn);
+                }
+            }
+
+            allPawns = (Pawn[])availablePawns.ToArray(typeof(Pawn));
+            return allPawns;
+        }
+
 
         //this will return an array of pawns that can have their place switched
         private Pawn[] findWhichPawnsCanSwitch()

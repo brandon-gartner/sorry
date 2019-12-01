@@ -9,12 +9,13 @@ namespace WpfApp1
     public class Player
     {
         public String PlayerName { get; set; }
-        public Space[] SafetySpaceAndHome = new Space[6];
+        public Space[] SafetySpaceAndHome = new Space[7];
         public Pawn[] pawns;
         public Boolean realPlayer;
         public MainWindow main;
         public String color;
         public int playerNumber;
+        public Boolean endedTurn;
 
 
 
@@ -49,7 +50,7 @@ namespace WpfApp1
 
         public void InitialisePlayersBoard()
         {
-            for (int i = 0; i < 5; i++)
+            for (int i = 1; i < 6; i++)
             {
                 this.SafetySpaceAndHome[i] = new Space(4, this);
             }
@@ -61,18 +62,19 @@ namespace WpfApp1
         {
             Boolean hasWon = true;
 
+            main.DrawCard.IsEnabled = true;
+            this.endedTurn = false;
+
+            while(!this.endedTurn)
+            {
+                
+            }
             for (int i = 0; i < 3; i++)
             {
                 if (this.pawns[i].decommissioned)
                 {
                     hasWon = false;
                 }
-            }
-            main.DrawCard.IsEnabled = true;
-
-            while(!endedTurn)
-            {
-                
             }
             return hasWon;
         }
