@@ -16,10 +16,12 @@ namespace WpfApp1
         public int numberOfPawn;
         public Border image;
         public int playerNumber;
+        public Boolean isFire;
 
         /*So basically the color is going to be the color of the pawn*/
         public Pawn(int numberOfPawn, String color, int playerNumber)
         {
+            this.isFire = false;
             this.numberOfPawn = numberOfPawn;
             safe = false;
             inStart = true;
@@ -57,7 +59,7 @@ namespace WpfApp1
         }
 
         //is run in the boards movePawn method
-        public int ValidateFutureLocation(int movement)
+        public int movingPawn(int movement)
         {
             int potentialFutureLocation = (this.spaceNumber + movement);
             //if the pawn has passed the starting position, move it there
@@ -88,8 +90,23 @@ namespace WpfApp1
             this.inStart = true;
             this.spaceNumber = 99;
         }
-
-
+        //this method will check if a pawn can switch place 
+        public Boolean canYouSwitchWithPawn()
+        {
+            if (this.safe)
+            {
+                return false;
+            }
+            if (this.inStart)
+            {
+                return false;
+            }
+            if (this.decommissioned)
+            {
+                return false;
+            }
+            return true;
+        }
 
     }
 }

@@ -79,7 +79,7 @@
         <Border x:Name="_16" BorderBrush="Black" BorderThickness="2, 1, 2, 1" Grid.Column="15" Grid.Row="1"/>
         <Border x:Name="_17" BorderBrush="Black" BorderThickness="2, 1, 2, 1" Grid.Column="15" Grid.Row="2"/>
         <Border x:Name="_18" BorderBrush="Black" BorderThickness="2, 1, 2, 1" Grid.Column="15" Grid.Row="3"/>
-        <Border x:Name="_19" BorderBrush="Black" BorderThickness="2, 1, 2, 1" Grid.Column="15" Grid.Row="4"/>
+        <Border x:Name="_19" BorderBrush="Black" BorderThickness="2, 1, 2, 1" Grid.Column="15" Grid.Row="4" Margin="0,2,0,39" Grid.RowSpan="2"/>
         <Border x:Name="_20" BorderBrush="Black" BorderThickness="2, 1, 2, 1" Grid.Column="15" Grid.Row="5"/>
         <Border x:Name="_21" BorderBrush="Black" BorderThickness="2, 1, 2, 1" Grid.Column="15" Grid.Row="6"/>
         <Border x:Name="_22" BorderBrush="Black" BorderThickness="2, 1, 2, 1" Grid.Column="15" Grid.Row="7"/>

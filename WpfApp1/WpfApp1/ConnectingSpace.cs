@@ -9,7 +9,6 @@ namespace WpfApp1
 {
     class ConnectingSpace : ISpace
     {
-        public Player player;
         public int connectedPiece;
 
         public ConnectingSpace(Player player, int connectedPiece)
