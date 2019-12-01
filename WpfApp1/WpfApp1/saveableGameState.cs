@@ -2,27 +2,30 @@
 using System.Collections.Generic;
 using System.Windows.Controls;
 
-[Serializable]
-public class SaveableGameState
+namespace WpfApp1 
 {
-    private int playerCount;
-    private Player[] players;
-
-    public SaveableGameState(Player[] players, int playerCount)
-	{
-        this.players = players;
-        this.playerCount= playerCount;
-
-    }
-
-    public Player[] GetPlayers()
+    [Serializable]
+    public class SaveableGameState
     {
-        return this.players;
-    }
+        private int playerCount;
+        private Player[] players;
 
-    public int GetPlayerCount()
-    {
-        return this.playerCount;
-    }
+        public SaveableGameState(Player[] players, int playerCount)
+        {
+            this.players = players;
+            this.playerCount = playerCount;
 
+        }
+
+        public Player[] GetPlayers()
+        {
+            return this.players;
+        }
+
+        public int GetPlayerCount()
+        {
+            return this.playerCount;
+        }
+
+    }
 }

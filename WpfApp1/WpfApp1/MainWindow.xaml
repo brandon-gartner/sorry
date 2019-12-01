@@ -1,12 +1,13 @@
-﻿<Window x:Class="WpfApp1.MainWindow"
+﻿<Window x:Class="WpfApp1.MainWindow" Name = "PrimaryWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
+        x:FieldModifier ="public"
         Title="MainWindow" Height="886.477" Width="1009.21">
-    <Grid HorizontalAlignment="Left" Margin="72,144,0,0" Height="650" VerticalAlignment="Top" Width="650">
+    <Grid x:Name="MainGrid" HorizontalAlignment="Left" Margin="72,144,0,0" Height="650" VerticalAlignment="Top" Width="650">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
@@ -129,7 +130,7 @@
         <Button Name = "Start" Content="Start" HorizontalAlignment="Left" VerticalAlignment="Top" Width="149" Grid.Column="15" Margin="69,-5,-177,0" Height="82" Grid.RowSpan="2" Click="GameStart" IsCancel="True" FontFamily="Georgia" FontSize="22"/>
         <Button Name = "Save" Content="Save" Grid.Column="15" HorizontalAlignment="Left" Margin="69,0,-177,0" Grid.Row="2" VerticalAlignment="Top" Width="149" Height="77" Grid.RowSpan="2" Click="GameSave" FontFamily="Georgia" FontSize="22"/>
         <Button Name = "Load" Content="Load" Grid.Column="15" HorizontalAlignment="Left" Margin="69,0,-177,0" Grid.Row="4" VerticalAlignment="Top" Width="149" Height="77" Grid.RowSpan="2" Click="GameLoad" FontFamily="Georgia" FontSize="22"/>
-        <Button Name = "DrawCard" Content="Draw Card" Grid.Column="15" HorizontalAlignment="Left" Margin="69,0,-177,0" Grid.Row="6" VerticalAlignment="Top" Width="149" Height="77" Grid.RowSpan="2" Click="clickDraw" FontFamily="Georgia" FontSize="22" IsEnabled="False"/>
+        <Button Name = "DrawCard" Content="Draw Card" Grid.Column="15" HorizontalAlignment="Left" Margin="69,0,-177,0" Grid.Row="6" VerticalAlignment="Top" Width="149" Height="77" Grid.RowSpan="2" Click="ClickDraw" FontFamily="Georgia" FontSize="22" IsEnabled="False"/>
         <Ellipse Grid.ColumnSpan="3" Grid.Column="3" Fill="#e31e1e" HorizontalAlignment="Left" Height="114" Margin="5,0,0,10" Grid.RowSpan="4" Stroke="Black" VerticalAlignment="Bottom" Width="111"/>
         <Ellipse Grid.ColumnSpan="3" Grid.Column="8" Fill="#3d66e0" HorizontalAlignment="Left" Height="113" Margin="10,5,0,0" Grid.Row="1" Grid.RowSpan="3" Stroke="Black" VerticalAlignment="Top" Width="113"/>
         <Ellipse Grid.ColumnSpan="3" Grid.Column="12" Fill="#3d66e0" HorizontalAlignment="Left" Height="113" Margin="7,4,0,0" Grid.Row="3" Grid.RowSpan="3" Stroke="Black" VerticalAlignment="Top" Width="113"/>

@@ -21,7 +21,7 @@ namespace WpfApp1
 {
     
     
-
+    [Serializable]
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -43,6 +43,8 @@ namespace WpfApp1
         int loadedPlayerCount;
         GameState gameState;
 
+        //Rando
+
         public MainWindow()
         {
             InitializeComponent();
@@ -55,6 +57,7 @@ namespace WpfApp1
                 gameState = new GameState(this);
                 
                 isGameRunning = true;
+                gameState.Run();
             }
         }
 
@@ -95,7 +98,6 @@ namespace WpfApp1
                 stateToSave = new SaveableGameState(gameState.GetPlayers(), gameState.GetPlayerCount());
                 BinaryFormatter write = new BinaryFormatter();
                 Stream stream = new FileStream(@".\saveTheGameState.txt", FileMode.Create, FileAccess.Write);
-                MessageBox.Show("got here");
                 write.Serialize(stream, this.stateToSave);
                 stream.Close();
                 MessageBox.Show("Game Saved!");
