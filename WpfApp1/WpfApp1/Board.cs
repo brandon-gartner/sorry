@@ -81,7 +81,7 @@ public class Board
     {
         if (!last)
         {
-            p.setSpaceNumber(p.spaceNumber + 1);
+            p.SetSpaceNumber(p.spaceNumber + 1);
             return false;
         }
         else

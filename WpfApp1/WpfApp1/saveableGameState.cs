@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Windows.Controls;
 
 [Serializable]
-public class saveableGameState
+public class SaveableGameState
 {
     private int playerCount;
     private Player[] players;
 
-    public saveableGameState(Player[] players, int playerCount)
+    public SaveableGameState(Player[] players, int playerCount)
 	{
         this.players = players;
         this.playerCount= playerCount;

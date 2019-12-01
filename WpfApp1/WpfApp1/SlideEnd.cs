@@ -11,12 +11,12 @@ internal class SlideEnd : ISpace
     }
 
     //when the special slide step touches this or slideendstartexit, they stop moving here.
-    public void landedOn(Pawn p)
+    public void LandedOn(Pawn p)
     {
         throw new System.NotImplementedException();
     }
 
-    public void steppedOn(Pawn p)
+    public void SteppedOn(Pawn p)
     {
 
     }

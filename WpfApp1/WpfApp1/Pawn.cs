@@ -53,7 +53,7 @@ public class Pawn
     }
 
     //is run in the boards movePawn method
-    public int validateFutureLocation(int movement)
+    public int ValidateFutureLocation(int movement)
     {
         int potentialFutureLocation = (this.spaceNumber + movement);
         //if the pawn has passed the starting position, move it there
@@ -74,12 +74,12 @@ public class Pawn
 
     }
 
-    public void setSpaceNumber(int newSpaceNumber)
+    public void SetSpaceNumber(int newSpaceNumber)
     {
         this.spaceNumber = newSpaceNumber;
     }
 
-    public void returnHome()
+    public void ReturnHome()
     {
         this.inStart = true;
         this.spaceNumber = 99;

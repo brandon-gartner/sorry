@@ -6,13 +6,13 @@ public class HomeSpace : ISpace
 {
 
     //when you land on it, that pawn is out of the game
-    public void landedOn(Pawn p)
+    public void LandedOn(Pawn p)
     {
         p.decommissioned = true;
         return;
     }
 
-    public void steppedOn(Pawn p)
+    public void SteppedOn(Pawn p)
     {
         return;
     }

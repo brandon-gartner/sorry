@@ -16,7 +16,7 @@ public class GameState
     public GameState(MainWindow main)
 	{
         this.main = main;
-        generateDictionaries();
+        GenerateDictionaries();
         /*Creating the three players and getting their names and such*/
         String playerCountInput;
         do
@@ -42,20 +42,20 @@ public class GameState
         /*Drawing players*/
         for(int i = 0; i < this.players.Length; i++)
         {
-            this.players[i].drawPlayer();
+            this.players[i].DrawPlayer();
         }
 
 
     }
 
     //runs the game, until a player wins.  playTurn will constantly set ended to false, until a player wins
-    public void run()
+    public void Run()
     {
         int turnPlayer = -1;
         Boolean ended = false;
         for (int playerTurn = 0; ended; playerTurn++)
         {
-            ended = players[playerTurn % players.Length].playTurn();
+            ended = players[playerTurn % players.Length].PlayTurn();
             turnPlayer = playerTurn % players.Length;
         }
 
@@ -64,7 +64,7 @@ public class GameState
 
 
     //creates the dictionaries we will be using to easily get between space position and actualy border location on the XAML file
-    public void generateDictionaries()
+    public void GenerateDictionaries()
     {
         numberToSpace.Add(0, main._0);
         spaceToNumber.Add(main._0, 0);
@@ -188,12 +188,12 @@ public class GameState
         spaceToNumber.Add(main._59, 59);
 
     }
-    public Player[] getPlayers()
+    public Player[] GetPlayers()
     {
         return this.players;
     }
 
-    public MainWindow getMainWindow()
+    public MainWindow GetMainWindow()
     {
         return this.main;
     }

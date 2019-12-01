@@ -14,7 +14,7 @@ internal class SafetyEntry : ISpace
     }
 
     //if a pawn steps over it, which belongs to the owner player, they will move onto the safety space next;
-    public void landedOn(Pawn p)
+    public void LandedOn(Pawn p)
     {
         throw new System.NotImplementedException();
     }
