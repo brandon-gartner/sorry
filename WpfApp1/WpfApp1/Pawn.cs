@@ -72,36 +72,49 @@ namespace WpfApp1
         }
 
         //is run in the boards movePawn method
-        public int movingPawn(int movement)
+        public int validateNextLocation(Boolean forward)
         {
-            int potentialFutureLocation = (this.spaceNumber + movement);
-            //if the pawn has passed the starting position, move it there
-            if (potentialFutureLocation >= 60)
+            if (forward)
             {
-                return potentialFutureLocation - 60;
+                int potentialFutureLocation = (this.spaceNumber + 1);
+                //if the pawn has passed the starting position, move it there
+                if (potentialFutureLocation > 59)
+                {
+                    return potentialFutureLocation - 60;
+                }
+                else
+                {
+                    return potentialFutureLocation;
+                }
             }
-            //if the pawn has wrapped around backwards past the starting position, move it here
-            else if (potentialFutureLocation <= 0)
-            {
-                return potentialFutureLocation + 60;
-            }
-            //otherwise return the position it should be at
             else
             {
-                return potentialFutureLocation;
+                int potentialFutureLocation = (this.spaceNumber - 1);
+                //if the pawn has wrapped around backwards past the starting position, move it here
+                if (potentialFutureLocation < 0)
+                {
+                    return potentialFutureLocation + 60;
+                }
+                //otherwise return the position it should be at
+                else
+                {
+                    return potentialFutureLocation;
+                }
             }
-
         }
+
+        
 
         public void SetSpaceNumber(int newSpaceNumber)
         {
             this.spaceNumber = newSpaceNumber;
         }
 
-        public void ReturnHome()
+        public void ReturnHome(Pawn p)
         {
-            this.inStart = true;
-            this.spaceNumber = 99;
+            p.inStart = true;
+            p.spaceNumber = 99;
+            
         }
 
         /*
