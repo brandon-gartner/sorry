@@ -135,15 +135,15 @@ namespace WpfApp1
                 case 5:
                 case 8:
                 case 12:
-                    moveGenericCard(cardId, playerId);
+                    handleGenericCard(cardId, playerId);
                     break;
 
                 case 7:
-
+                    handleCard7();
                     break;
 
                 case 10:
-                    moveGenericCard(cardId, playerId);
+                    handleGenericCard(cardId, playerId);
                     break;
 
                 case 11:
@@ -151,14 +151,14 @@ namespace WpfApp1
                     break;
 
                 case -1:
-                    moveSorryCard(playerId);
+                    handleSorryCard(playerId);
 
                     break;
             }
         }
 
         //This is for the generic moving of cards (no special event)
-        private void moveGenericCard(int value, int playerId)
+        private void handleGenericCard(int value, int playerId)
         {
             Pawn[] availablePawns = getWhichPawnsCanMove();
             if (availablePawns == null)
@@ -185,8 +185,8 @@ namespace WpfApp1
         //create card 11
         private void handleCard11(int playerId)
         {
-            Pawn[] availablePawns = getWhichPawnsCanMove();
-            Pawn[] switchablePawn = getWhichPawnsCanMoveOnCard11();
+            Pawn[] availablePawns = getWhichPawnsCanMoveOnCard11();
+            Pawn[] switchablePawn = findWhichPawnsCanSwitch(playerId);
             String player = this.gameState.players[this.gameState.currentPlayer].PlayerName;
             if (availablePawns != null && switchablePawn != null)
             {
@@ -199,11 +199,15 @@ namespace WpfApp1
                     Pawn pawnToSwitch = optionsSwitch.otherPlayerPawn;
                     switchPawns11(currentPlayerPawn, pawnToSwitch);
                 }
+                else if(options.getChoice11().Equals("Forfeit"))
+                {
+                    ContentLog.Text = "Turn Forfeit!";
+                }
                 //if the player wants to advance then....
                 else
                 {
 
-                    moveGenericCard(11, playerId);
+                    handleGenericCard(11, playerId);
 
                 }
             }
@@ -289,11 +293,11 @@ namespace WpfApp1
 
 
         //This is for the sorry card(replacing pawn from start with another pawn)
-        private void moveSorryCard(int playerId)
+        private void handleSorryCard(int playerId)
         {
-            Pawn[] allSwitchablePawn = findWhichPawnsCanSwitch();
-            allSwitchablePawn = removeAllOfOwnPlayerCard(allSwitchablePawn, playerId);
+            
             String player = this.gameState.players[this.gameState.currentPlayer].PlayerName;
+            Pawn[] allSwitchablePawn = findWhichPawnsCanSwitch(playerId);
 
             //Checks what pawns are at start
             Player currentPlayer = this.gameState.players[this.gameState.currentPlayer];
@@ -347,7 +351,7 @@ namespace WpfApp1
         /*Make it so it returns the pawns the player himself can move (for the generic cards)*/
         private Pawn[] getWhichPawnsCanMove()
         {
-            //gte current player
+            //get current player
             Player currentPlayer = this.gameState.players[this.gameState.currentPlayer];
             //get all current player's pawns
             Pawn[] allPawns = currentPlayer.pawns;
@@ -367,6 +371,7 @@ namespace WpfApp1
             return allPawns;
         }
 
+        //This only works for the current players pawns (card 11)
         private Pawn[] getWhichPawnsCanMoveOnCard11()
         {
             //gte current player
@@ -379,7 +384,7 @@ namespace WpfApp1
             for (int i = 0; i < allPawns.Length; i++)
             {
                 Pawn currentPawn = allPawns[i];
-                if (!currentPawn.decomissioned || !current)
+                if (!currentPawn.decommissioned || !currentPawn.inStart || !currentPawn.safe)
                 {
                     availablePawns.Add(currentPawn);
                 }
@@ -389,24 +394,31 @@ namespace WpfApp1
             return allPawns;
         }
 
-        //this will return an array of pawns that can have their place switched(card 11)
-        private Pawn[] findWhichPawnsCanSwitch()
+        //this will return an array of pawns that can have their place switched(sorry and 11 cards)
+        private Pawn[] findWhichPawnsCanSwitch(int playerId)
         {
-            Pawn[] allPossiblePawns = new Pawn[numberOfAvailablePawns()];
-            int arraycount = 0;
-            for (int i = 0; i < gameState.GetPlayers().Length; i++)
+            //Goes through all the players and adds the pawns that are able to be replaced
+            Player[] allPlayers = this.gameState.players;
+            ArrayList availablePawns = new ArrayList();
+            for (int i = 0; i < allPlayers.Length; i++)
             {
-                for (int j = 0; i < 3; i++)
+                if (i != playerId)
                 {
-                    if (gameState.GetPlayers()[i].pawns[i].canYouSwitchWithPawn())
+                    Player tempPlayer = allPlayers[i];
+                    Pawn[] allPawnsOnePlayer = tempPlayer.pawns;
+                    for (int j = 0; j < allPawnsOnePlayer.Length; j++)
                     {
-                        allPossiblePawns[arraycount] = gameState.GetPlayers()[i].pawns[i];
-                        arraycount++;
+                        if (!allPawnsOnePlayer[j].decommissioned || !allPawnsOnePlayer[j].inStart || !allPawnsOnePlayer[j].safe)
+                        {
+                            availablePawns.Add(allPawnsOnePlayer[j]);
+                        }
                     }
                 }
             }
-            return allPossiblePawns;
+            Pawn[] allSwitchablePawn = (Pawn[])availablePawns.ToArray(typeof(Pawn));
+            return allSwitchablePawn;
         }
+        /*
         //this method will return the number of pawns that can be used to switch
         private int numberOfAvailablePawns()
         {
@@ -423,6 +435,7 @@ namespace WpfApp1
             }
             return count;
         }
+
         private Pawn[] removeAllOfOwnPlayerCard(Pawn[] listOfPawn, int playerNum)
         {
             //gets the number of available pawn
@@ -447,5 +460,7 @@ namespace WpfApp1
             }
             return finalPawnArray;
         }
+        */
     }
+    
 }

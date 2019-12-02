@@ -66,9 +66,10 @@ namespace WpfApp1
             else if(numberType == 11)
             {
                 Choice_enem.Visibility = Visibility.Hidden;
-                Instructions.Text = playerName + " Do you want to switch whith another player or do you want to advance 11 spaces";
+                Instructions.Text = playerName + " Do you want to switch whith another player or do you want to advance 11 spaces or forfeit turn?";
                 Choice_enem.Items.Add("switch");
                 Choice_enem.Items.Add("advance 11 spaces");
+                Choice_enem.Items.Add("Forfeit");
             }
             //for card 11(switch)
             else if(numberType == 4)
