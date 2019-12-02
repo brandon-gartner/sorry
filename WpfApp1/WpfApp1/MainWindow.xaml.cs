@@ -157,12 +157,15 @@ namespace WpfApp1
             }
         }
 
-        //This is for the generic moving of cards (no special event)
+
+        /*HANDLING ALL THE CARDS*/
+        //This is for the generic moving of cards (no special event) (fix card 10 thing)
         private void handleGenericCard(int value, int playerId)
         {
             Pawn[] availablePawns = getWhichPawnsCanMove();
             if (availablePawns == null)
             {
+                //This is actually not quite the correct implementation, but we need another method to check if a pawn can move 10 spots or not
                 if (value == 10)
                 {
                     String player = this.gameState.players[this.gameState.currentPlayer].PlayerName;
@@ -217,11 +220,10 @@ namespace WpfApp1
             }
 
         }
-        //create card 1
+        //create card 1 (have to add a chooser so that)
         private void handleCard1()
         {
             Pawn[] availablePawns = getWhichPawnsCanMove();
-            Pawn[] switchablePawn = getWhichPawnsCanMoveOnCard11();
             String player = this.gameState.players[this.gameState.currentPlayer].PlayerName;
             Window1 options = new Window1(3, player, 1, availablePawns, null);
 
@@ -241,7 +243,7 @@ namespace WpfApp1
             Pawn[] availablePawns = getWhichPawnsCanMove();
             Pawn[] switchablePawn = getWhichPawnsCanMoveOnCard11();
             String player = this.gameState.players[this.gameState.currentPlayer].PlayerName;
-            Window1 options = new Window1(4, player, 1, availablePawns, null);
+            Window1 options = new Window1(5, player, 1, availablePawns, null);
 
             if (options.getChoice11().Equals("Get a pawn out of the start zone"))
             {
@@ -253,17 +255,17 @@ namespace WpfApp1
                 Window1 optionsAdvance = new Window1(0, player, 2, availablePawns, null);
             }
         }
-        //create card 7
+        //create card 7 (also have to add if the players can actually move 2 pawns or not, otherwise just call normal thing)
         private void handleCard7()
         {
             Pawn[] availablePawns = getWhichPawnsCanMove();
-            Pawn[] switchablePawn = getWhichPawnsCanMoveOnCard11();
             String player = this.gameState.players[this.gameState.currentPlayer].PlayerName;
-            Window1 options = new Window1(5, player, 7, availablePawns, null);
+            Window1 options = new Window1(6, player, 7, availablePawns, null);
 
             if (options.getChoice11().Equals("Put all 7 on one pawn"))
             {
                 Window1 optionsAdvance7 = new Window1(0, player, 7, availablePawns, null);
+                this.gameState.mainBoard.MovePawn(optionsAdvance7.gotPawn, 7);
             }
             //this means separate 7 into 2 pawns
             else
@@ -272,26 +274,21 @@ namespace WpfApp1
                 int firstMove = 0;
                 int secondMove = 0;
                 int flag = 0;
-                while (flag == 0)
-                {
-                    String firstMouvement = Interaction.InputBox("how many spaces for the first pawn?", "movement separation", "Please enter of number of spaces");
-                    firstMove = Convert.ToInt32(firstMouvement);
-                    String secondMouvement = Interaction.InputBox("how many spaces for the second pawn?", "movement separation", "Please enter a number of spaces");
-                    secondMove = Convert.ToInt32(secondMouvement);
-                    if (((firstMove + secondMove) == 7) && (firstMove > 0) && (secondMove > 0))
-                    {
-                        flag = 1;
-                    }
 
-                }
-                //will give the choice to add the number of each pawn to a pawn of their choosing
-                Window1 optionsAdvancefirstMove = new Window1(0, player, firstMove, availablePawns, null);
-                Window1 optionsAdvancesecondMove = new Window1(0, player, secondMove, availablePawns, null);
+                Window1 optionsSplit = new Window1(7, player, 7, availablePawns, null);
+                firstMove = optionsSplit.move7;
+                Pawn firstPawn = optionsSplit.gotPawn;
+
+                optionsSplit = new Window1(7, player, 0, availablePawns, null);
+                secondMove = 7 - firstMove;
+                Pawn secondPawn = optionsSplit.gotPawn;
+                //moving the pawn
+                this.gameState.mainBoard.MovePawn(firstPawn, firstMove);
+                this.gameState.mainBoard.MovePawn(secondPawn, secondMove);
+
+
             }
         }
-
-
-
         //This is for the sorry card(replacing pawn from start with another pawn)
         private void handleSorryCard(int playerId)
         {
@@ -328,6 +325,8 @@ namespace WpfApp1
             }
         }
 
+
+        /*HANDLING SWITCHING THE PAWNS*/
         //For switching pawns (for sorry card)
         private void switchPawns(Pawn pawnAtStart, Pawn pawnToSwitch)
         {
@@ -348,6 +347,9 @@ namespace WpfApp1
             this.gameState.drawAtNextPosition(pawnToSwitch);
         }
 
+
+
+        /*GETTING VALID PAWNS*/
         /*Make it so it returns the pawns the player himself can move (for the generic cards)*/
         private Pawn[] getWhichPawnsCanMove()
         {
@@ -418,49 +420,7 @@ namespace WpfApp1
             Pawn[] allSwitchablePawn = (Pawn[])availablePawns.ToArray(typeof(Pawn));
             return allSwitchablePawn;
         }
-        /*
-        //this method will return the number of pawns that can be used to switch
-        private int numberOfAvailablePawns()
-        {
-            int count = 0;
-            for (int i = 0; i < gameState.GetPlayers().Length; i++)
-            {
-                for (int j = 0; j < 3; j++)
-                {
-                    if (gameState.GetPlayers()[i].pawns[i].canYouSwitchWithPawn())
-                    {
-                        count++;
-                    }
-                }
-            }
-            return count;
-        }
-
-        private Pawn[] removeAllOfOwnPlayerCard(Pawn[] listOfPawn, int playerNum)
-        {
-            //gets the number of available pawn
-            int count = 0;
-            for (int i = 0; i < listOfPawn.Length; i++)
-            {
-                if (!(listOfPawn[i].playerNumber == playerNum))
-                {
-                    count++;
-                }
-            }
-            Pawn[] finalPawnArray = new Pawn[count];
-            //creates the array of the valid length and pawns
-            int arraycount = 0;
-            for (int i = 0; i < count; i++)
-            {
-                if (!(listOfPawn[i].playerNumber == playerNum))
-                {
-                    finalPawnArray[arraycount] = listOfPawn[i];
-                    arraycount++;
-                }
-            }
-            return finalPawnArray;
-        }
-        */
+      
     }
     
 }
