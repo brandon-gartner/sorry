@@ -47,7 +47,35 @@ namespace WpfApp1
             /*Drawing players*/
             for (int i = 0; i < this.players.Length; i++)
             {
-                this.players[i].DrawPlayer();
+                for (int j = 0; i < this.players[i].pawns.Length; i++)
+                {
+                    Player tempPlayer = this.players[i];
+                    Pawn currentPawn = tempPlayer.pawns[j];
+                    if (tempPlayer.color.Equals("Red"))
+                    {
+                        Grid.SetRow(currentPawn.image, 2);
+                        Grid.SetColumn(currentPawn.image, 4);
+                        this.main.MainGrid.Children.Add(currentPawn.image);
+                    }
+                    else if (tempPlayer.color.Equals("Blue"))
+                    {
+                        Grid.SetRow(currentPawn.image, 4);
+                        Grid.SetColumn(currentPawn.image, 13);
+                        this.main.MainGrid.Children.Add(currentPawn.image);
+                    }
+                    else if (tempPlayer.color.Equals("Yellow"))
+                    {
+                        Grid.SetRow(currentPawn.image, 11);
+                        Grid.SetColumn(currentPawn.image, 2);
+                        this.main.MainGrid.Children.Add(currentPawn.image);
+                    }
+                    else
+                    {
+                        Grid.SetRow(currentPawn.image, 13);
+                        Grid.SetColumn(currentPawn.image, 11);
+                        this.main.MainGrid.Children.Add(currentPawn.image);
+                    }
+                }
             }
 
             //Creating deck
