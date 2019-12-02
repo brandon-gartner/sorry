@@ -1,4 +1,4 @@
-﻿//the class for the beginning of a slide
+﻿/*//the class for the beginning of a slide
 using System;
 using WpfApp1;
 
@@ -35,4 +35,4 @@ namespace WpfApp1
 
         
     }
-}
+}*/

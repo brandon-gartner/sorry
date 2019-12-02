@@ -1,4 +1,4 @@
-﻿//this is both the end of a slide, and the place where people will leave start
+﻿/*//this is both the end of a slide, and the place where people will leave start
 using System;
 using WpfApp1;
 
@@ -6,7 +6,7 @@ namespace WpfApp1
 {
 
     [Serializable]
-    internal class SlideEndStartExit : ISpace
+    internal class SlideEndStartExit
     {
         public Player player;
 
@@ -27,4 +27,4 @@ namespace WpfApp1
             return;
         }
     }
-}
+}*/

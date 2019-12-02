@@ -1,4 +1,4 @@
-﻿using System;
+﻿/*using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +7,7 @@ using WpfApp1;
 
 namespace WpfApp1
 {
-    class ConnectingSpace : ISpace
+    class ConnectingSpace
     {
         public int connectedPiece;
 
@@ -30,3 +30,4 @@ namespace WpfApp1
         }
     }
 }
+*/

@@ -17,12 +17,15 @@ namespace WpfApp1
         public Border image;
         public int playerNumber;
         public String playerName;
-        public Boolean isFire;
+        //public Boolean isFire;
+        //Following two are for 
+        public int startPositionCol;
+        public int startPositionRow;
 
         /*So basically the color is going to be the color of the pawn*/
         public Pawn(int numberOfPawn, String color, int playerNumber, String playerName)
         {
-            this.isFire = false;
+            //this.isFire = false;
             this.playerName = playerName;
             this.numberOfPawn = numberOfPawn;
             safe = false;
@@ -31,18 +34,26 @@ namespace WpfApp1
             if (color.Equals("Red"))
             {
                 image.Background = Brushes.Red;
+                this.startPositionRow = 2;
+                this.startPositionCol = 4;
             }
             else if (color.Equals("Green"))
             {
                 image.Background = Brushes.Green;
+                this.startPositionRow = 4;
+                this.startPositionCol = 13;
             }
             else if (color.Equals("Blue"))
             {
                 image.Background = Brushes.Blue;
+                this.startPositionRow = 11;
+                this.startPositionCol = 2;
             }
             else
             {
                 image.Background = Brushes.Yellow;
+                this.startPositionRow = 13;
+                this.startPositionCol = 11;
             }
 
             /*Setting the design properties*/
@@ -92,6 +103,8 @@ namespace WpfApp1
             this.inStart = true;
             this.spaceNumber = 99;
         }
+
+        /*
         //this method will check if a pawn can switch place 
         public Boolean canYouSwitchWithPawn()
         {
@@ -109,6 +122,7 @@ namespace WpfApp1
             }
             return true;
         }
+        */
         public String pawnToString()
         {
             return (this.playerName + "'s Pawn #" + this.numberOfPawn);

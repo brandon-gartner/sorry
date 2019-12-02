@@ -1,11 +1,11 @@
-﻿using System;
+﻿/*using System;
 using WpfApp1;
 
 
 namespace WpfApp1
 {
     // the normal spaces that exist on most locations
-    public class NormalSpace : ISpace
+    public class NormalSpace
     {
         public NormalSpace()
         {
@@ -25,4 +25,4 @@ namespace WpfApp1
             return;
         }
     }
-}
+}*/

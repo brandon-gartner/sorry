@@ -10,13 +10,14 @@ namespace WpfApp1
     public class GameState
     {
 
-        int playerCount = 0;
+        public int playerCount = 0;
         public Player[] players;
-        MainWindow main;
-        Dictionary<int, Border> numberToSpace = new Dictionary<int, Border>();
-        Dictionary<Border, int> spaceToNumber = new Dictionary<Border, int>();
+        public MainWindow main;
+        public Dictionary<int, Border> numberToSpace = new Dictionary<int, Border>();
+        public Dictionary<Border, int> spaceToNumber = new Dictionary<Border, int>();
         public Deck deck;
         public int currentPlayer;
+        public Board mainBoard;
         public GameState(MainWindow main)
         {
             this.main = main;
@@ -41,7 +42,7 @@ namespace WpfApp1
             }
 
             /*Creating board (locations)*/
-            Board mainBoard = new Board(players, this.main);
+            this.mainBoard = new Board(players, this.main);
 
             /*Drawing players*/
             for (int i = 0; i < this.players.Length; i++)
@@ -209,6 +210,51 @@ namespace WpfApp1
         public int GetPlayerCount()
         {
             return this.playerCount;
+        }
+
+        //THIS ONLY WORKS FOR DRAWING THINGS AROUND ON THE ACTUAL BOARD
+        public void drawAtNextPosition(Pawn pawn)
+        {
+            //Setting the row and column numbers by checking which position it's at
+            int nextPosition = pawn.spaceNumber;
+            int rowNum;
+            int colNum;
+            this.main.MainGrid.Children.Remove(pawn.image);
+
+            //Checking absolute positions of all pawns
+            if (nextPosition <= 15)
+            {
+                rowNum = 0;
+                colNum = nextPosition;
+            }
+            else if (nextPosition > 15 && nextPosition <= 30)
+            {
+                colNum = 15;
+                rowNum = nextPosition - 15;
+            }
+            else if (nextPosition > 30 && nextPosition <= 45)
+            {
+                rowNum = 15;
+                colNum = (nextPosition - 30);
+                colNum = (colNum + 15) - colNum;
+            }
+            else
+            {
+                colNum = 0;
+                rowNum = (nextPosition - 30);
+                rowNum = (rowNum + 15) - rowNum;
+
+            }
+            Grid.SetRow(pawn.image, rowNum);
+            Grid.SetColumn(pawn.image, colNum);
+            this.main.MainGrid.Children.Add(pawn.image);
+        }
+
+        public void drawAtStart(Pawn pawn)
+        {
+            Grid.SetRow(pawn.image, pawn.startPositionRow);
+            Grid.SetColumn(pawn.image, pawn.startPositionCol);
+            this.main.MainGrid.Children.Add(pawn.image);
         }
     }
 }

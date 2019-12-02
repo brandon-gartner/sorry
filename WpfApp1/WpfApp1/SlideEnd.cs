@@ -1,11 +1,11 @@
-﻿using System;
+﻿/*using System;
 using WpfApp1;
 
 namespace WpfApp1
 {
 
     [Serializable]
-    internal class SlideEnd : ISpace
+    internal class SlideEnd
     {
         private Player player;
 
@@ -25,4 +25,4 @@ namespace WpfApp1
 
         }
     }
-}
+}*/

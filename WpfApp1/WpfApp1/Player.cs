@@ -20,7 +20,7 @@ namespace WpfApp1
 
 
         /*So the constructor sets the player's name as well as which color they chose */
-        public Player(string playerName, String color, MainWindow main, int playerNumber)
+        public Player(String playerName, String color, MainWindow main, int playerNumber)
         {
             this.color = color;
             this.playerNumber = playerNumber;
@@ -29,7 +29,7 @@ namespace WpfApp1
             this.PlayerName = playerName;
             for (int i = 0; i < 3; i++)
             {
-                this.pawns[i] = new Pawn(i, color, this.playerNumber, this.PlayerName);
+                this.pawns[i] = new Pawn(i+1, color, this.playerNumber, this.PlayerName);
             }
             InitialisePlayersBoard();
             realPlayer = true;
@@ -40,7 +40,7 @@ namespace WpfApp1
         {
             this.PlayerName = "AI";
             this.pawns = new Pawn[3];
-            for (int i = 0; i <= 3; i++)
+            for (int i = 0; i < 3; i++)
             {
                 this.pawns[i] = new Pawn(i+1, color, this.playerNumber, this.PlayerName);
             }
@@ -71,7 +71,7 @@ namespace WpfApp1
             }
             for (int i = 0; i < 3; i++)
             {
-                if (this.pawns[i].decommissioned)
+                if (!(this.pawns[i].decommissioned))
                 {
                     hasWon = false;
                 }
@@ -79,6 +79,7 @@ namespace WpfApp1
             return hasWon;
         }
 
+        //MOVE THIS INTO GAMESTATE ITS USELESS HERE
         /*This method is for actually drawing everything relating to the player on the xaml page*/
         public void DrawPlayer()
         {
@@ -114,40 +115,5 @@ namespace WpfApp1
             }
         }
 
-        public void drawAtNextPosition(int pawnNumber)
-        {
-            //Setting the row and column numbers by checking which position it's at
-            int nextPosition = this.pawns[pawnNumber].spaceNumber;
-            int rowNum;
-            int colNum;
-
-            //Checking absolute positions of all pawns
-            if(nextPosition <= 15)
-            {
-                rowNum = 0;
-                colNum = nextPosition;
-            }
-            else if(nextPosition > 15 && nextPosition <= 30)
-            {
-                colNum = 15;
-                rowNum = nextPosition - 15;
-            }
-            else if(nextPosition > 30 && nextPosition <= 45)
-            {
-                rowNum = 15;
-                colNum = (nextPosition - 30);
-                colNum = (colNum + 15) - colNum;
-            }
-            else
-            {
-                colNum = 0;
-                rowNum = (nextPosition - 30);
-                rowNum = (rowNum + 15) - rowNum;
-
-            }
-            Grid.SetRow(this.pawns[pawnNumber].image, rowNum);
-            Grid.SetColumn(this.pawns[pawnNumber].image, colNum);
-            this.main.MainGrid.Children.Add(this.pawns[pawnNumber].image);
-        }
     }
 }

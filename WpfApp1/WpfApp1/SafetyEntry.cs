@@ -1,8 +1,8 @@
-﻿using System;
+﻿/*using System;
 using WpfApp1;
 
 [Serializable]
-internal class SafetyEntry : ISpace
+internal class SafetyEntry
 {
     //stores the player which this space belongs to
     private Player player;
@@ -24,4 +24,4 @@ internal class SafetyEntry : ISpace
     {
 
     }
-}
+}*/

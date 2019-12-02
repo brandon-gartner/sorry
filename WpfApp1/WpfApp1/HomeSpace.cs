@@ -1,4 +1,4 @@
-﻿using System;
+﻿/*using System;
 using WpfApp1;
 
 //place where pawns start. cannot be landed on, so nothing should happen if it is landed on.
@@ -7,7 +7,7 @@ using WpfApp1;
 namespace WpfApp1
 {
     [Serializable]
-    public class HomeSpace : ISpace
+    public class HomeSpace
     {
 
         //when you land on it, that pawn is out of the game
@@ -22,4 +22,4 @@ namespace WpfApp1
             return;
         }
     }
-}
+}*/
