@@ -29,6 +29,7 @@ namespace WpfApp1
         String card2Choice;
         public String card7Choice;
         public int move7;
+        public Boolean isEnded = false;
         public Window1(int numberType, String playerName, int value, Pawn[] allPawns, Pawn[] otherPawns)
         {
             this.move7 = value;
@@ -192,6 +193,7 @@ namespace WpfApp1
                     }
                 }
             }
+            this.isEnded = true;
             
         }
         public Pawn getSelectedPawn()
