@@ -15,7 +15,7 @@ namespace WpfApp1
         public MainWindow main;
         public String color;
         public int playerNumber;
-        public Boolean endedTurn;
+        //public Boolean endedTurn;
 
 
 
@@ -57,7 +57,8 @@ namespace WpfApp1
             this.SafetySpaceAndHome[5] = new Space(2);
         }
 
-
+        //This is actually useless
+        /*
         public Boolean PlayTurn()
         {
             Boolean hasWon = true;
@@ -78,7 +79,7 @@ namespace WpfApp1
             }
             return hasWon;
         }
-
+        */
         //MOVE THIS INTO GAMESTATE ITS USELESS HERE
         /*This method is for actually drawing everything relating to the player on the xaml page*/
         public void DrawPlayer()
