@@ -12,7 +12,6 @@ namespace WpfApp1
         public Space[] SafetySpaceAndHome = new Space[7];
         public Pawn[] pawns;
         public Boolean realPlayer;
-        public MainWindow main;
         public String color;
         public int playerNumber;
         //public Boolean endedTurn;
@@ -24,7 +23,6 @@ namespace WpfApp1
         {
             this.color = color;
             this.playerNumber = playerNumber;
-            this.main = main;
             this.pawns = new Pawn[3];
             this.PlayerName = playerName;
             for (int i = 0; i < 3; i++)
@@ -80,41 +78,7 @@ namespace WpfApp1
             return hasWon;
         }
         */
-        //MOVE THIS INTO GAMESTATE ITS USELESS HERE
-        /*This method is for actually drawing everything relating to the player on the xaml page*/
-        public void DrawPlayer()
-        {
-            /*So we'll have to add a couple of things (like displaying the names and such for the board) for now the pawns are ok*/
 
-            /*Drawing the pawns*/
-            for (int i = 0; i < this.pawns.Length; i++)
-            {
-                if (this.color.Equals("Red"))
-                {
-                    Grid.SetRow(this.pawns[i].image, 2);
-                    Grid.SetColumn(this.pawns[i].image, 4);
-                    this.main.MainGrid.Children.Add(this.pawns[i].image);
-                }
-                else if (this.color.Equals("Blue"))
-                {
-                    Grid.SetRow(this.pawns[i].image, 4);
-                    Grid.SetColumn(this.pawns[i].image, 13);
-                    this.main.MainGrid.Children.Add(this.pawns[i].image);
-                }
-                else if (this.color.Equals("Yellow"))
-                {
-                    Grid.SetRow(this.pawns[i].image, 11);
-                    Grid.SetColumn(this.pawns[i].image, 2);
-                    this.main.MainGrid.Children.Add(this.pawns[i].image);
-                }
-                else
-                {
-                    Grid.SetRow(this.pawns[i].image, 13);
-                    Grid.SetColumn(this.pawns[i].image, 11);
-                    this.main.MainGrid.Children.Add(this.pawns[i].image);
-                }
-            }
-        }
 
     }
 }
