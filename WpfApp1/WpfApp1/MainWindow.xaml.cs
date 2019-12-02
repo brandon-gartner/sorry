@@ -178,10 +178,6 @@ namespace WpfApp1
                     String player = this.gameState.players[this.gameState.currentPlayer].PlayerName;
                     Window1 options = new Window1(0, player, -1, availablePawns, null);
                     options.Show();
-                    while(!options.isEnded)
-                    {
-
-                    }
                     Pawn selectedPawn = options.getSelectedPawn();
                     this.gameState.mainBoard.MovePawn(selectedPawn, value);
                 }
@@ -207,19 +203,11 @@ namespace WpfApp1
             {
                 Window1 options = new Window1(11, player, 11, availablePawns, null);
                 options.Show();
-                while (!options.isEnded)
-                {
-
-                }
                 //if the player wants to switch then....
                 if (options.getChoice11().Equals("switch"))
                 {
                     Window1 optionsSwitch = new Window1(4, player, 11, availablePawns, switchablePawn);
                     optionsSwitch.Show();
-                    while (!optionsSwitch.isEnded)
-                    {
-
-                    }
                     Pawn currentPlayerPawn = optionsSwitch.gotPawn;
                     Pawn pawnToSwitch = optionsSwitch.otherPlayerPawn;
                     switchPawns11(currentPlayerPawn, pawnToSwitch);
@@ -249,10 +237,6 @@ namespace WpfApp1
             String player = this.gameState.players[this.gameState.currentPlayer].PlayerName;
             Window1 options = new Window1(3, player, 1, availablePawns, null);
             options.Show();
-            while (!options.isEnded)
-            {
-
-            }
 
             if (options.getChoice11().Equals("Get a pawn out of the start zone"))
             {
@@ -272,10 +256,6 @@ namespace WpfApp1
             String player = this.gameState.players[this.gameState.currentPlayer].PlayerName;
             Window1 options = new Window1(5, player, 1, availablePawns, null);
             options.Show();
-            while (!options.isEnded)
-            {
-
-            }
 
             if (options.getChoice11().Equals("Get a pawn out of the start zone"))
             {
@@ -286,10 +266,6 @@ namespace WpfApp1
             {
                 Window1 optionsAdvance = new Window1(0, player, 2, availablePawns, null);
                 optionsAdvance.Show();
-                while (!optionsAdvance.isEnded)
-                {
-
-                }
             }
         }
         //create card 7 (also have to add if the players can actually move 2 pawns or not, otherwise just call normal thing)
@@ -299,19 +275,11 @@ namespace WpfApp1
             String player = this.gameState.players[this.gameState.currentPlayer].PlayerName;
             Window1 options = new Window1(6, player, 7, availablePawns, null);
             options.Show();
-            while (!options.isEnded)
-            {
-
-            }
 
             if (options.getChoice11().Equals("Put all 7 on one pawn"))
             {
                 Window1 optionsAdvance7 = new Window1(0, player, 7, availablePawns, null);
                 optionsAdvance7.Show();
-                while (!optionsAdvance7.isEnded)
-                {
-
-                }
                 this.gameState.mainBoard.MovePawn(optionsAdvance7.gotPawn, 7);
             }
             //this means separate 7 into 2 pawns
@@ -324,20 +292,12 @@ namespace WpfApp1
 
                 Window1 optionsSplit = new Window1(7, player, 7, availablePawns, null);
                 optionsSplit.Show();
-                while (!optionsSplit.isEnded)
-                {
-
-                }
                 firstMove = optionsSplit.move7;
                 Pawn firstPawn = optionsSplit.gotPawn;
 
                 optionsSplit = new Window1(7, player, 0, availablePawns, null);
                 optionsSplit.Show();
                 optionsSplit.Show();
-                while (!optionsSplit.isEnded)
-                {
-
-                }
                 secondMove = 7 - firstMove;
                 Pawn secondPawn = optionsSplit.gotPawn;
                 //moving the pawn
@@ -378,10 +338,8 @@ namespace WpfApp1
             {
                 Window1 options = new Window1(2, player, 0, allPawns, allSwitchablePawn);
                 options.Show();
-                while (!options.isEnded)
-                {
-
-                }
+                options.Submit.AddHandler(
+                    
                 Pawn pawnAtStart = options.gotPawn;
                 Pawn pawnToSwitch = options.otherPlayerPawn;
                 switchPawns(pawnAtStart, pawnToSwitch);

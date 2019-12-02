@@ -17,7 +17,7 @@
                 </TransformGroup>
             </TextBlock.RenderTransform>
         </TextBlock>
-        <Button Content="Submit" HorizontalAlignment="Left" Height="43" Margin="27,272,0,0" VerticalAlignment="Top" Width="76" Click="Button_Click"/>
+        <Button x:Name="Submit" Content="Submit" HorizontalAlignment="Left" Height="43" Margin="27,272,0,0" VerticalAlignment="Top" Width="76" Click="Button_Click"/>
         <ComboBox x:Name="Choice" HorizontalAlignment="Left" Height="43" Margin="27,109,0,0" VerticalAlignment="Top" Width="154"/>
         <ComboBox x:Name="Choice_enem" HorizontalAlignment="Left" Height="43" Margin="27,179,0,0" VerticalAlignment="Top" Width="154"/>
     </Grid>
