@@ -56,9 +56,11 @@ namespace WpfApp1
             if (!isGameRunning)
             {
                 gameState = new GameState(this);
+                DrawCard.IsEnabled = true;
 
                 isGameRunning = true;
-                gameState.Run();
+                gameState.updatePlayer();
+                this.Player_Display.Text = this.gameState.players[this.gameState.currentPlayer].PlayerName +" it is your turn!";
             }
         }
 
@@ -69,7 +71,7 @@ namespace WpfApp1
             {
                 Card card = this.gameState.deck.getNextCard();
                 activateCard(card.getCard_Id(), gameState.currentPlayer);
-                this.gameState.players[this.gameState.currentPlayer].endedTurn = true;
+                //this.gameState.players[this.gameState.currentPlayer].endedTurn = true;
             }
             else
             {
@@ -112,6 +114,12 @@ namespace WpfApp1
                 MessageBox.Show("The game has not started");
 
             }
+
+        }
+
+
+        private void Next_Turn_Click(object sender, RoutedEventArgs e)
+        {
 
         }
         //this method will manage the card that has been drawn
@@ -420,7 +428,8 @@ namespace WpfApp1
             Pawn[] allSwitchablePawn = (Pawn[])availablePawns.ToArray(typeof(Pawn));
             return allSwitchablePawn;
         }
-      
+
+
     }
     
 }

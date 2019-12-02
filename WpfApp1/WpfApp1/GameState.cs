@@ -16,7 +16,7 @@ namespace WpfApp1
         public Dictionary<int, Border> numberToSpace = new Dictionary<int, Border>();
         public Dictionary<Border, int> spaceToNumber = new Dictionary<Border, int>();
         public Deck deck;
-        public int currentPlayer;
+        public int currentPlayer = -1;
         public Board mainBoard;
         public GameState(MainWindow main)
         {
@@ -57,19 +57,25 @@ namespace WpfApp1
 
         }
 
-        //runs the game, until a player wins.  playTurn will constantly set ended to false, until a player wins
-        public void Run()
+        //Updates player number
+        public void updatePlayer()
         {
-            this.currentPlayer = -1;
-            Boolean ended = false;
-            for (int playerTurn = 0; ended; playerTurn++)
+            
+            //for (int playerTurn = 0; !ended; playerTurn++)
+            //{
+            if (this.currentPlayer < this.playerCount)
             {
-                this.currentPlayer = playerTurn % players.Length;
-                ended = players[this.currentPlayer].PlayTurn();
-
+                this.currentPlayer++;
+            }
+            else
+            {
+                this.currentPlayer = 0;
             }
 
-            MessageBox.Show("Player " + this.currentPlayer + " wins!");
+
+            //}
+
+            //MessageBox.Show("Player " + this.currentPlayer + " wins!");
         }
 
 
