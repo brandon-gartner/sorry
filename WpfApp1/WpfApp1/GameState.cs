@@ -157,6 +157,8 @@ namespace WpfApp1
 
         public void drawAtStart(Pawn pawn)
         {
+            pawn.inStart = true;
+            pawn.spaceNumber = 99;
             Grid.SetRow(pawn.image, pawn.startPositionRow);
             Grid.SetColumn(pawn.image, pawn.startPositionCol);
             this.main.MainGrid.Children.Add(pawn.image);
