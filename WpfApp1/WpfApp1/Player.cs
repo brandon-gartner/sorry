@@ -78,15 +78,7 @@ namespace WpfApp1
             return hasWon;
         }
         */
-        //MOVE THIS INTO GAMESTATE ITS USELESS HERE
-        /*This method is for actually drawing everything relating to the player on the xaml page*/
-        public void DrawPlayer()
-        {
-            /*So we'll have to add a couple of things (like displaying the names and such for the board) for now the pawns are ok*/
 
-            /*Drawing the pawns*/
-            
-        }
 
     }
 }

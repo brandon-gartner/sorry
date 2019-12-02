@@ -193,6 +193,7 @@ namespace WpfApp1
                     }
                 }
             }
+            this.Close();
             this.isEnded = true;
             
         }

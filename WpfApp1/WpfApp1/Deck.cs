@@ -42,52 +42,52 @@ namespace WpfApp1
                     this.deck[i] = tempCard1;
                 }
                 //card 2
-                if (i < 5 && i < 9)
+                if (i >= 5 && i < 9)
                 {
                     this.deck[i] = tempCard2;
                 }
                 //card 3
-                if (i < 9 && i < 13)
+                if (i >= 9 && i < 13)
                 {
                     this.deck[i] = tempCard3;
                 }
                 //card 4
-                if (i < 13 && i < 17)
+                if (i >= 13 && i < 17)
                 {
                     this.deck[i] = tempCard4;
                 }
                 //card 5
-                if (i < 17 && i < 21)
+                if (i >= 17 && i < 21)
                 {
                     this.deck[i] = tempCard5;
                 }
                 //card 7
-                if (i < 21 && i < 25)
+                if (i >= 21 && i < 25)
                 {
                     this.deck[i] = tempCard7;
                 }
                 //card 8
-                if (i < 25 && i < 29)
+                if (i >= 25 && i < 29)
                 {
                     this.deck[i] = tempCard8;
                 }
                 //card 10
-                if (i < 29 && i < 33)
+                if (i >= 29 && i < 33)
                 {
                     this.deck[i] = tempCard10;
                 }
                 //card 11
-                if (i < 33 && i < 37)
+                if (i >= 33 && i < 37)
                 {
                     this.deck[i] = tempCard11;
                 }
                 //card 12
-                if (i < 37 && i < 41)
+                if (i >= 37 && i < 41)
                 {
                     this.deck[i] = tempCard12;
                 }
                 //card -1
-                if (i < 41 && i < 45)
+                if (i >= 41 && i < 45)
                 {
                     this.deck[i] = tempCardMinus1;
                 }
