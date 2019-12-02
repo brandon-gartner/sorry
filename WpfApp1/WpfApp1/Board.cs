@@ -11,6 +11,7 @@ namespace WpfApp1
         //stores a mainwindow (our mainwindow)
         public MainWindow main;
         public Player[] players;
+        public Space[] landingSpaces;
 
         //takes an array of players, and a mainWindow
         public Board(Player[] players, MainWindow main)
@@ -20,7 +21,7 @@ namespace WpfApp1
             this.main = main;
             this.players = players;
             //each corner is a multiple of 15
-            Space[] landingSpaces = new Space[60];
+            landingSpaces = new Space[60];
 
             //creates the board based on the number of players
             //still need to properly implement creating the slide connecting pieces
@@ -92,31 +93,58 @@ namespace WpfApp1
             }
         }
 
-
-        public void MovePawn(Pawn p, int movementDistance)
+        //
+        public void MovePawn(Pawn p, int movementDistance, Boolean forward)
         {
-            for (int i = 0; i < movementDistance - 1; i++)
+            if (forward)
             {
-                PawnStep(p, false);
+                for (int i = 0; i < movementDistance - 1; i++)
+                {
+                    PawnStep(p, false, true);
+                }
+                Boolean collision = PawnStep(p, true, true);
+                if (collision)
+                {
+                    HandleCollision(p, p.spaceNumber);
+                }
             }
-            Boolean collision = PawnStep(p, true);
-            if (collision)
+            else
             {
-                HandleCollision(p, (p.spaceNumber + movementDistance));
+
+                for (int i = 0; i < movementDistance - 1; i++)
+                {
+                    PawnStep(p, false, false);
+                }
+                Boolean collision = PawnStep(p, true, false);
+                if (collision)
+                {
+                    HandleCollision(p, p.spaceNumber);
+                }
             }
         }
 
         public void HandleCollision(Pawn p, int location)
         {
-
+            for (int i = 0; i < players.Length; i++)
+            {
+                for (int j = 0; j < players[i].pawns.Length; j++)
+                {
+                    if (players[i].pawns[j].spaceNumber == location && players[i].pawns[j] != p)
+                    {
+                        ReturnHome(players[i].pawns[j]);
+                    }
+                }
+            }
         }
 
         //moves a pawn by 1 space
-        public Boolean PawnStep(Pawn p, Boolean last)
+        public Boolean PawnStep(Pawn p, Boolean last, Boolean forward)
         {
+            int startingLocation = p.spaceNumber;
             if (!last)
             {
-                p.SetSpaceNumber(p.spaceNumber + 1);
+                p.spaceNumber = p.validateNextLocation(forward);
+                SteppedOn(p, landingSpaces[p.spaceNumber], startingLocation);
                 return false;
             }
             else
@@ -127,6 +155,7 @@ namespace WpfApp1
                     {
                         if (players[i].pawns[j].spaceNumber == p.spaceNumber + 1)
                         {
+                            LandedOn(p, landingSpaces[p.spaceNumber]);
                             return true;
                         }
                     }
@@ -235,6 +264,64 @@ namespace WpfApp1
 
         public void slide(Pawn p, Space s)
         {
+
+        }
+
+        //returns false if you can't move there, true if you can.
+        public Boolean validateFutureLocation(Pawn p, int distance, Boolean forward)
+        {
+            if (forward)
+            {
+                int potentialLocation;
+                if ((p.spaceNumber + distance) > 59)
+                {
+                    potentialLocation = (p.spaceNumber + distance) - 60;
+                }
+                else
+                {
+                    potentialLocation = p.spaceNumber + distance;
+                }
+                for (int i = 0; i < players.Length; i++)
+                {
+                    for (int j = 0; i < players[i].pawns.Length; j++)
+                    {
+                        if (players[i].pawns[i].spaceNumber == potentialLocation && players[i].pawns[i] != p)
+                        {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                int potentialLocation;
+                if ((p.spaceNumber - distance) < 0)
+                {
+                    potentialLocation = (p.spaceNumber - distance) + 60;
+                }
+                else
+                {
+                    potentialLocation = p.spaceNumber + distance;
+                }
+                for (int i = 0; i < players.Length; i++)
+                {
+                    for (int j = 0; i < players[i].pawns.Length; j++)
+                    {
+                        if (players[i].pawns[i].spaceNumber == potentialLocation && players[i].pawns[i] != p)
+                        {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }
+        }
+
+        public void ReturnHome(Pawn p)
+        {
+            p.inStart = true;
+            p.spaceNumber = 99;
 
         }
     }
