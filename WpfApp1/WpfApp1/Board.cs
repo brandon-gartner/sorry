@@ -105,7 +105,7 @@ namespace WpfApp1
             }
             else if (forward)
             {
-                for (int i = 0; i < movementDistance - 1; i++)
+                for (int i = 0; i < movementDistance; i++)
                 {
                     PawnStep(p, false, true);
                 }
@@ -161,7 +161,7 @@ namespace WpfApp1
                     {
                         if (players[i].pawns[j].spaceNumber == p.spaceNumber + 1)
                         {
-                            p.spaceNumber++;
+                            p.spaceNumber = p.validateNextLocation(forward);
                             LandedOn(p, landingSpaces[p.spaceNumber]);
                             return true;
                         }
