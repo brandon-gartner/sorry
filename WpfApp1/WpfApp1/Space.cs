@@ -10,7 +10,7 @@ namespace WpfApp1{
         public int type;
         public Player player;
         public int connectedSpace;
-        public Boolean hasPawn;
+        public Pawn localPawn;
 
         //the contructor for the spaces which don't have an associated player or connected space
         //this means NormalSpaces (0), SlideEnds (1), HomeSpaces (2)
@@ -21,7 +21,6 @@ namespace WpfApp1{
                 throw new ArgumentException("wrong input for space constructor with only a type");
             }
             this.type = type;
-            hasPawn = false;
         }
 
         //the constructor for the spaces which are associated with a certain player
@@ -34,7 +33,6 @@ namespace WpfApp1{
             }
             this.type = type;
             this.player = player;
-            hasPawn = true;
         }
 
         //the constructor for the spaces which are associated with a certain connected space

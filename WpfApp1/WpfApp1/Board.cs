@@ -131,15 +131,10 @@ namespace WpfApp1
 
         public void HandleCollision(Pawn p, int location)
         {
-            for (int i = 0; i < players.Length; i++)
+            if (landingSpaces[p.spaceNumber].localPawn != p)
             {
-                for (int j = 0; j < players[i].pawns.Length; j++)
-                {
-                    if (players[i].pawns[j].spaceNumber == location && players[i].pawns[j] != p)
-                    {
-                        ReturnHome(players[i].pawns[j]);
-                    }
-                }
+                ReturnHome(landingSpaces[p.spaceNumber].localPawn);
+                landingSpaces[p.spaceNumber].localPawn = p;
             }
         }
 
@@ -178,12 +173,12 @@ namespace WpfApp1
                 //if you land on a NormalSpace, nothing special happens
                 case 0:
                     main.gameState.drawAtNextPosition(p);
-                    s.hasPawn = true;
+                    s.localPawn = p;
                     return;
                 //if you land on a SlideEnd, nothing special happens
                 case 1:
                     main.gameState.drawAtNextPosition(p);
-                    s.hasPawn = true;
+                    s.localPawn = p;
                     return;
                 //if you land on a HomeSpace, the pawn is decommissioned and no longer is active
                 case 2:
@@ -194,10 +189,11 @@ namespace WpfApp1
                 //if you land on a SlideEndStartExit, nothing special happens
                 case 3:
                     main.gameState.drawAtNextPosition(p);
-                    s.hasPawn = true;
+                    s.localPawn = p;
                     return;
                 //if you land on a SafetySpace, you should become safe
                 case 4:
+                    s.localPawn = p;
                     p.safe = true;
                     p.SetSpaceNumber(0);
                     return;
@@ -208,7 +204,7 @@ namespace WpfApp1
                 //if you land on a ConnectingSpace, nothing special should happen
                 case 6:
                     main.gameState.drawAtNextPosition(p);
-                    s.hasPawn = true;
+                    s.localPawn = p;
                     return;
                 //if you land on a SlideStart, you will start to slide
                 case 7:
@@ -282,13 +278,17 @@ namespace WpfApp1
         {
             if (p.playerName.Equals(s.player.PlayerName))
             {
-                s.hasPawn = true;
+                s.localPawn = p;
                 return;
             }
             else
             {
                 for (; landingSpaces[p.spaceNumber].type == 1;)
                 {
+                    if (landingSpaces[p.spaceNumber].localPawn != p)
+                    {
+                        HandleCollision(p, p.spaceNumber);
+                    }
                     MovePawn(p, 1, true);
                 }
             }
@@ -316,7 +316,7 @@ namespace WpfApp1
                 {
                     for (int j = 0; i < players[i].pawns.Length; j++)
                     {
-                        if (landingSpaces[potentialLocation].hasPawn && players[i].PlayerName.Equals(p.playerName) && players[i].pawns[i] != p)
+                        if (landingSpaces[potentialLocation].localPawn != p && landingSpaces[potentialLocation].localPawn.playerName.Equals(p.playerName))
                         {
                             return false;
                         }
@@ -339,7 +339,7 @@ namespace WpfApp1
                 {
                     for (int j = 0; i < players[i].pawns.Length; j++)
                     {
-                        if (landingSpaces[potentialLocation].hasPawn && players[i].pawns[i] != p)
+                        if (landingSpaces[potentialLocation].localPawn != p && landingSpaces[potentialLocation].localPawn.playerName.Equals(p.playerName))
                         {
                             return false;
                         }

@@ -34,7 +34,20 @@ namespace WpfApp1
 
             for (int i = 0; i < playerCount; i++)
             {
-                String playerName = Interaction.InputBox("What is player " + i + "'s name?", "Name?");
+                String playerName = Interaction.InputBox("What is player " + i + "'s name?  Please don't repeat names.", "Name?");
+                Boolean repeatedName = false;
+                for (int j = 0; j < i; j++)
+                {
+                    if (players[j].PlayerName.Equals(playerName))
+                    {
+                        repeatedName = true;
+                    }
+                }
+                if (repeatedName)
+                {
+                    i--;
+                    continue;
+                }
                 players[i] = new Player(playerName, colors[i], main, i+1);
             }
 
