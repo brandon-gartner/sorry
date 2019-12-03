@@ -42,6 +42,7 @@ namespace WpfApp1
 
         int loadedPlayerCount;
         public GameState gameState;
+        public Board mainBoard;
 
         //Rando
 
@@ -55,6 +56,8 @@ namespace WpfApp1
             if (!isGameRunning)
             {
                 gameState = new GameState(this);
+                this.mainBoard = new Board(this.gameState.players, this);
+                drawInitialPawns();
                 DrawCard.IsEnabled = true;
                 Start.IsEnabled = false;
 
@@ -74,8 +77,8 @@ namespace WpfApp1
                 //activateCard(card.getCard_Id(), gameState.currentPlayer);
 
                 Card temp = new Card(11);
-                this.gameState.drawOutsideStart(this.gameState.players[0].pawns[0]);
-                this.gameState.drawOutsideStart(this.gameState.players[1].pawns[0]);
+                drawOutsideStart(this.gameState.players[0].pawns[0]);
+                drawOutsideStart(this.gameState.players[1].pawns[0]);
                 activateCard(temp.getCard_Id(), gameState.currentPlayer);
 
                 Next_Turn.IsEnabled = true;
@@ -326,8 +329,8 @@ namespace WpfApp1
         {
             if (input.getChoice11().Equals("Switch"))
             {
-                Pawn[] newPawns = 
-                Window1 optionsSwitch = new Window1(4, input.playerName, 11, input.allPawns, input.otherPawns, this);
+                Pawn[] newPawns = currentPawnsCanSwitch(input.allPawns);
+                Window1 optionsSwitch = new Window1(4, input.playerName, 11, newPawns, input.otherPawns, this);
                 optionsSwitch.Show();
             }
             else if (input.getChoice11().Equals("Forfeit"))
@@ -394,8 +397,8 @@ namespace WpfApp1
         private void switchPawns(Pawn pawnAtStart, Pawn pawnToSwitch)
         {
             pawnAtStart.spaceNumber = pawnToSwitch.spaceNumber;
-            this.gameState.drawAtNextPosition(pawnAtStart);
-            this.gameState.drawAtStart(pawnToSwitch);
+            drawAtNextPosition(pawnAtStart);
+            drawAtStart(pawnToSwitch);
 
         }
 
@@ -406,8 +409,8 @@ namespace WpfApp1
             currentPlayerPawn.spaceNumber = pawnToSwitch.spaceNumber;
             pawnToSwitch.spaceNumber = temp;
 
-            this.gameState.drawAtNextPosition(currentPlayerPawn);
-            this.gameState.drawAtNextPosition(pawnToSwitch);
+            drawAtNextPosition(currentPlayerPawn);
+            drawAtNextPosition(pawnToSwitch);
         }
 
 
@@ -487,9 +490,122 @@ namespace WpfApp1
         //used for the 11 card part 2
         private Pawn[] currentPawnsCanSwitch(Pawn[] inputs)
         {
-
+            ArrayList availablePawns = new ArrayList();
+            for(int i = 0; i < inputs.Length; i++)
+            {
+                if (!inputs[i].decommissioned && !inputs[i].inStart)
+                {
+                    availablePawns.Add(inputs[i]);
+                }
+            }
+            Pawn[] allSwitchablePawn = (Pawn[])availablePawns.ToArray(typeof(Pawn));
+            return allSwitchablePawn;
         }
 
+        /*DRAWING PAWNS + PLAYERS*/
+        private void drawInitialPawns()
+        {
+            for (int i = 0; i < this.gameState.players.Length; i++)
+            {
+                for (int j = 0; j < this.gameState.players[i].pawns.Length; j++)
+                {
+                    Player tempPlayer = this.gameState.players[i];
+                    Pawn currentPawn = tempPlayer.pawns[j];
+                    if (tempPlayer.color.Equals("Red"))
+                    {
+                        Grid.SetRow(currentPawn.image, 2);
+                        Grid.SetColumn(currentPawn.image, 4);
+                        MainGrid.Children.Add(currentPawn.image);
+                    }
+                    else if (tempPlayer.color.Equals("Blue"))
+                    {
+                        Grid.SetRow(currentPawn.image, 4);
+                        Grid.SetColumn(currentPawn.image, 13);
+                        MainGrid.Children.Add(currentPawn.image);
+                    }
+                    else if (tempPlayer.color.Equals("Yellow"))
+                    {
+                        Grid.SetRow(currentPawn.image, 11);
+                        Grid.SetColumn(currentPawn.image, 2);
+                        MainGrid.Children.Add(currentPawn.image);
+                    }
+                    else
+                    {
+                        Grid.SetRow(currentPawn.image, 13);
+                        Grid.SetColumn(currentPawn.image, 11);
+                        MainGrid.Children.Add(currentPawn.image);
+                    }
+                }
+            }
+        }
+
+        public void drawAtNextPosition(Pawn pawn)
+        {
+            //Setting the row and column numbers by checking which position it's at
+            int nextPosition = pawn.spaceNumber;
+            int rowNum;
+            int colNum;
+            MainGrid.Children.Remove(pawn.image);
+
+            //Checking absolute positions of all pawns
+            if (nextPosition <= 15)
+            {
+                rowNum = 0;
+                colNum = nextPosition;
+            }
+            else if (nextPosition > 15 && nextPosition <= 30)
+            {
+                colNum = 15;
+                rowNum = nextPosition - 15;
+            }
+            else if (nextPosition > 30 && nextPosition <= 45)
+            {
+                rowNum = 15;
+                colNum = (nextPosition - 30);
+                colNum = 15 - colNum;
+            }
+            else
+            {
+                colNum = 0;
+                rowNum = (nextPosition - 45);
+                rowNum = 15 - rowNum;
+
+            }
+            Grid.SetRow(pawn.image, rowNum);
+            Grid.SetColumn(pawn.image, colNum);
+            MainGrid.Children.Add(pawn.image);
+        }
+
+        public void drawAtStart(Pawn pawn)
+        {
+            MainGrid.Children.Remove(pawn.image);
+            pawn.inStart = true;
+            pawn.spaceNumber = 99;
+            Grid.SetRow(pawn.image, pawn.startPositionRow);
+            Grid.SetColumn(pawn.image, pawn.startPositionCol);
+            MainGrid.Children.Add(pawn.image);
+        }
+        public void drawOutsideStart(Pawn pawn)
+        {
+            pawn.inStart = false;
+            if (pawn.color.Equals("Red"))
+            {
+                pawn.spaceNumber = 4;
+            }
+            else if (pawn.color.Equals("Blue"))
+            {
+                pawn.spaceNumber = 19;
+            }
+            else if (pawn.color.Equals("Green"))
+            {
+                pawn.spaceNumber = 34;
+            }
+            else
+            {
+                pawn.spaceNumber = 49;
+            }
+            drawAtNextPosition(pawn);
+        }
         /*
         private Pawn[] getPawnsOnCards1And2()
         {
