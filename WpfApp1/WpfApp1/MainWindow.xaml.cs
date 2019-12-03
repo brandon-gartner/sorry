@@ -69,8 +69,13 @@ namespace WpfApp1
             //if the gams is not running then it will exit the method
             if (isGameRunning)
             {
+                //CURRENTLY TESTING CARDS
                 Card card = this.gameState.deck.getNextCard();
                 activateCard(card.getCard_Id(), gameState.currentPlayer);
+
+                //Card temp = new Card(5);
+                //this.gameState.drawOutsideStart(this.gameState.players[0].pawns[0]);
+                //activateCard(temp.getCard_Id(), gameState.currentPlayer);
 
                 Next_Turn.IsEnabled = true;
                 DrawCard.IsEnabled = false;
@@ -120,7 +125,7 @@ namespace WpfApp1
 
         }
 
-
+        //(IMPLEMENT ENDGAME METHOD)
         private void Next_Turn_Click(object sender, RoutedEventArgs e)
         {
             int counter = 0;
@@ -186,6 +191,8 @@ namespace WpfApp1
 
 
         /*HANDLING ALL THE CARDS*/
+
+        //CERTIFIED WORKS
         private void handleSorryCard(int playerId)
         {
 
@@ -219,6 +226,7 @@ namespace WpfApp1
             }
         }
         //This is for the generic moving of cards (no special event) (fix card 10 thing)
+        //WORKS FOR MOVING OUT OF INITIAL SPACE AND MOVING(*havent tested collision yet)
         private void handleGenericCard(int value, int playerId)
         {
             Pawn[] availablePawns = getWhichPawnsCanMove();
@@ -459,7 +467,7 @@ namespace WpfApp1
                     Pawn[] allPawnsOnePlayer = tempPlayer.pawns;
                     for (int j = 0; j < allPawnsOnePlayer.Length; j++)
                     {
-                        if (!allPawnsOnePlayer[j].decommissioned || !allPawnsOnePlayer[j].inStart || !allPawnsOnePlayer[j].safe)
+                        if (!allPawnsOnePlayer[j].decommissioned && !allPawnsOnePlayer[j].inStart && !allPawnsOnePlayer[j].safe)
                         {
                             availablePawns.Add(allPawnsOnePlayer[j]);
                         }

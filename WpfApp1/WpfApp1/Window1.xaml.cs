@@ -43,7 +43,7 @@ namespace WpfApp1
             if(numberType == 0)
             {
                 Choice_enem.Visibility = Visibility.Hidden;
-                Instructions.Text = playerName + "! Pick which pawn to move " + value + " spaces!";
+                Instructions.Text = playerName + "! Pick which pawn to move " + value + " spaces (or move out of home!";
                 for(int i = 0; i < allPawns.Length; i++)
                 {
                     Choice.Items.Add(allPawns[i].pawnToString());
@@ -91,6 +91,7 @@ namespace WpfApp1
                     Choice_enem.Items.Add(otherPawns[i].pawnToString());
                 }
             }
+            /*
             //for card 1 and 2
             else if(numberType == 3)
             {
@@ -103,6 +104,7 @@ namespace WpfApp1
                 }
                 this.numberType = 0;
             }
+            */
             //for card 7
             else if(numberType == 6)
             {

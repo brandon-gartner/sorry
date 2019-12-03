@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using WpfApp1;
+using System.Threading;
 
 namespace WpfApp1
 {
@@ -113,6 +114,7 @@ namespace WpfApp1
                 {
                     HandleCollision(p, p.spaceNumber);
                 }
+                this.main.gameState.drawAtNextPosition(p);
             }
             else
             {
@@ -126,6 +128,7 @@ namespace WpfApp1
                 {
                     HandleCollision(p, p.spaceNumber);
                 }
+                this.main.gameState.drawAtNextPosition(p);
             }
         }
 
@@ -139,6 +142,7 @@ namespace WpfApp1
         }
 
         //moves a pawn by 1 space
+        //IF YOU WANT IT TO ACTUALLY DISPLAY EVERY LITTLE WHILE ADD A DISPATCHER
         public Boolean PawnStep(Pawn p, Boolean last, Boolean forward)
         {
             int startingLocation = p.spaceNumber;
@@ -146,16 +150,18 @@ namespace WpfApp1
             {
                 p.spaceNumber = p.validateNextLocation(forward);
                 SteppedOn(p, landingSpaces[p.spaceNumber], startingLocation);
+                this.main.gameState.drawAtNextPosition(p);
                 return false;
             }
             else
             {
                 for (int i = 0; i < players.Length; i++)
                 {
-                    for (int j = 0; i < players[i].pawns.Length; i++)
+                    for (int j = 0; j < players[i].pawns.Length; j++)
                     {
                         if (players[i].pawns[j].spaceNumber == p.spaceNumber + 1)
                         {
+                            p.spaceNumber++;
                             LandedOn(p, landingSpaces[p.spaceNumber]);
                             return true;
                         }
@@ -311,7 +317,7 @@ namespace WpfApp1
                     potentialLocation = p.spaceNumber + distance;
                 }
 
-                //if there is a pawn at that location, and 
+                //if there is a pawn at that location, and its the current players
                 for (int i = 0; i < players.Length; i++)
                 {
                     for (int j = 0; i < players[i].pawns.Length; j++)

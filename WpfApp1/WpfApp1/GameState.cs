@@ -148,13 +148,13 @@ namespace WpfApp1
             {
                 rowNum = 15;
                 colNum = (nextPosition - 30);
-                colNum = (colNum + 15) - colNum;
+                colNum = 15 - colNum;
             }
             else
             {
                 colNum = 0;
-                rowNum = (nextPosition - 30);
-                rowNum = (rowNum + 15) - rowNum;
+                rowNum = (nextPosition - 45);
+                rowNum = 15 - rowNum;
 
             }
             Grid.SetRow(pawn.image, rowNum);
@@ -164,6 +164,7 @@ namespace WpfApp1
 
         public void drawAtStart(Pawn pawn)
         {
+            this.main.MainGrid.Children.Remove(pawn.image);
             pawn.inStart = true;
             pawn.spaceNumber = 99;
             Grid.SetRow(pawn.image, pawn.startPositionRow);
