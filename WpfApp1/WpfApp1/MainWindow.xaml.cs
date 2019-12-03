@@ -41,7 +41,7 @@ namespace WpfApp1
         Player[] loadedPlayers;
 
         int loadedPlayerCount;
-        GameState gameState;
+        public GameState gameState;
 
         //Rando
 
@@ -56,6 +56,7 @@ namespace WpfApp1
             {
                 gameState = new GameState(this);
                 DrawCard.IsEnabled = true;
+                Start.IsEnabled = false;
 
                 isGameRunning = true;
                 gameState.updatePlayer();
@@ -71,7 +72,9 @@ namespace WpfApp1
                 Card card = this.gameState.deck.getNextCard();
                 activateCard(card.getCard_Id(), gameState.currentPlayer);
 
-                //this.gameState.players[this.gameState.currentPlayer].endedTurn = true;
+                Next_Turn.IsEnabled = true;
+                DrawCard.IsEnabled = false;
+
             }
             else
             {
@@ -120,7 +123,29 @@ namespace WpfApp1
 
         private void Next_Turn_Click(object sender, RoutedEventArgs e)
         {
+            int counter = 0;
+            Pawn[] playersPawns = this.gameState.players[this.gameState.currentPlayer].pawns;
+            for (int i = 0; i < playersPawns.Length; i++)
+            {
+                if(playersPawns[i].decommissioned)
+                {
+                    counter++;
+                }
+            }
+            if(counter == 3)
+            {
+                MessageBox.Show(this.gameState.players[this.gameState.currentPlayer].PlayerName + "has won! Congratulations!");
+                //Implement a endGame method here
+            }
+            else
+            {
+                gameState.updatePlayer();
+                this.Player_Display.Text = this.gameState.players[this.gameState.currentPlayer].PlayerName + " it is your turn!";
+                Next_Turn.IsEnabled = false;
+                DrawCard.IsEnabled = true;
+            }
 
+            
         }
         //this method will manage the card that has been drawn
         private void activateCard(int cardId, int playerId)
@@ -307,7 +332,7 @@ namespace WpfApp1
 
             }
         }
-
+        //Ok so this is the first helper that decides whether to call the generic cards or to split
         public void _7Helper(Window1 input)
         {
             if (input.getChoice11().Equals("Put all 7 on one pawn"))
@@ -323,18 +348,35 @@ namespace WpfApp1
                 optionsSplit.Show();
             }
         }
+        //This one is for the first pawn in the split
         public void __7HelperPart2(Window1 input)
         {
-            firstMove = optionsSplit.move7;
-            Pawn firstPawn = optionsSplit.gotPawn;
+            //Ok so since i don't feel like writing another method essentially if the value is 7 it means that only the first pawn was chosen, otherwise the second one is moved
+            int firstMove = input.move7;
+            Pawn selectedPawn = input.gotPawn;
+            if(input.value == 7)
+            {
+                Pawn[] gotPawns = input.allPawns;
+                ArrayList availablePawns = new ArrayList();
 
-            optionsSplit = new Window1(7, player, 0, availablePawns, null, this);
-            optionsSplit.Show();
-            secondMove = 7 - firstMove;
-            Pawn secondPawn = optionsSplit.gotPawn;
-            //moving the pawn
-            this.gameState.mainBoard.MovePawn(firstPawn, firstMove, true);
-            this.gameState.mainBoard.MovePawn(secondPawn, secondMove, true);
+                for (int i = 0; i < gotPawns.Length; i++)
+                {
+                    if (gotPawns[i] != selectedPawn)
+                    {
+                        availablePawns.Add(gotPawns[i]);
+                    }
+                }
+
+                Pawn[] newPawns = (Pawn[])availablePawns.ToArray(typeof(Pawn));
+                this.gameState.mainBoard.MovePawn(selectedPawn, firstMove, true);
+                input = new Window1(7, input.playerName, (7 - input.move7), newPawns, null, this);
+                input.Show();
+            }
+            else
+            {
+                this.gameState.mainBoard.MovePawn(selectedPawn, input.value, true);
+            }
+           
         }
 
         /*HANDLING SWITCHING THE PAWNS*/

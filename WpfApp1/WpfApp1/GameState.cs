@@ -30,7 +30,7 @@ namespace WpfApp1
             players = new Player[playerCount];
             /*Asking their names and what colour they want (probably the easiest way to do this is to use the same idea 
               as for the player names but correspond an integer with a color(here i just hardcoded it for ease of use*/
-            String[] colors = { "Blue", "Red", "Green", "Yellow" };
+            String[] colors = { "Red", "Blue", "Green", "Yellow" };
 
             for (int i = 0; i < playerCount; i++)
             {
@@ -162,6 +162,29 @@ namespace WpfApp1
             Grid.SetRow(pawn.image, pawn.startPositionRow);
             Grid.SetColumn(pawn.image, pawn.startPositionCol);
             this.main.MainGrid.Children.Add(pawn.image);
+        }
+
+        //DRAWING RIGHT OUTSIDE THE START
+        public void drawOutsideStart(Pawn pawn)
+        {
+            pawn.inStart = false;
+            if(pawn.color.Equals("Red"))
+            {
+                pawn.spaceNumber = 4;
+            }
+            else if(pawn.color.Equals("Blue"))
+            {
+                pawn.spaceNumber = 19;
+            }
+            else if(pawn.color.Equals("Green"))
+            {
+                pawn.spaceNumber = 34;
+            }
+            else
+            {
+                pawn.spaceNumber = 49;
+            }
+            drawAtNextPosition(pawn);
         }
     }
 }

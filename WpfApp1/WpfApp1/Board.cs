@@ -96,7 +96,13 @@ namespace WpfApp1
         //
         public void MovePawn(Pawn p, int movementDistance, Boolean forward)
         {
-            if (forward)
+            //So first it needs to check whether or not the pawn is in start(if it's not in start it does the other stuff)
+            //YOU GOTTA ADD WHATEVER HAPPENS TO THE BOARD CUZ I HAVE NO CLUE (in the initial if)
+            if(p.inStart)
+            {
+                this.main.gameState.drawOutsideStart(p);
+            }
+            else if (forward)
             {
                 for (int i = 0; i < movementDistance - 1; i++)
                 {
@@ -171,18 +177,22 @@ namespace WpfApp1
                 //if you land on a non-safe space, your safety should be set to false
                 //if you land on a NormalSpace, nothing special happens
                 case 0:
+                    s.hasPawn = true;
                     return;
                 //if you land on a SlideEnd, nothing special happens
                 case 1:
+                    s.hasPawn = true;
                     return;
                 //if you land on a HomeSpace, the pawn is decommissioned and no longer is active
                 case 2:
+
                     p.safe = true;
                     p.decommissioned = true;
                     MessageBox.Show("Congratulations!  " + p.playerName + "'s pawn number " + p.numberOfPawn + " has reached its Home space!");
                     return;
                 //if you land on a SlideEndStartExit, nothing special happens
                 case 3:
+                    s.hasPawn = true;
                     return;
                 //if you land on a SafetySpace, you should become safe
                 case 4:
@@ -194,6 +204,7 @@ namespace WpfApp1
                     break;
                 //if you land on a ConnectingSpace, nothing special should happen
                 case 6:
+                    s.hasPawn = true;
                     return;
                 //if you land on a SlideStart, you will start to slide
                 case 7:
@@ -264,7 +275,18 @@ namespace WpfApp1
 
         public void slide(Pawn p, Space s)
         {
-
+            if (p.playerName.Equals(s.player.PlayerName))
+            {
+                s.hasPawn = true;
+                return;
+            }
+            else
+            {
+                for (; landingSpaces[p.spaceNumber].type == 1;)
+                {
+                    MovePawn(p, 1, true);
+                }
+            }
         }
 
         //returns false if you can't move there, true if you can.
