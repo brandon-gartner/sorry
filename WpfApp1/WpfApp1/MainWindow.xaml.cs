@@ -70,12 +70,13 @@ namespace WpfApp1
             if (isGameRunning)
             {
                 //CURRENTLY TESTING CARDS
-                Card card = this.gameState.deck.getNextCard();
-                activateCard(card.getCard_Id(), gameState.currentPlayer);
+                //Card card = this.gameState.deck.getNextCard();
+                //activateCard(card.getCard_Id(), gameState.currentPlayer);
 
-                //Card temp = new Card(5);
-                //this.gameState.drawOutsideStart(this.gameState.players[0].pawns[0]);
-                //activateCard(temp.getCard_Id(), gameState.currentPlayer);
+                Card temp = new Card(11);
+                this.gameState.drawOutsideStart(this.gameState.players[0].pawns[0]);
+                this.gameState.drawOutsideStart(this.gameState.players[1].pawns[0]);
+                activateCard(temp.getCard_Id(), gameState.currentPlayer);
 
                 Next_Turn.IsEnabled = true;
                 DrawCard.IsEnabled = false;
@@ -256,12 +257,16 @@ namespace WpfApp1
             Pawn[] availablePawns = getWhichPawnsCanMoveOnCard11();
             Pawn[] switchablePawn = findWhichPawnsCanSwitch(playerId);
             String player = this.gameState.players[this.gameState.currentPlayer].PlayerName;
-            if (availablePawns != null && switchablePawn != null)
+            if (availablePawns.Length != 0 && switchablePawn.Length != 0)
             {
-                Window1 options = new Window1(11, player, 11, availablePawns, null, this);
+                Window1 options = new Window1(11, player, 11, availablePawns, switchablePawn, this);
                 options.Show();
                 //if the player wants to switch then....
                 
+            }
+            else if(availablePawns.Length != 0)
+            {
+                handleGenericCard(11, playerId);
             }
             else
             {
@@ -300,7 +305,7 @@ namespace WpfApp1
 
         //This is used by the sorry card as well as the 11 card(if they want to switch)
         public void sorryAnd11Helper(Window1 input, int value)
-        {
+        { 
             if(value == 0)
             {
                 Pawn pawnAtStart = input.gotPawn;
@@ -319,8 +324,9 @@ namespace WpfApp1
         //This helper isuse
         public void only11Helper(Window1 input, int value)
         {
-            if (input.getChoice11().Equals("switch"))
+            if (input.getChoice11().Equals("Switch"))
             {
+                Pawn[] newPawns = 
                 Window1 optionsSwitch = new Window1(4, input.playerName, 11, input.allPawns, input.otherPawns, this);
                 optionsSwitch.Show();
             }
@@ -476,6 +482,12 @@ namespace WpfApp1
             }
             Pawn[] allSwitchablePawn = (Pawn[])availablePawns.ToArray(typeof(Pawn));
             return allSwitchablePawn;
+        }
+
+        //used for the 11 card part 2
+        private Pawn[] currentPawnsCanSwitch(Pawn[] inputs)
+        {
+
         }
 
         /*
