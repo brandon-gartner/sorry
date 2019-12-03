@@ -69,8 +69,13 @@ namespace WpfApp1
             //if the gams is not running then it will exit the method
             if (isGameRunning)
             {
+                //CURRENTLY TESTING CARDS
                 Card card = this.gameState.deck.getNextCard();
                 activateCard(card.getCard_Id(), gameState.currentPlayer);
+
+                //Card temp = new Card(5);
+                //this.gameState.drawOutsideStart(this.gameState.players[0].pawns[0]);
+                //activateCard(temp.getCard_Id(), gameState.currentPlayer);
 
                 Next_Turn.IsEnabled = true;
                 DrawCard.IsEnabled = false;
@@ -120,7 +125,7 @@ namespace WpfApp1
 
         }
 
-
+        //(IMPLEMENT ENDGAME METHOD)
         private void Next_Turn_Click(object sender, RoutedEventArgs e)
         {
             int counter = 0;
@@ -156,13 +161,7 @@ namespace WpfApp1
 
                 //For fire and ice cards
                 case 1:
-                    handleCard1And2(1);
-                    break;
-
                 case 2:
-                    handleCard1And2(2);
-                    break;
-
                 case 3:
                 case 4:
                 case 5:
@@ -192,6 +191,8 @@ namespace WpfApp1
 
 
         /*HANDLING ALL THE CARDS*/
+
+        //CERTIFIED WORKS
         private void handleSorryCard(int playerId)
         {
 
@@ -225,6 +226,7 @@ namespace WpfApp1
             }
         }
         //This is for the generic moving of cards (no special event) (fix card 10 thing)
+        //WORKS FOR MOVING OUT OF INITIAL SPACE AND MOVING(*havent tested collision yet)
         private void handleGenericCard(int value, int playerId)
         {
             Pawn[] availablePawns = getWhichPawnsCanMove();
@@ -267,7 +269,8 @@ namespace WpfApp1
             }
 
         }
-        //create card 1 (have to add a chooser so that)
+        //create card 1 (OBSOLETE)
+        /*
         private void handleCard1And2(int value)
         {
             Pawn[] availablePawns = getPawnsOnCards1And2();
@@ -275,6 +278,7 @@ namespace WpfApp1
             Window1 options = new Window1(3, player, 1, availablePawns, null, this);
             options.Show();
         }
+        */
         //create card 7 (also have to add if the players can actually move 2 pawns or not, otherwise just call normal thing)
         private void handleCard7()
         {
@@ -416,7 +420,7 @@ namespace WpfApp1
             for (int i = 0; i < allPawns.Length; i++)
             {
                 Pawn currentPawn = allPawns[i];
-                if (!currentPawn.decommissioned || !currentPawn.inStart)
+                if (!currentPawn.decommissioned)
                 {
                     availablePawns.Add(currentPawn);
                 }
@@ -463,7 +467,7 @@ namespace WpfApp1
                     Pawn[] allPawnsOnePlayer = tempPlayer.pawns;
                     for (int j = 0; j < allPawnsOnePlayer.Length; j++)
                     {
-                        if (!allPawnsOnePlayer[j].decommissioned || !allPawnsOnePlayer[j].inStart || !allPawnsOnePlayer[j].safe)
+                        if (!allPawnsOnePlayer[j].decommissioned && !allPawnsOnePlayer[j].inStart && !allPawnsOnePlayer[j].safe)
                         {
                             availablePawns.Add(allPawnsOnePlayer[j]);
                         }
@@ -474,6 +478,7 @@ namespace WpfApp1
             return allSwitchablePawn;
         }
 
+        /*
         private Pawn[] getPawnsOnCards1And2()
         {
             Player currentPlayer = this.gameState.players[this.gameState.currentPlayer];
@@ -494,6 +499,7 @@ namespace WpfApp1
             allPawns = (Pawn[])availablePawns.ToArray(typeof(Pawn));
             return allPawns;
         }
+        */
     }
     
 }

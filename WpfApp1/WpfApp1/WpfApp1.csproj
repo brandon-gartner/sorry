@@ -57,16 +57,16 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Card.cs" />
-    <Compile Include="ConnectingSpace.cs" />
+    <Compile Include="Obsolete\ConnectingSpace.cs" />
     <Compile Include="Deck.cs" />
-    <Compile Include="HomeSpace.cs" />
-    <Compile Include="NormalSpace.cs" />
-    <Compile Include="SafetyEntry.cs" />
-    <Compile Include="SafetySpace.cs" />
+    <Compile Include="Obsolete\HomeSpace.cs" />
+    <Compile Include="Obsolete\NormalSpace.cs" />
+    <Compile Include="Obsolete\SafetyEntry.cs" />
+    <Compile Include="Obsolete\SafetySpace.cs" />
     <Compile Include="saveableGameState.cs" />
-    <Compile Include="SlideEnd.cs" />
-    <Compile Include="SlideEndStartExit.cs" />
-    <Compile Include="SlideStart.cs" />
+    <Compile Include="Obsolete\SlideEnd.cs" />
+    <Compile Include="Obsolete\SlideEndStartExit.cs" />
+    <Compile Include="Obsolete\SlideStart.cs" />
     <Compile Include="Space.cs" />
     <Compile Include="Window1.xaml.cs">
       <DependentUpon>Window1.xaml</DependentUpon>
