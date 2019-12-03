@@ -29,9 +29,12 @@ namespace WpfApp1
         String card2Choice;
         public String card7Choice;
         public int move7;
-        public Boolean isEnded = false;
-        public Window1(int numberType, String playerName, int value, Pawn[] allPawns, Pawn[] otherPawns)
+        MainWindow main;
+        public int value;
+        public Window1(int numberType, String playerName, int value, Pawn[] allPawns, Pawn[] otherPawns, MainWindow main)
         {
+            this.value = value;
+            this.main = main;
             this.move7 = value;
             this.allPawns = allPawns;
             this.numberType = numberType;
@@ -142,6 +145,7 @@ namespace WpfApp1
         /*Ok so here is all the stuff to submit from the form*/
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            //Generic
             if(this.numberType == 0)
             {
                 String inputtedText = Choice.Text;
@@ -152,8 +156,11 @@ namespace WpfApp1
                         this.gotPawn = allPawns[i];
                     }
                 }
+                this.main.genericHelper(this, this.value);
+                this.Close();
             }
-            else if(this.numberType == 2)
+            //Sorry
+            else if(this.numberType == 2 || this.numberType == 4)
             {
                 String inputtedPlayerPawn = Choice.Text;
                 String inputtedEnemPawn = Choice_enem.Text;
@@ -171,11 +178,17 @@ namespace WpfApp1
                         this.otherPlayerPawn = otherPawns[i];
                     }
                 }
+
+                this.main.sorryAnd11Helper(this, this.value);
+                this.Close();
             }
+            //Card 11 intial choice
             else if (this.numberType == 11)
             {
-                card11Choice = Choice.Text;
+                card11Choice = Choice_enem.Text;
+
             }
+            //Card 7
             else if(this.numberType == 6)
             {
                 card7Choice = Choice_enem.Text;
@@ -194,8 +207,7 @@ namespace WpfApp1
                 }
             }
             this.Close();
-            this.isEnded = true;
-            
+
         }
         public Pawn getSelectedPawn()
         {
