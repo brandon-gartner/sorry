@@ -72,9 +72,9 @@ namespace WpfApp1
             else if(numberType == 11)
             {
                 Choice_enem.Visibility = Visibility.Hidden;
-                Instructions.Text = playerName + " Do you want to switch whith another player or do you want to advance 11 spaces or forfeit turn?";
-                Choice_enem.Items.Add("switch");
-                Choice_enem.Items.Add("advance 11 spaces");
+                Instructions.Text = playerName + ", do you want to switch with another player or do you want to advance 11 spaces or forfeit turn?";
+                Choice_enem.Items.Add("Switch");
+                Choice_enem.Items.Add("Advance 11 spaces");
                 Choice_enem.Items.Add("Forfeit");
             }
             //for card 11(switch)
@@ -107,9 +107,9 @@ namespace WpfApp1
             else if(numberType == 6)
             {
                 Choice.Visibility = Visibility.Hidden;
-                Instructions.Text = playerName + " Do you want to switch whith another player or do you want to advance 11 spaces (Card 7)";
+                Instructions.Text = playerName + ", do you want to move one pawn by 7 spaces, or split the movement across 2 pawns? (Card 7)";
                 Choice_enem.Items.Add("Put all 7 on one pawn");
-                Choice_enem.Items.Add("seperate between 2 pawns");
+                Choice_enem.Items.Add("Separate between 2 pawns");
             }
             else
             {

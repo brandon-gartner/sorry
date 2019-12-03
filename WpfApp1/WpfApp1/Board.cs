@@ -177,21 +177,23 @@ namespace WpfApp1
                 //if you land on a non-safe space, your safety should be set to false
                 //if you land on a NormalSpace, nothing special happens
                 case 0:
+                    main.gameState.drawAtNextPosition(p);
                     s.hasPawn = true;
                     return;
                 //if you land on a SlideEnd, nothing special happens
                 case 1:
+                    main.gameState.drawAtNextPosition(p);
                     s.hasPawn = true;
                     return;
                 //if you land on a HomeSpace, the pawn is decommissioned and no longer is active
                 case 2:
-
                     p.safe = true;
                     p.decommissioned = true;
                     MessageBox.Show("Congratulations!  " + p.playerName + "'s pawn number " + p.numberOfPawn + " has reached its Home space!");
                     return;
                 //if you land on a SlideEndStartExit, nothing special happens
                 case 3:
+                    main.gameState.drawAtNextPosition(p);
                     s.hasPawn = true;
                     return;
                 //if you land on a SafetySpace, you should become safe
@@ -201,14 +203,17 @@ namespace WpfApp1
                     return;
                 //if you land on a SafetyEntry, if your next movement is forward, it should move you onto the safety array of the player.  if not, nothing
                 case 5:
+                    main.gameState.drawAtNextPosition(p);
                     break;
                 //if you land on a ConnectingSpace, nothing special should happen
                 case 6:
+                    main.gameState.drawAtNextPosition(p);
                     s.hasPawn = true;
                     return;
                 //if you land on a SlideStart, you will start to slide
                 case 7:
                     slide(p, s);
+                    main.gameState.drawAtNextPosition(p);
                     break;
 
                 case 8:
@@ -292,8 +297,10 @@ namespace WpfApp1
         //returns false if you can't move there, true if you can.
         public Boolean validateFutureLocation(Pawn p, int distance, Boolean forward)
         {
+            //if the pawn is moving forward
             if (forward)
             {
+                //makes sure that the location you are moving to is on the board
                 int potentialLocation;
                 if ((p.spaceNumber + distance) > 59)
                 {
@@ -303,11 +310,13 @@ namespace WpfApp1
                 {
                     potentialLocation = p.spaceNumber + distance;
                 }
+
+                //if there is a pawn at that location, and 
                 for (int i = 0; i < players.Length; i++)
                 {
                     for (int j = 0; i < players[i].pawns.Length; j++)
                     {
-                        if (players[i].pawns[i].spaceNumber == potentialLocation && players[i].pawns[i] != p)
+                        if (landingSpaces[potentialLocation].hasPawn && players[i].PlayerName.Equals(p.playerName) && players[i].pawns[i] != p)
                         {
                             return false;
                         }
@@ -324,13 +333,13 @@ namespace WpfApp1
                 }
                 else
                 {
-                    potentialLocation = p.spaceNumber + distance;
+                    potentialLocation = p.spaceNumber - distance;
                 }
                 for (int i = 0; i < players.Length; i++)
                 {
                     for (int j = 0; i < players[i].pawns.Length; j++)
                     {
-                        if (players[i].pawns[i].spaceNumber == potentialLocation && players[i].pawns[i] != p)
+                        if (landingSpaces[potentialLocation].hasPawn && players[i].pawns[i] != p)
                         {
                             return false;
                         }
@@ -340,11 +349,12 @@ namespace WpfApp1
             }
         }
 
+        //sets a pawn to be inStart, puts their position to an impossible value, and draws them in their start location
         public void ReturnHome(Pawn p)
         {
             p.inStart = true;
             p.spaceNumber = 99;
-
+            main.gameState.drawAtStart(p);
         }
     }
 }

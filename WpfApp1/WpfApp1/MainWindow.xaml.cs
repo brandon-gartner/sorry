@@ -322,7 +322,7 @@ namespace WpfApp1
             }
             else if (input.getChoice11().Equals("Forfeit"))
             {
-                ContentLog.Text = "Turn Forfeit!";
+                ContentLog.Text = "Turn Forfeited!";
             }
             //if the player wants to advance then....
             else
