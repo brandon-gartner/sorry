@@ -86,9 +86,7 @@ namespace WpfApp1
         public void updatePlayer()
         {
             
-            //for (int playerTurn = 0; !ended; playerTurn++)
-            //{
-            if (this.currentPlayer < this.playerCount)
+            if (this.currentPlayer < this.playerCount - 1)
             {
                 this.currentPlayer++;
             }
@@ -97,10 +95,6 @@ namespace WpfApp1
                 this.currentPlayer = 0;
             }
 
-
-            //}
-
-            //MessageBox.Show("Player " + this.currentPlayer + " wins!");
         }
 
         public Player[] GetPlayers()
