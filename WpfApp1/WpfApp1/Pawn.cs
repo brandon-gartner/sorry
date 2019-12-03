@@ -9,6 +9,7 @@ namespace WpfApp1
     [Serializable]
     public class Pawn
     {
+        public String color;
         public int spaceNumber;
         public Boolean safe;
         public Boolean inStart;
@@ -18,13 +19,15 @@ namespace WpfApp1
         public int playerNumber;
         public String playerName;
         //public Boolean isFire;
-        //Following two are for 
+        //Following four are for start position and right outside it
         public int startPositionCol;
         public int startPositionRow;
+
 
         /*So basically the color is going to be the color of the pawn*/
         public Pawn(int numberOfPawn, String color, int playerNumber, String playerName)
         {
+            this.color = color;
             //this.isFire = false;
             this.playerName = playerName;
             this.numberOfPawn = numberOfPawn;
@@ -36,24 +39,29 @@ namespace WpfApp1
                 image.Background = Brushes.Red;
                 this.startPositionRow = 2;
                 this.startPositionCol = 4;
+
             }
             else if (color.Equals("Green"))
             {
                 image.Background = Brushes.Green;
-                this.startPositionRow = 4;
-                this.startPositionCol = 13;
+                this.startPositionRow = 13;
+                this.startPositionCol = 11;
+
             }
             else if (color.Equals("Blue"))
             {
                 image.Background = Brushes.Blue;
-                this.startPositionRow = 11;
-                this.startPositionCol = 2;
+                this.startPositionRow = 4;
+                this.startPositionCol = 13;
+
+
             }
             else
             {
                 image.Background = Brushes.Yellow;
-                this.startPositionRow = 13;
-                this.startPositionCol = 11;
+                this.startPositionRow = 11;
+                this.startPositionCol = 2;
+
             }
 
             /*Setting the design properties*/

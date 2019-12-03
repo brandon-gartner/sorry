@@ -19,27 +19,27 @@ namespace WpfApp1
     /// </summary>
     public partial class Window1 : Window
     {
-        Pawn[] allPawns;
-        Pawn[] otherPawns;
+        public Pawn[] allPawns;
+        public Pawn[] otherPawns;
         public Pawn gotPawn;
         public Pawn otherPlayerPawn;
         int numberType;
         String card11Choice;
-        String card1Choice;
-        String card2Choice;
         public String card7Choice;
         public int move7;
-        MainWindow main;
+        public MainWindow main;
         public int value;
+        public String playerName;
         public Window1(int numberType, String playerName, int value, Pawn[] allPawns, Pawn[] otherPawns, MainWindow main)
         {
+            this.playerName = playerName;
             this.value = value;
             this.main = main;
             this.move7 = value;
             this.allPawns = allPawns;
             this.numberType = numberType;
             InitializeComponent();
-            //for any normal mouvement
+            //for any normal movement
             if(numberType == 0)
             {
                 Choice_enem.Visibility = Visibility.Hidden;
@@ -55,7 +55,7 @@ namespace WpfApp1
             else if(numberType == 2)
             {
                 this.otherPawns = otherPawns;
-                Instructions.Text = playerName + "! Pick which pawn you want to switch with what other players' pawn";
+                Instructions.Text = playerName + "! Pick which pawn you want to switch with what other players' pawn! (Sorry Card)";
                 for (int i = 0; i < allPawns.Length; i++)
                 {
                     Choice.Items.Add(allPawns[i].pawnToString());
@@ -80,7 +80,7 @@ namespace WpfApp1
             //for card 11(switch)
             else if(numberType == 4)
             {
-                Instructions.Text = playerName + ", please pick an available pawn to switch with another available pawn.";
+                Instructions.Text = playerName + ", please pick an available pawn to switch with another available pawn. (11 Switch)";
                 for (int i = 0; i < allPawns.Length; i++)
                 {
                     Choice.Items.Add(allPawns[i].pawnToString());
@@ -91,27 +91,23 @@ namespace WpfApp1
                     Choice_enem.Items.Add(otherPawns[i].pawnToString());
                 }
             }
-            //for card 1
+            //for card 1 and 2
             else if(numberType == 3)
             {
+                Instructions.Text = "Pick a pawn to get out of home or to move forward " + value + " spaces!";
                 Choice_enem.Visibility = Visibility.Hidden;
                 //Instructions.Text = playerName + " Do you want to switch whith another player or do you want to advance 11 spaces";
-                Choice_enem.Items.Add("Get a pawn out of the start zone");
-                Choice_enem.Items.Add("Move 1 space");
-            }
-            //for card 2
-            else if (numberType == 5)
-            {
-                Choice_enem.Visibility = Visibility.Hidden;
-                //Instructions.Text = playerName + " Do you want to switch whith another player or do you want to advance 11 spaces";
-                Choice_enem.Items.Add("Get a pawn out of the start zone");
-                Choice_enem.Items.Add("Move 2 space");
+                for(int i = 0; i < allPawns.Length; i++)
+                {
+                    Choice.Items.Add(allPawns[i].pawnToString());
+                }
+                this.numberType = 0;
             }
             //for card 7
             else if(numberType == 6)
             {
                 Choice.Visibility = Visibility.Hidden;
-                //Instructions.Text = playerName + " Do you want to switch whith another player or do you want to advance 11 spaces";
+                Instructions.Text = playerName + " Do you want to switch whith another player or do you want to advance 11 spaces (Card 7)";
                 Choice_enem.Items.Add("Put all 7 on one pawn");
                 Choice_enem.Items.Add("seperate between 2 pawns");
             }
@@ -119,7 +115,7 @@ namespace WpfApp1
             {
 
                 //This if is to see if it's the first or second choice (you have to get rid of the first pawn)
-                if(this.move7 != 0)
+                if(this.move7 == 7)
                 {
                     Instructions.Text = playerName + "! Pick the first pawn you want to move and by how many spaces";
                     for (int i = 0; i < allPawns.Length; i++)
@@ -186,12 +182,16 @@ namespace WpfApp1
             else if (this.numberType == 11)
             {
                 card11Choice = Choice_enem.Text;
+                this.main.only11Helper(this, this.value);
+                this.Close();
 
             }
             //Card 7
             else if(this.numberType == 6)
             {
                 card7Choice = Choice_enem.Text;
+                this.main._7Helper(this);
+                this.Close();
             }
             //This is for when splitting the pawn into 2
             else if(this.numberType == 7)
@@ -205,6 +205,8 @@ namespace WpfApp1
                         this.gotPawn = allPawns[i];
                     }
                 }
+                this.main.__7HelperPart2(this);
+                this.Close();
             }
             this.Close();
 
@@ -216,16 +218,6 @@ namespace WpfApp1
         public String getChoice11()
         {
             return card11Choice;
-        }
-
-        public String getChoice1()
-        {
-            return card1Choice;
-        }
-
-        public String getChoice2()
-        {
-            return card2Choice;
         }
 
         public String getChoice7()

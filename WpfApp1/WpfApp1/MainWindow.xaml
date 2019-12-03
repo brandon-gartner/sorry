@@ -79,7 +79,7 @@
         <Border x:Name="_16" BorderBrush="Black" BorderThickness="2, 1, 2, 1" Grid.Column="15" Grid.Row="1"/>
         <Border x:Name="_17" BorderBrush="Black" BorderThickness="2, 1, 2, 1" Grid.Column="15" Grid.Row="2"/>
         <Border x:Name="_18" BorderBrush="Black" BorderThickness="2, 1, 2, 1" Grid.Column="15" Grid.Row="3"/>
-        <Border x:Name="_19" BorderBrush="Black" BorderThickness="2, 1, 2, 1" Grid.Column="15" Grid.Row="4" Margin="0,2,0,39" Grid.RowSpan="2"/>
+        <Border x:Name="_19" BorderBrush="Black" BorderThickness="2, 1, 2, 1" Grid.Column="15" Grid.Row="4"/>
         <Border x:Name="_20" BorderBrush="Black" BorderThickness="2, 1, 2, 1" Grid.Column="15" Grid.Row="5"/>
         <Border x:Name="_21" BorderBrush="Black" BorderThickness="2, 1, 2, 1" Grid.Column="15" Grid.Row="6"/>
         <Border x:Name="_22" BorderBrush="Black" BorderThickness="2, 1, 2, 1" Grid.Column="15" Grid.Row="7"/>
@@ -180,9 +180,53 @@
                 </TransformGroup>
             </TextBlock.RenderTransform>
         </TextBlock>
-        <TextBlock x:Name="ContentLog" Grid.Column="15" HorizontalAlignment="Left" Height="41" Margin="93.5,0,-224.5,0" Grid.Row="10" Grid.RowSpan="2" TextWrapping="Wrap" VerticalAlignment="Top" Width="172" TextAlignment="Center" FontSize="24"><Run Text="Content Log"/></TextBlock>
+        <TextBlock x:Name="ContentLog" Grid.Column="1" HorizontalAlignment="Left" Height="41" Margin="0,60,-10.875,-61" Grid.Row="15" TextWrapping="Wrap" VerticalAlignment="Top" Width="624" TextAlignment="Center" FontSize="24" Grid.ColumnSpan="15"><Run Text="Content Log"/></TextBlock>
         <TextBlock x:Name="Player_Display" Grid.Column="15" HorizontalAlignment="Left" Height="41" Margin="93.5,35,-224.5,0" Grid.Row="11" Grid.RowSpan="2" TextWrapping="Wrap" VerticalAlignment="Top" Width="172" TextAlignment="Center" FontSize="16" Text="Displays player turn"/>
         <Button x:Name="Next_Turn" Content="Next Turn" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Grid.Column="15" Margin="67.5,0,-176.5,0" Grid.Row="8" Height="77" Grid.RowSpan="2" FontSize="22" FontFamily="Georgia" Click="Next_Turn_Click" IsEnabled="False"/>
+        <Border BorderBrush="Black" BorderThickness="1" Grid.ColumnSpan="4" HorizontalAlignment="Left" Height="30" Margin="28,5,0,0" VerticalAlignment="Top" Width="116" Grid.Column="1" Background="#FFF92F2F"/>
+        <Border BorderBrush="Black" BorderThickness="1" Grid.ColumnSpan="5" HorizontalAlignment="Left" Height="30" Margin="24.375,5,0,0" VerticalAlignment="Top" Width="160" Grid.Column="9" Background="#FFF92F2F"/>
+        <Border BorderBrush="Black" BorderThickness="1" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="30" Margin="2.5,23,-36.875,0" VerticalAlignment="Top" Width="116" Grid.Column="14" Background="#FF636AFF" RenderTransformOrigin="0.5,0.5" Grid.Row="2" Grid.RowSpan="2">
+            <Border.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="90.051"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Border.RenderTransform>
+        </Border>
+        <Border BorderBrush="Black" BorderThickness="1" Grid.ColumnSpan="3" HorizontalAlignment="Left" Height="30" Margin="23.125,3,-58.875,0" VerticalAlignment="Top" Width="158" Grid.Column="13" Background="#FF636AFF" RenderTransformOrigin="0.5,0.5" Grid.Row="11">
+            <Border.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="90.051"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Border.RenderTransform>
+        </Border>
+        <Border BorderBrush="Black" BorderThickness="1" Grid.ColumnSpan="4" HorizontalAlignment="Left" Height="30" Margin="25.375,5,0,0" VerticalAlignment="Top" Width="116" Grid.Column="11" Background="#FF2FF92F" Grid.Row="15"/>
+        <Border BorderBrush="Black" BorderThickness="1" Grid.ColumnSpan="5" HorizontalAlignment="Left" Height="30" Margin="10,5,0,0" VerticalAlignment="Top" Width="173" Grid.Column="2" Background="#FF2FF92F" Grid.Row="15"/>
+        <Border BorderBrush="Black" BorderThickness="1" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="30" Margin="-38,27,0,0" VerticalAlignment="Top" Width="116" Background="#FFFFF863" RenderTransformOrigin="0.5,0.5" Grid.Row="12" Grid.RowSpan="2">
+            <Border.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="90.051"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Border.RenderTransform>
+        </Border>
+        <Border BorderBrush="Black" BorderThickness="1" Grid.ColumnSpan="3" HorizontalAlignment="Left" Height="30" Margin="-65,5,0,0" VerticalAlignment="Top" Width="169" Background="#FFFFF863" RenderTransformOrigin="0.5,0.5" Grid.Row="4">
+            <Border.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="90.051"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Border.RenderTransform>
+        </Border>
 
     </Grid>
 </Window>

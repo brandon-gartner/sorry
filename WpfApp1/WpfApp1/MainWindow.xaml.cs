@@ -41,7 +41,7 @@ namespace WpfApp1
         Player[] loadedPlayers;
 
         int loadedPlayerCount;
-        GameState gameState;
+        public GameState gameState;
 
         //Rando
 
@@ -56,6 +56,7 @@ namespace WpfApp1
             {
                 gameState = new GameState(this);
                 DrawCard.IsEnabled = true;
+                Start.IsEnabled = false;
 
                 isGameRunning = true;
                 gameState.updatePlayer();
@@ -71,7 +72,9 @@ namespace WpfApp1
                 Card card = this.gameState.deck.getNextCard();
                 activateCard(card.getCard_Id(), gameState.currentPlayer);
 
-                //this.gameState.players[this.gameState.currentPlayer].endedTurn = true;
+                Next_Turn.IsEnabled = true;
+                DrawCard.IsEnabled = false;
+
             }
             else
             {
@@ -120,7 +123,29 @@ namespace WpfApp1
 
         private void Next_Turn_Click(object sender, RoutedEventArgs e)
         {
+            int counter = 0;
+            Pawn[] playersPawns = this.gameState.players[this.gameState.currentPlayer].pawns;
+            for (int i = 0; i < playersPawns.Length; i++)
+            {
+                if(playersPawns[i].decommissioned)
+                {
+                    counter++;
+                }
+            }
+            if(counter == 3)
+            {
+                MessageBox.Show(this.gameState.players[this.gameState.currentPlayer].PlayerName + "has won! Congratulations!");
+                //Implement a endGame method here
+            }
+            else
+            {
+                gameState.updatePlayer();
+                this.Player_Display.Text = this.gameState.players[this.gameState.currentPlayer].PlayerName + " it is your turn!";
+                Next_Turn.IsEnabled = false;
+                DrawCard.IsEnabled = true;
+            }
 
+            
         }
         //this method will manage the card that has been drawn
         private void activateCard(int cardId, int playerId)
@@ -131,11 +156,11 @@ namespace WpfApp1
 
                 //For fire and ice cards
                 case 1:
-                    handleCard1();
+                    handleCard1And2(1);
                     break;
 
                 case 2:
-                    handleCard2();
+                    handleCard1And2(2);
                     break;
 
                 case 3:
@@ -167,7 +192,6 @@ namespace WpfApp1
 
 
         /*HANDLING ALL THE CARDS*/
-        //This is for the generic moving of cards (no special event) (fix card 10 thing)
         private void handleSorryCard(int playerId)
         {
 
@@ -200,6 +224,7 @@ namespace WpfApp1
                 options.Show();
             }
         }
+        //This is for the generic moving of cards (no special event) (fix card 10 thing)
         private void handleGenericCard(int value, int playerId)
         {
             Pawn[] availablePawns = getWhichPawnsCanMove();
@@ -234,22 +259,7 @@ namespace WpfApp1
                 Window1 options = new Window1(11, player, 11, availablePawns, null, this);
                 options.Show();
                 //if the player wants to switch then....
-                if (options.getChoice11().Equals("switch"))
-                {
-                    Window1 optionsSwitch = new Window1(4, player, 11, availablePawns, switchablePawn, this);
-                    optionsSwitch.Show();
-                }
-                else if(options.getChoice11().Equals("Forfeit"))
-                {
-                    ContentLog.Text = "Turn Forfeit!";
-                }
-                //if the player wants to advance then....
-                else
-                {
-
-                    handleGenericCard(11, playerId);
-
-                }
+                
             }
             else
             {
@@ -258,42 +268,12 @@ namespace WpfApp1
 
         }
         //create card 1 (have to add a chooser so that)
-        private void handleCard1()
+        private void handleCard1And2(int value)
         {
-            Pawn[] availablePawns = getWhichPawnsCanMove();
+            Pawn[] availablePawns = getPawnsOnCards1And2();
             String player = this.gameState.players[this.gameState.currentPlayer].PlayerName;
             Window1 options = new Window1(3, player, 1, availablePawns, null, this);
             options.Show();
-
-            if (options.getChoice11().Equals("Get a pawn out of the start zone"))
-            {
-                //*********************************************             GET PAWN OUT OF START                  *******************************************
-            }
-            //this means advance 1 space
-            else
-            {
-                Window1 optionsAdvance = new Window1(0, player, 1, availablePawns, null, this);
-            }
-        }
-        //create card 2
-        private void handleCard2()
-        {
-            Pawn[] availablePawns = getWhichPawnsCanMove();
-            Pawn[] switchablePawn = getWhichPawnsCanMoveOnCard11();
-            String player = this.gameState.players[this.gameState.currentPlayer].PlayerName;
-            Window1 options = new Window1(5, player, 1, availablePawns, null, this);
-            options.Show();
-
-            if (options.getChoice11().Equals("Get a pawn out of the start zone"))
-            {
-                //*********************************************             GET PAWN OUT OF START                  *******************************************
-            }
-            //this means advance 2 space
-            else
-            {
-                Window1 optionsAdvance = new Window1(0, player, 2, availablePawns, null, this);
-                optionsAdvance.Show();
-            }
         }
         //create card 7 (also have to add if the players can actually move 2 pawns or not, otherwise just call normal thing)
         private void handleCard7()
@@ -302,36 +282,6 @@ namespace WpfApp1
             String player = this.gameState.players[this.gameState.currentPlayer].PlayerName;
             Window1 options = new Window1(6, player, 7, availablePawns, null, this);
             options.Show();
-
-            if (options.getChoice11().Equals("Put all 7 on one pawn"))
-            {
-                Window1 optionsAdvance7 = new Window1(0, player, 7, availablePawns, null, this);
-                optionsAdvance7.Show();
-                this.gameState.mainBoard.MovePawn(optionsAdvance7.gotPawn, 7, true);
-            }
-            //this means separate 7 into 2 pawns
-            else
-            {
-                //the next lines are made so that the sum of the two number are equal to 7
-                int firstMove = 0;
-                int secondMove = 0;
-                int flag = 0;
-
-                Window1 optionsSplit = new Window1(7, player, 7, availablePawns, null, this);
-                optionsSplit.Show();
-                firstMove = optionsSplit.move7;
-                Pawn firstPawn = optionsSplit.gotPawn;
-
-                optionsSplit = new Window1(7, player, 0, availablePawns, null, this);
-                optionsSplit.Show();
-                secondMove = 7 - firstMove;
-                Pawn secondPawn = optionsSplit.gotPawn;
-                //moving the pawn
-                this.gameState.mainBoard.MovePawn(firstPawn, firstMove, true);
-                this.gameState.mainBoard.MovePawn(secondPawn, secondMove, true);
-
-
-            }
         }
         //This is for the sorry card(replacing pawn from start with another pawn)
         
@@ -344,7 +294,7 @@ namespace WpfApp1
             this.gameState.mainBoard.MovePawn(selectedPawn, value, true);
         }
 
-        //This is used by the sorry card as well as the 11 card
+        //This is used by the sorry card as well as the 11 card(if they want to switch)
         public void sorryAnd11Helper(Window1 input, int value)
         {
             if(value == 0)
@@ -362,11 +312,72 @@ namespace WpfApp1
 
         }
 
-        public void _11And_7Helper(Window input, int value)
+        //This helper isuse
+        public void only11Helper(Window1 input, int value)
         {
+            if (input.getChoice11().Equals("switch"))
+            {
+                Window1 optionsSwitch = new Window1(4, input.playerName, 11, input.allPawns, input.otherPawns, this);
+                optionsSwitch.Show();
+            }
+            else if (input.getChoice11().Equals("Forfeit"))
+            {
+                ContentLog.Text = "Turn Forfeit!";
+            }
+            //if the player wants to advance then....
+            else
+            {
 
+                handleGenericCard(11, this.gameState.currentPlayer);
+
+            }
         }
+        //Ok so this is the first helper that decides whether to call the generic cards or to split
+        public void _7Helper(Window1 input)
+        {
+            if (input.getChoice11().Equals("Put all 7 on one pawn"))
+            {
+                handleGenericCard(7, this.gameState.currentPlayer);
+            }
+            //this means separate 7 into 2 pawns
+            else
+            {
+                //the next lines are made so that the sum of the two number are equal to 7
 
+                Window1 optionsSplit = new Window1(7, input.playerName, 7, input.allPawns, null, this);
+                optionsSplit.Show();
+            }
+        }
+        //This one is for the first pawn in the split
+        public void __7HelperPart2(Window1 input)
+        {
+            //Ok so since i don't feel like writing another method essentially if the value is 7 it means that only the first pawn was chosen, otherwise the second one is moved
+            int firstMove = input.move7;
+            Pawn selectedPawn = input.gotPawn;
+            if(input.value == 7)
+            {
+                Pawn[] gotPawns = input.allPawns;
+                ArrayList availablePawns = new ArrayList();
+
+                for (int i = 0; i < gotPawns.Length; i++)
+                {
+                    if (gotPawns[i] != selectedPawn)
+                    {
+                        availablePawns.Add(gotPawns[i]);
+                    }
+                }
+
+                Pawn[] newPawns = (Pawn[])availablePawns.ToArray(typeof(Pawn));
+                this.gameState.mainBoard.MovePawn(selectedPawn, firstMove, true);
+                input = new Window1(7, input.playerName, (7 - input.move7), newPawns, null, this);
+                input.Show();
+            }
+            else
+            {
+                this.gameState.mainBoard.MovePawn(selectedPawn, input.value, true);
+            }
+           
+        }
 
         /*HANDLING SWITCHING THE PAWNS*/
         //For switching pawns (for sorry card)
@@ -392,7 +403,7 @@ namespace WpfApp1
 
 
         /*GETTING VALID PAWNS*/
-        /*Make it so it returns the pawns the player himself can move (for the generic cards)*/
+        /*Make it so it returns the pawns the player himself can move (for the generic cards and 7)*/
         private Pawn[] getWhichPawnsCanMove()
         {
             //get current player
@@ -463,7 +474,26 @@ namespace WpfApp1
             return allSwitchablePawn;
         }
 
+        private Pawn[] getPawnsOnCards1And2()
+        {
+            Player currentPlayer = this.gameState.players[this.gameState.currentPlayer];
+            //get all current player's pawns
+            Pawn[] allPawns = currentPlayer.pawns;
+            //create an arraylist to store the pawns
+            ArrayList availablePawns = new ArrayList();
 
+            for (int i = 0; i < allPawns.Length; i++)
+            {
+                Pawn currentPawn = allPawns[i];
+                if (!currentPawn.decommissioned || currentPawn.inStart || currentPawn.safe)
+                {
+                    availablePawns.Add(currentPawn);
+                }
+            }
+
+            allPawns = (Pawn[])availablePawns.ToArray(typeof(Pawn));
+            return allPawns;
+        }
     }
     
 }
