@@ -12,13 +12,11 @@ namespace WpfApp1
 
         public int playerCount = 0;
         public Player[] players;
-        public MainWindow main;
         public Deck deck;
         public int currentPlayer = -1;
         public Board mainBoard;
         public GameState(MainWindow main)
         {
-            this.main = main;
             /*Creating the three players and getting their names and such*/
             String playerCountInput;
             do
@@ -48,13 +46,17 @@ namespace WpfApp1
                     i--;
                     continue;
                 }
-                players[i] = new Player(playerName, colors[i], main, i+1);
+                players[i] = new Player(playerName, colors[i], i+1);
             }
 
+            //OK SO THE FOLLOWING HAS TO BE MOVED TO MAIN WINDOW.cs
+            
             /*Creating board (locations)*/
+            /*
             this.mainBoard = new Board(players, this.main);
-
+            */
             /*Drawing players*/
+            /*
             for (int i = 0; i < this.players.Length; i++)
             {
                 for (int j = 0; j < this.players[i].pawns.Length; j++)
@@ -87,7 +89,7 @@ namespace WpfApp1
                     }
                 }
             }
-
+            */
             //Creating deck
             this.deck = new Deck();
             this.deck.shuffle();
@@ -114,17 +116,14 @@ namespace WpfApp1
         {
             return this.players;
         }
-
-        public MainWindow GetMainWindow()
-        {
-            return this.main;
-        }
         public int GetPlayerCount()
         {
             return this.playerCount;
         }
 
+        /*THIS GOT MOVED TO MAINWINDOW*/
         //THIS ONLY WORKS FOR DRAWING THINGS AROUND ON THE ACTUAL BOARD
+        /*
         public void drawAtNextPosition(Pawn pawn)
         {
             //Setting the row and column numbers by checking which position it's at
@@ -161,7 +160,8 @@ namespace WpfApp1
             Grid.SetColumn(pawn.image, colNum);
             this.main.MainGrid.Children.Add(pawn.image);
         }
-
+        */
+        /*
         public void drawAtStart(Pawn pawn)
         {
             this.main.MainGrid.Children.Remove(pawn.image);
@@ -171,7 +171,8 @@ namespace WpfApp1
             Grid.SetColumn(pawn.image, pawn.startPositionCol);
             this.main.MainGrid.Children.Add(pawn.image);
         }
-
+        */
+        /*
         //DRAWING RIGHT OUTSIDE THE START
         public void drawOutsideStart(Pawn pawn)
         {
@@ -194,5 +195,6 @@ namespace WpfApp1
             }
             drawAtNextPosition(pawn);
         }
+        */
     }
 }

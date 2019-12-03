@@ -101,7 +101,7 @@ namespace WpfApp1
             //YOU GOTTA ADD WHATEVER HAPPENS TO THE BOARD CUZ I HAVE NO CLUE (in the initial if)
             if(p.inStart)
             {
-                this.main.gameState.drawOutsideStart(p);
+                this.main.drawOutsideStart(p);
             }
             else if (forward)
             {
@@ -114,7 +114,7 @@ namespace WpfApp1
                 {
                     HandleCollision(p, p.spaceNumber);
                 }
-                this.main.gameState.drawAtNextPosition(p);
+                this.main.drawAtNextPosition(p);
             }
             else
             {
@@ -128,7 +128,7 @@ namespace WpfApp1
                 {
                     HandleCollision(p, p.spaceNumber);
                 }
-                this.main.gameState.drawAtNextPosition(p);
+                this.main.drawAtNextPosition(p);
             }
         }
 
@@ -150,7 +150,7 @@ namespace WpfApp1
             {
                 p.spaceNumber = p.validateNextLocation(forward);
                 SteppedOn(p, landingSpaces[p.spaceNumber], startingLocation);
-                this.main.gameState.drawAtNextPosition(p);
+                this.main.drawAtNextPosition(p);
                 return false;
             }
             else
@@ -178,12 +178,12 @@ namespace WpfApp1
                 //if you land on a non-safe space, your safety should be set to false
                 //if you land on a NormalSpace, nothing special happens
                 case 0:
-                    main.gameState.drawAtNextPosition(p);
+                    main.drawAtNextPosition(p);
                     s.localPawn = p;
                     return;
                 //if you land on a SlideEnd, nothing special happens
                 case 1:
-                    main.gameState.drawAtNextPosition(p);
+                    main.drawAtNextPosition(p);
                     s.localPawn = p;
                     return;
                 //if you land on a HomeSpace, the pawn is decommissioned and no longer is active
@@ -194,7 +194,7 @@ namespace WpfApp1
                     return;
                 //if you land on a SlideEndStartExit, nothing special happens
                 case 3:
-                    main.gameState.drawAtNextPosition(p);
+                    main.drawAtNextPosition(p);
                     s.localPawn = p;
                     return;
                 //if you land on a SafetySpace, you should become safe
@@ -205,17 +205,17 @@ namespace WpfApp1
                     return;
                 //if you land on a SafetyEntry, if your next movement is forward, it should move you onto the safety array of the player.  if not, nothing
                 case 5:
-                    main.gameState.drawAtNextPosition(p);
+                    main.drawAtNextPosition(p);
                     break;
                 //if you land on a ConnectingSpace, nothing special should happen
                 case 6:
-                    main.gameState.drawAtNextPosition(p);
+                    main.drawAtNextPosition(p);
                     s.localPawn = p;
                     return;
                 //if you land on a SlideStart, you will start to slide
                 case 7:
                     slide(p, s);
-                    main.gameState.drawAtNextPosition(p);
+                    main.drawAtNextPosition(p);
                     break;
 
                 case 8:
@@ -360,7 +360,7 @@ namespace WpfApp1
         {
             p.inStart = true;
             p.spaceNumber = 99;
-            main.gameState.drawAtStart(p);
+            main.drawAtStart(p);
         }
     }
 }

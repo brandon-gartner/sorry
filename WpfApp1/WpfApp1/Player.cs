@@ -19,7 +19,7 @@ namespace WpfApp1
 
 
         /*So the constructor sets the player's name as well as which color they chose */
-        public Player(String playerName, String color, MainWindow main, int playerNumber)
+        public Player(String playerName, String color, int playerNumber)
         {
             this.color = color;
             this.playerNumber = playerNumber;
