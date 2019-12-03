@@ -37,6 +37,7 @@ namespace WpfApp1
             this.main = main;
             this.move7 = value;
             this.allPawns = allPawns;
+            this.otherPawns = otherPawns;
             this.numberType = numberType;
             InitializeComponent();
             //for any normal movement
@@ -44,6 +45,10 @@ namespace WpfApp1
             {
                 Choice_enem.Visibility = Visibility.Hidden;
                 Instructions.Text = playerName + "! Pick which pawn to move " + value + " spaces (or move out of home!";
+                if(value == 11)
+                {
+                    Instructions.Text = playerName + "! Sorry no pawns can be exchanged! Pick which pawn to move.";
+                }
                 for(int i = 0; i < allPawns.Length; i++)
                 {
                     Choice.Items.Add(allPawns[i].pawnToString());
@@ -73,9 +78,9 @@ namespace WpfApp1
             {
                 Choice_enem.Visibility = Visibility.Hidden;
                 Instructions.Text = playerName + ", do you want to switch with another player or do you want to advance 11 spaces or forfeit turn?";
-                Choice_enem.Items.Add("Switch");
-                Choice_enem.Items.Add("Advance 11 spaces");
-                Choice_enem.Items.Add("Forfeit");
+                Choice.Items.Add("Switch");
+                Choice.Items.Add("Advance 11 spaces");
+                Choice.Items.Add("Forfeit");
             }
             //for card 11(switch)
             else if(numberType == 4)
@@ -183,7 +188,7 @@ namespace WpfApp1
             //Card 11 intial choice
             else if (this.numberType == 11)
             {
-                card11Choice = Choice_enem.Text;
+                card11Choice = Choice.Text;
                 this.main.only11Helper(this, this.value);
                 this.Close();
 
