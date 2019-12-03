@@ -7,6 +7,7 @@ using WpfApp1;
 
 namespace WpfApp1
 {
+    [Serializable]
     public class GameState
     {
 
@@ -120,6 +121,8 @@ namespace WpfApp1
         {
             return this.playerCount;
         }
+
+ 
 
         /*THIS GOT MOVED TO MAINWINDOW*/
         //THIS ONLY WORKS FOR DRAWING THINGS AROUND ON THE ACTUAL BOARD

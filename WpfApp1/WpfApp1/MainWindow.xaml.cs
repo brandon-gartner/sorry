@@ -114,12 +114,21 @@ namespace WpfApp1
         {
             if (isGameRunning)
             {
+                BinaryFormatter write = new BinaryFormatter();
+                Stream stream = new FileStream(@".\save.txt", FileMode.Create, FileAccess.Write);
+                write.Serialize(stream, gameState);
+                stream.Close();
+                MessageBox.Show("Game Saved!");
+
+
+                    /* was a scraped idea
                 stateToSave = new SaveableGameState(gameState.GetPlayers(), gameState.GetPlayerCount());
                 BinaryFormatter write = new BinaryFormatter();
                 Stream stream = new FileStream(@".\saveTheGameState.txt", FileMode.Create, FileAccess.Write);
                 write.Serialize(stream, this.stateToSave);
                 stream.Close();
                 MessageBox.Show("Game Saved!");
+                */
             }
             else
             {
