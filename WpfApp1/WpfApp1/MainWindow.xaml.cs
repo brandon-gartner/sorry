@@ -98,11 +98,12 @@ namespace WpfApp1
             {
                 BinaryFormatter load = new BinaryFormatter();
                 this.pubStream = new FileStream(@".\save.txt", FileMode.Open, FileAccess.Read);
-                this.stateToLoad = (SaveableGameState)load.Deserialize(this.pubStream);
+                this.gameState = (GameState)load.Deserialize(this.pubStream);
                 this.pubStream.Close();
-
+                /*scrapped idea
                 loadedPlayers = stateToLoad.GetPlayers();
                 loadedPlayerCount = stateToLoad.GetPlayerCount();
+                */
             }
             else
             {
