@@ -77,12 +77,16 @@ namespace WpfApp1
                 //Card card = this.gameState.deck.getNextCard();
                 //activateCard(card.getCard_Id(), gameState.currentPlayer);
 
+
                 Card temp = new Card(3);
-                //drawOutsideStart(this.gameState.players[0].pawns[0]);
-                /*this.gameState.players[1].pawns[0].spaceNumber = 5;
+                /*
+                drawOutsideStart(this.gameState.players[0].pawns[0]);
+                this.gameState.players[1].pawns[0].spaceNumber = 5;
                 drawAtNextPosition(this.gameState.players[1].pawns[0]);
                 this.mainBoard.landingSpaces[4].localPawn = this.gameState.players[0].pawns[0];
-                this.mainBoard.landingSpaces[5].localPawn = this.gameState.players[1].pawns[0];*/
+                this.mainBoard.landingSpaces[5].localPawn = this.gameState.players[1].pawns[0];
+                */
+               // drawOutsideStart(this.gameState.players[0].pawns[0]);
                 activateCard(temp.getCard_Id(), gameState.currentPlayer);
                 
 
@@ -99,21 +103,16 @@ namespace WpfApp1
         private void GameLoad(object sender, RoutedEventArgs e)
         {
             //check if the game is runnig and if not display a message
-            if (isGameRunning)
-            {
+
                 BinaryFormatter load = new BinaryFormatter();
                 this.pubStream = new FileStream(@".\save.txt", FileMode.Open, FileAccess.Read);
                 this.gameState = (GameState)load.Deserialize(this.pubStream);
                 this.pubStream.Close();
+                LoadDrawInitialPawns();
                 /*scrapped idea
                 loadedPlayers = stateToLoad.GetPlayers();
                 loadedPlayerCount = stateToLoad.GetPlayerCount();
                 */
-            }
-            else
-            {
-                MessageBox.Show("The game has not started");
-            }
         }
         //this method will save the game
         private void GameSave(object sender, RoutedEventArgs e)
@@ -194,7 +193,7 @@ namespace WpfApp1
                     break;
 
                 case 10:
-                    handleGenericCard(cardId, playerId);
+                    handleCard10(playerId);
                     break;
 
                 case 11:
@@ -234,7 +233,7 @@ namespace WpfApp1
 
             allPawns = (Pawn[])availablePawns.ToArray(typeof(Pawn));
 
-            if (allPawns == null)
+            if (allPawns.Length == 0 || allSwitchablePawn.Length == 0)
             {
                 ContentLog.Text = "You don't have any pawns at Start :(";
             }
@@ -248,7 +247,15 @@ namespace WpfApp1
         //WORKS FOR MOVING OUT OF INITIAL SPACE AND MOVING(*havent tested collision yet)
         private void handleGenericCard(int value, int playerId)
         {
-            Pawn[] availablePawns = getWhichPawnsCanMove();
+            Pawn[] availablePawns;
+            if(value == 7)
+            {
+                availablePawns = pawnsFor7();
+            }
+            else
+            {
+                availablePawns = getWhichPawnsCanMove();
+            }
             if (availablePawns == null)
             {
                 //This is actually not quite the correct implementation, but we need another method to check if a pawn can move 10 spots or not
@@ -269,7 +276,7 @@ namespace WpfApp1
                 options.Show();
             }
         }
-        //create card 11
+        //create card 11 (TEMP WORKS)
         private void handleCard11(int playerId)
         {
             Pawn[] availablePawns = getWhichPawnsCanMoveOnCard11();
@@ -305,12 +312,35 @@ namespace WpfApp1
         //create card 7 (also have to add if the players can actually move 2 pawns or not, otherwise just call normal thing)
         private void handleCard7()
         {
-            Pawn[] availablePawns = getWhichPawnsCanMove();
+            Pawn[] availablePawns = pawnsFor7();
             String player = this.gameState.players[this.gameState.currentPlayer].PlayerName;
             Window1 options = new Window1(6, player, 7, availablePawns, null, this);
             options.Show();
         }
-        //This is for the sorry card(replacing pawn from start with another pawn)
+        //This is for the card 10
+        private void handleCard10(int playerId)
+        {
+            Pawn[] availablePawns10 = pawnsFor10Part1(10);
+            Pawn[] availablePawns1 = pawnsFor10Part1(-1);
+            String player = this.gameState.players[this.gameState.currentPlayer].PlayerName;
+            if(availablePawns10.Length != 0 && availablePawns1.Length != 0)
+            {
+                Window1 options = new Window1(10, player, 10, null, null, this);
+                options.Show();
+            }
+            else if(availablePawns10.Length != 0 && availablePawns1.Length == 0)
+            {
+                handleGenericCard(10, playerId);
+            }
+            else if(availablePawns10.Length == 0 && availablePawns1.Length != 0)
+            {
+                handleGenericCard(-1, playerId);
+            }
+            else
+            {
+                ContentLog.Text = "Sorry no options available for Card 10. Turn forfeit!";
+            }
+        }
         
 
 
@@ -338,7 +368,6 @@ namespace WpfApp1
             }
 
         }
-
         //This helper isuse
         public void only11Helper(Window1 input, int value)
         {
@@ -363,7 +392,7 @@ namespace WpfApp1
         //Ok so this is the first helper that decides whether to call the generic cards or to split
         public void _7Helper(Window1 input)
         {
-            if (input.getChoice11().Equals("Put all 7 on one pawn"))
+            if (input.getChoice7().Equals("Put all 7 on one pawn"))
             {
                 handleGenericCard(7, this.gameState.currentPlayer);
             }
@@ -371,9 +400,15 @@ namespace WpfApp1
             else
             {
                 //the next lines are made so that the sum of the two number are equal to 7
-
-                Window1 optionsSplit = new Window1(7, input.playerName, 7, input.allPawns, null, this);
-                optionsSplit.Show();
+                if (input.allPawns.Length >= 2)
+                {
+                    Window1 optionsSplit = new Window1(7, input.playerName, 7, input.allPawns, null, this);
+                    optionsSplit.Show();
+                }
+                else
+                {
+                    ContentLog.Text = "Sorry no moves available for that choice!";
+                }
             }
         }
         //This one is for the first pawn in the split
@@ -384,6 +419,7 @@ namespace WpfApp1
             Pawn selectedPawn = input.gotPawn;
             if(input.value == 7)
             {
+
                 Pawn[] gotPawns = input.allPawns;
                 ArrayList availablePawns = new ArrayList();
 
@@ -399,6 +435,7 @@ namespace WpfApp1
                 this.mainBoard.MovePawn(selectedPawn, firstMove, true);
                 input = new Window1(7, input.playerName, (7 - input.move7), newPawns, null, this);
                 input.Show();
+
             }
             else
             {
@@ -406,6 +443,23 @@ namespace WpfApp1
             }
            
         }
+        //This handler is for the first part of card 10
+        public void _10Helper(Window1 input)
+        {
+            if(input.card10Choice.Equals("Move a pawn forward 10 spaces"))
+            {
+                Pawn[] pawns = pawnsFor10Part1(10);
+                int playerId = this.gameState.currentPlayer;
+                handleGenericCard(10, playerId);
+            }
+            else
+            {
+                Pawn[] pawns = pawnsFor10Part1(-1);
+                int playerId = this.gameState.currentPlayer;
+                handleGenericCard(10, playerId);
+            }
+        }
+
 
         /*HANDLING SWITCHING THE PAWNS*/
         //For switching pawns (for sorry card)
@@ -517,9 +571,118 @@ namespace WpfApp1
             return allSwitchablePawn;
         }
 
+        //used for card 10
+        private Pawn[] pawnsFor10Part1(int movement)
+        {
+            Player currentPlayer = this.gameState.players[this.gameState.currentPlayer];
+            //get all current player's pawns
+            Pawn[] allPawns = currentPlayer.pawns;
+            //create an arraylist to store the pawns
+            ArrayList availablePawns = new ArrayList();
+
+            for (int i = 0; i < allPawns.Length; i++)
+            {
+                Pawn currentPawn = allPawns[i];
+                if(movement == 10)
+                {
+                    if(!currentPawn.inStart)
+                    {
+                        if (this.mainBoard.validateFutureLocation(currentPawn, 10, true))
+                        {
+                            availablePawns.Add(currentPawn);
+                        }
+                    }
+
+                }
+                else
+                {
+                    if (!currentPawn.inStart)
+                    {
+                        if (this.mainBoard.validateFutureLocation(currentPawn, -1, true))
+                        {
+                            availablePawns.Add(currentPawn);
+                        }
+                    }
+                }
+
+            }
+
+            allPawns = (Pawn[])availablePawns.ToArray(typeof(Pawn));
+            return allPawns;
+        }
+
+        private Pawn[] pawnsFor7()
+        {
+            Player currentPlayer = this.gameState.players[this.gameState.currentPlayer];
+            //get all current player's pawns
+            Pawn[] allPawns = currentPlayer.pawns;
+            //create an arraylist to store the pawns
+            ArrayList availablePawns = new ArrayList();
+
+            for (int i = 0; i < allPawns.Length; i++)
+            {
+                Pawn currentPawn = allPawns[i];
+                if (!currentPawn.decommissioned && !currentPawn.inStart)
+                {
+                    availablePawns.Add(currentPawn);
+                }
+            }
+
+            allPawns = (Pawn[])availablePawns.ToArray(typeof(Pawn));
+            return allPawns;
+        }
+
         /*DRAWING PAWNS + PLAYERS*/
         private void drawInitialPawns()
         {
+            for (int i = 0; i < this.gameState.players.Length; i++)
+            {
+                for (int j = 0; j < this.gameState.players[i].pawns.Length; j++)
+                {
+                    Player tempPlayer = this.gameState.players[i];
+                    Pawn currentPawn = tempPlayer.pawns[j];
+                    if (tempPlayer.color.Equals("Red"))
+                    {
+
+                        Grid.SetRow(currentPawn.image, 2);
+                        Grid.SetColumn(currentPawn.image, 4);
+                        MainGrid.Children.Add(currentPawn.image);
+                    }
+                    else if (tempPlayer.color.Equals("Blue"))
+                    {
+                        Grid.SetRow(currentPawn.image, 4);
+                        Grid.SetColumn(currentPawn.image, 13);
+                        MainGrid.Children.Add(currentPawn.image);
+                    }
+                    else if (tempPlayer.color.Equals("Yellow"))
+                    {
+                        Grid.SetRow(currentPawn.image, 11);
+                        Grid.SetColumn(currentPawn.image, 2);
+                        MainGrid.Children.Add(currentPawn.image);
+                    }
+                    else
+                    {
+                        Grid.SetRow(currentPawn.image, 13);
+                        Grid.SetColumn(currentPawn.image, 11);
+                        MainGrid.Children.Add(currentPawn.image);
+                    }
+                }
+            }
+        }
+
+        //LOAD DISPLAY
+        private void LoadDrawInitialPawns()//***********************************************************************************test
+        {
+            for (int i = 0; i < this.gameState.players.Length; i++)
+            {
+                for (int j = 0; j < this.gameState.players[i].pawns.Length; j++)
+                {
+                    Player tempPlayer = this.gameState.players[i];
+                    Pawn currentPawn = tempPlayer.pawns[j];
+                    currentPawn.colorCorrection();
+                }
+            }
+
             for (int i = 0; i < this.gameState.players.Length; i++)
             {
                 for (int j = 0; j < this.gameState.players[i].pawns.Length; j++)
@@ -552,7 +715,17 @@ namespace WpfApp1
                     }
                 }
             }
+            for (int i = 0; i < this.gameState.players.Length; i++)
+            {
+                for (int j = 0; j < this.gameState.players[i].pawns.Length; j++)
+                {
+                    Player tempPlayer = this.gameState.players[i];
+                    Pawn currentPawn = tempPlayer.pawns[j];
+                    drawAtNextPosition(currentPawn);
+                }
+            }
         }
+
 
         public void drawAtNextPosition(Pawn pawn)
         {

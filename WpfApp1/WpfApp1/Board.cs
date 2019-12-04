@@ -103,10 +103,11 @@ namespace WpfApp1
             {
                 this.main.drawOutsideStart(p);
             }
-            if (validateFutureLocation(p, movementDistance, forward))
+            else if (validateFutureLocation(p, movementDistance, forward))
             {
                 if (forward)
                 {
+
                     //Does pawnStep right until the before last move
                     for (int i = 0; i < movementDistance - 1; i++)
                     {
@@ -136,6 +137,10 @@ namespace WpfApp1
                     }
                     PawnStep(p, true, false);
                 }
+            }
+            else
+            {
+                main.ContentLog.Text = "Unfortunately, you already have a pawn in that location.";
             }
         }
 
@@ -199,12 +204,10 @@ namespace WpfApp1
                 //if you land on a non-safe space, your safety should be set to false
                 //if you land on a NormalSpace, nothing special happens
                 case 0:
-                    main.drawAtNextPosition(p);
                     s.localPawn = p;
                     return;
                 //if you land on a SlideEnd, nothing special happens 
                 case 1:
-                    main.drawAtNextPosition(p);
                     s.localPawn = p;
                     return;
                 //if you land on a HomeSpace, the pawn is decommissioned and no longer is active
@@ -215,7 +218,6 @@ namespace WpfApp1
                     return;
                 //if you land on a SlideEndStartExit, nothing special happens
                 case 3:
-                    main.drawAtNextPosition(p);
                     s.localPawn = p;
                     return;
                 //if you land on a SafetySpace, you should become safe
@@ -225,14 +227,12 @@ namespace WpfApp1
                     return;
                 //if you land on a ConnectingSpace, nothing special should happen
                 case 5:
-                    main.drawAtNextPosition(p);
                     s.localPawn = p;
                     break;
                 //if you land on a SlideStart, you will start to slide
                 case 6:
                     slide(p, s);
                     s.localPawn = p;
-                    main.drawAtNextPosition(p);
                     break;
                 //if you land on a safetyEntry
                 case 7:
@@ -315,7 +315,7 @@ namespace WpfApp1
             }
             else
             {
-                for (; landingSpaces[p.spaceNumber].type == 1 || landingSpaces[p.spaceNumber].type == 3;)
+                for (; landingSpaces[p.spaceNumber].type == 1;)
                 {
                     if (landingSpaces[p.spaceNumber].localPawn != p)
                     {
@@ -343,6 +343,10 @@ namespace WpfApp1
                     potentialLocation = p.spaceNumber + distance;
                 }
 
+                if(landingSpaces[potentialLocation].localPawn == null)
+                {
+                    return true;
+                }
                 //if there is a pawn at that location, and its the current players
                 for (int i = 0; i < players.Length; i++)
                 {

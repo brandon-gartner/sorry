@@ -26,6 +26,7 @@ namespace WpfApp1
         int numberType;
         String card11Choice;
         public String card7Choice;
+        public String card10Choice;
         public int move7;
         public MainWindow main;
         public int value;
@@ -117,6 +118,13 @@ namespace WpfApp1
                 Instructions.Text = playerName + ", do you want to move one pawn by 7 spaces, or split the movement across 2 pawns? (Card 7)";
                 Choice_enem.Items.Add("Put all 7 on one pawn");
                 Choice_enem.Items.Add("Separate between 2 pawns");
+            }
+            else if(numberType == 10)
+            {
+                Choice_enem.Visibility = Visibility.Hidden;
+                Instructions.Text = playerName + ", do you want to move one pawn by 10 spaces, or go back 1 space? (Card 10)";
+                Choice.Items.Add("Move a pawn forward 10 spaces");
+                Choice.Items.Add("Move a pawn backward 1 space");
             }
             else
             {
@@ -214,6 +222,10 @@ namespace WpfApp1
                 }
                 this.main.__7HelperPart2(this);
                 this.Close();
+            }
+            else if(this.numberType == 10)
+            {
+                this.card10Choice = Choice.Text;
             }
             this.Close();
 
