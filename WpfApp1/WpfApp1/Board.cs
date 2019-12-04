@@ -99,13 +99,13 @@ namespace WpfApp1
         {
             //So first it needs to check whether or not the pawn is in start(if it's not in start it does the other stuff)
             //YOU GOTTA ADD WHATEVER HAPPENS TO THE BOARD CUZ I HAVE NO CLUE (in the initial if)
-            if(p.inStart)
+            if (p.inStart)
             {
                 this.main.drawOutsideStart(p);
             }
             if (validateFutureLocation(p, movementDistance, forward))
             {
-            else if (forward)
+                if (forward)
                 {
                     //Does pawnStep right until the before last move
                     for (int i = 0; i < movementDistance - 1; i++)
