@@ -146,10 +146,10 @@ namespace WpfApp1
 
         public void HandleCollision(Pawn p, int location)
         {
-            if (landingSpaces[p.spaceNumber].localPawn != p)
+            if (landingSpaces[p.spaceNumber + 1].localPawn != p)
             {
-                ReturnHome(landingSpaces[p.spaceNumber].localPawn);
-                landingSpaces[p.spaceNumber].localPawn = p;
+                ReturnHome(landingSpaces[p.spaceNumber + 1].localPawn);
+                //landingSpaces[p.spaceNumber].localPawn = p;
             }
         }
 
@@ -174,6 +174,7 @@ namespace WpfApp1
                 landingSpaces[p.spaceNumber].localPawn = null;
                 p.spaceNumber = p.validateNextLocation(forward);
                 LandedOn(p, landingSpaces[p.spaceNumber]);
+                this.main.drawAtNextPosition(p);
                 return;
             }
         }
@@ -196,7 +197,7 @@ namespace WpfApp1
             }
             return false;
         }
-
+        //FIX SAFETY ENTRY STUFF
         public void LandedOn(Pawn p, Space s)
         {
             switch (s.type)
@@ -236,9 +237,13 @@ namespace WpfApp1
                     break;
                 //if you land on a safetyEntry
                 case 7:
-                    s.localPawn = p;
-                    p.safe = true;
-                    p.SetSpaceNumber(0);
+                    if(s.player.Equals(p.playerName))
+                    {
+                        s.localPawn = p;
+                        p.safe = true;
+                        p.SetSpaceNumber(0);
+                    }
+
                     return;
                 //if you land on a safetyExit
                 case 8:
@@ -288,8 +293,12 @@ namespace WpfApp1
                     return;
                 //if you step on a SafetyEntry, your next step should be onto the safety array
                 case 7:
-                    p.safe = true;
-                    p.SetSpaceNumber(0);
+                    if (s.player.Equals(p.playerName))
+                    {
+                        p.safe = true;
+                        p.SetSpaceNumber(0);
+                    }
+
                     break;
                 //if you step on a SafetyExit, safe becomes false, and your position becomes 
                 case 8:
@@ -350,7 +359,7 @@ namespace WpfApp1
                 //if there is a pawn at that location, and its the current players
                 for (int i = 0; i < players.Length; i++)
                 {
-                    for (int j = 0; i < players[i].pawns.Length; j++)
+                    for (int j = 0; j < players[i].pawns.Length; j++)
                     {
                         if (landingSpaces[potentialLocation].localPawn != p && landingSpaces[potentialLocation].localPawn.playerName.Equals(p.playerName))
                         {
