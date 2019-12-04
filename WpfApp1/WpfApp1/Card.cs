@@ -3,6 +3,7 @@ using WpfApp1;
 
 namespace WpfApp1
 {
+    [Serializable]
     public class Card
     {
         //fire and ice rule video explanation https://www.youtube.com/watch?v=IKudEqXbTUY

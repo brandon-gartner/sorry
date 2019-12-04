@@ -15,6 +15,7 @@ namespace WpfApp1
         public Boolean inStart;
         public Boolean decommissioned;
         public int numberOfPawn;
+        [NonSerialized]
         public Border image;
         public int playerNumber;
         public String playerName;
