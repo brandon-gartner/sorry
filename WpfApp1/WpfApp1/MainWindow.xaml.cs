@@ -51,12 +51,14 @@ namespace WpfApp1
         {
             InitializeComponent();
             Load.IsEnabled = false;
+            Save.IsEnabled = false;
         }
         //this will start the game and initiate the gamestate
         private void GameStart(object sender, RoutedEventArgs e)
         {
             if (!isGameRunning)
             {
+                Save.IsEnabled = true;
                 Load.IsEnabled = true;
                 gameState = new GameState(this);
                 this.mainBoard = new Board(this.gameState.players, this);
