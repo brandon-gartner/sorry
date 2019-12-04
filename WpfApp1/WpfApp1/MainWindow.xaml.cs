@@ -752,6 +752,7 @@ namespace WpfApp1
                     Player tempPlayer = this.gameState.players[i];
                     Pawn currentPawn = tempPlayer.pawns[j];
                     drawAtNextPosition(currentPawn);
+                    this.mainBoard.landingSpaces[currentPawn.spaceNumber].localPawn = currentPawn;
                 }
             }
         }
