@@ -150,5 +150,44 @@ namespace WpfApp1
             return (this.playerName + "'s Pawn #" + this.numberOfPawn);
         }
 
+
+
+
+        public void colorCorrection()
+        {
+            this.image = new Border();
+            if (color.Equals("Red"))
+            {
+                image.Background = Brushes.Red;
+
+            }
+            else if (color.Equals("Green"))
+            {
+                image.Background = Brushes.Green;
+
+            }
+            else if (color.Equals("Blue"))
+            {
+                image.Background = Brushes.Blue;
+
+
+            }
+            else
+            {
+                image.Background = Brushes.Yellow;
+
+            }
+            TextBlock text = new TextBlock();
+            text.Text = Convert.ToString(numberOfPawn);
+            image.Child = text;
+            image.CornerRadius = new CornerRadius(25);
+            image.Margin = new Thickness(8);
+            image.BorderThickness = new Thickness(2);
+            image.BorderBrush = Brushes.Black;
+            text.VerticalAlignment = VerticalAlignment.Center;
+            text.HorizontalAlignment = HorizontalAlignment.Center;
+            text.FontWeight = FontWeights.Bold;
+        }
+
     }
 }
