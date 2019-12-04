@@ -111,14 +111,14 @@ namespace WpfApp1
                     PawnStep(p, false, true);
                 }
                 //Does pawnStep for checking if there is a pawn there already
-                Boolean collision = PawnStep(p, true, true);
+                Boolean collision = checkCollisions(p, true);
                 //If there is, it calls handle collision
                 if (collision)
                 {
                     HandleCollision(p, p.spaceNumber);
                 }
                 //Draws
-                this.main.drawAtNextPosition(p);
+                PawnStep(p, true, true);
             }
             else
             {
@@ -127,12 +127,12 @@ namespace WpfApp1
                 {
                     PawnStep(p, false, false);
                 }
-                Boolean collision = PawnStep(p, true, false);
+                Boolean collision = checkCollisions(p, false);
                 if (collision)
                 {
                     HandleCollision(p, p.spaceNumber);
                 }
-                this.main.drawAtNextPosition(p);
+                PawnStep(p, true, false);
             }
         }
 
@@ -147,29 +147,43 @@ namespace WpfApp1
 
         //moves a pawn by 1 space
         //IF YOU WANT IT TO ACTUALLY DISPLAY EVERY LITTLE WHILE ADD A DISPATCHER
-        public Boolean PawnStep(Pawn p, Boolean last, Boolean forward)
+        public void PawnStep(Pawn p, Boolean last, Boolean forward)
         {
             int startingLocation = p.spaceNumber;
             if (!last)
             {
+
+                landingSpaces[p.spaceNumber].localPawn = null;
                 p.spaceNumber = p.validateNextLocation(forward);
                 SteppedOn(p, landingSpaces[p.spaceNumber], startingLocation);
                 this.main.drawAtNextPosition(p);
-                return false;
+                landingSpaces[p.spaceNumber].localPawn = null;
+                return;
             }
             else
             {
-                for (int i = 0; i < players.Length; i++)
+
+                landingSpaces[p.spaceNumber].localPawn = null;
+                p.spaceNumber = p.validateNextLocation(forward);
+                LandedOn(p, landingSpaces[p.spaceNumber]);
+                return;
+            }
+        }
+
+        public Boolean checkCollisions(Pawn p, Boolean forward)
+        {
+            if (forward)
+            {
+                if (landingSpaces[p.spaceNumber + 1].localPawn != null)
                 {
-                    for (int j = 0; j < players[i].pawns.Length; j++)
-                    {
-                        if (players[i].pawns[j].spaceNumber == p.spaceNumber)
-                        {
-                            p.spaceNumber = p.validateNextLocation(forward);
-                            LandedOn(p, landingSpaces[p.spaceNumber]);
-                            return true;
-                        }
-                    }
+                    return true;
+                }
+            }
+            else
+            {
+                if (landingSpaces[p.spaceNumber - 1].localPawn != null)
+                {
+                    return true;
                 }
             }
             return false;
@@ -217,7 +231,6 @@ namespace WpfApp1
                     s.localPawn = p;
                     main.drawAtNextPosition(p);
                     break;
-                    return;
                 //if you land on a safetyEntry
                 case 7:
                     s.localPawn = p;
