@@ -78,7 +78,7 @@ namespace WpfApp1
                 //activateCard(card.getCard_Id(), gameState.currentPlayer);
 
 
-                Card temp = new Card(7);
+                Card temp = new Card(10);
                 /*
                 drawOutsideStart(this.gameState.players[0].pawns[0]);
                 this.gameState.players[1].pawns[0].spaceNumber = 5;
@@ -312,7 +312,7 @@ namespace WpfApp1
         //create card 7 (also have to add if the players can actually move 2 pawns or not, otherwise just call normal thing)
         private void handleCard7()
         {
-            Pawn[] availablePawns = getWhichPawnsCanMove();
+            Pawn[] availablePawns = pawnsFor7();
             String player = this.gameState.players[this.gameState.currentPlayer].PlayerName;
             Window1 options = new Window1(6, player, 7, availablePawns, null, this);
             options.Show();
@@ -400,9 +400,15 @@ namespace WpfApp1
             else
             {
                 //the next lines are made so that the sum of the two number are equal to 7
-
-                Window1 optionsSplit = new Window1(7, input.playerName, 7, input.allPawns, null, this);
-                optionsSplit.Show();
+                if (input.allPawns.Length >= 2)
+                {
+                    Window1 optionsSplit = new Window1(7, input.playerName, 7, input.allPawns, null, this);
+                    optionsSplit.Show();
+                }
+                else
+                {
+                    ContentLog.Text = "Sorry no moves available for that choice!";
+                }
             }
         }
         //This one is for the first pawn in the split
@@ -413,29 +419,23 @@ namespace WpfApp1
             Pawn selectedPawn = input.gotPawn;
             if(input.value == 7)
             {
-                if (input.allPawns.Length >= 2)
-                {
-                    Pawn[] gotPawns = input.allPawns;
-                    ArrayList availablePawns = new ArrayList();
 
-                    for (int i = 0; i < gotPawns.Length; i++)
+                Pawn[] gotPawns = input.allPawns;
+                ArrayList availablePawns = new ArrayList();
+
+                for (int i = 0; i < gotPawns.Length; i++)
+                {
+                    if (gotPawns[i] != selectedPawn)
                     {
-                        if (gotPawns[i] != selectedPawn)
-                        {
-                            availablePawns.Add(gotPawns[i]);
-                        }
+                        availablePawns.Add(gotPawns[i]);
                     }
+                }
 
-                    Pawn[] newPawns = (Pawn[])availablePawns.ToArray(typeof(Pawn));
-                    this.mainBoard.MovePawn(selectedPawn, firstMove, true);
-                    input = new Window1(7, input.playerName, (7 - input.move7), newPawns, null, this);
-                    input.Show();
-                }
-                else
-                {
-                    ContentLog.Text = "Sorry no moves available!";
-                }
-                   
+                Pawn[] newPawns = (Pawn[])availablePawns.ToArray(typeof(Pawn));
+                this.mainBoard.MovePawn(selectedPawn, firstMove, true);
+                input = new Window1(7, input.playerName, (7 - input.move7), newPawns, null, this);
+                input.Show();
+
             }
             else
             {
@@ -585,16 +585,23 @@ namespace WpfApp1
                 Pawn currentPawn = allPawns[i];
                 if(movement == 10)
                 {
-                    if (this.mainBoard.validateFutureLocation(currentPawn, 10, true))
+                    if(!currentPawn.inStart)
                     {
-                        availablePawns.Add(currentPawn);
+                        if (this.mainBoard.validateFutureLocation(currentPawn, 10, true))
+                        {
+                            availablePawns.Add(currentPawn);
+                        }
                     }
+
                 }
                 else
                 {
-                    if (this.mainBoard.validateFutureLocation(currentPawn, -1, true))
+                    if (!currentPawn.inStart)
                     {
-                        availablePawns.Add(currentPawn);
+                        if (this.mainBoard.validateFutureLocation(currentPawn, -1, true))
+                        {
+                            availablePawns.Add(currentPawn);
+                        }
                     }
                 }
 
@@ -663,6 +670,7 @@ namespace WpfApp1
             }
         }
 
+        //LOAD DISPLAY
         private void LoadDrawInitialPawns()//***********************************************************************************test
         {
             for (int i = 0; i < this.gameState.players.Length; i++)

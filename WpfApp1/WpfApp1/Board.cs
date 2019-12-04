@@ -335,6 +335,10 @@ namespace WpfApp1
                     potentialLocation = p.spaceNumber + distance;
                 }
 
+                if(landingSpaces[potentialLocation].localPawn == null)
+                {
+                    return true;
+                }
                 //if there is a pawn at that location, and its the current players
                 for (int i = 0; i < players.Length; i++)
                 {
