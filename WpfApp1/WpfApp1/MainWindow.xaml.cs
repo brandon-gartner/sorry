@@ -43,19 +43,23 @@ namespace WpfApp1
         int loadedPlayerCount;
         public GameState gameState;
         public Board mainBoard;
-        public Boolean bruh = false;
+        public Boolean bruh = true;
 
         //Rando
 
         public MainWindow()
         {
             InitializeComponent();
+            Load.IsEnabled = false;
+            Save.IsEnabled = false;
         }
         //this will start the game and initiate the gamestate
         private void GameStart(object sender, RoutedEventArgs e)
         {
             if (!isGameRunning)
             {
+                Save.IsEnabled = true;
+                Load.IsEnabled = true;
                 gameState = new GameState(this);
                 this.mainBoard = new Board(this.gameState.players, this);
                 drawInitialPawns();
@@ -78,7 +82,7 @@ namespace WpfApp1
 
 
 
-                if(!bruh)
+                if(bruh)
                 {
                     Card temp = new Card(7);
                     
@@ -94,6 +98,7 @@ namespace WpfApp1
                     this.mainBoard.landingSpaces[12].localPawn = this.gameState.players[0].pawns[1];
                     */
                     
+
                     this.gameState.players[0].pawns[0].safe = true;
                     this.gameState.players[0].pawns[0].inStart = false;
                     Player player = this.gameState.players[0];
@@ -132,6 +137,7 @@ namespace WpfApp1
                 this.pubStream = new FileStream(@".\save.txt", FileMode.Open, FileAccess.Read);
                 this.gameState = (GameState)load.Deserialize(this.pubStream);
                 this.pubStream.Close();
+                this.mainBoard = new Board(this.gameState.players, this);//testing***************************************
                 LoadDrawInitialPawns();
                 /*scrapped idea
                 loadedPlayers = stateToLoad.GetPlayers();
@@ -187,13 +193,190 @@ namespace WpfApp1
             else
             {
                 gameState.updatePlayer();
-                this.Player_Display.Text = this.gameState.players[this.gameState.currentPlayer].PlayerName + " it is your turn!";
-                Next_Turn.IsEnabled = false;
-                DrawCard.IsEnabled = true;
+                if (isAIPlayer(this.gameState.players[this.gameState.currentPlayer]))
+                {
+                    runAITurn(this.gameState.players[this.gameState.currentPlayer]);
+                }
+                else
+                {
+                    this.Player_Display.Text = this.gameState.players[this.gameState.currentPlayer].PlayerName + " it is your turn!";
+                    Next_Turn.IsEnabled = false;
+                    DrawCard.IsEnabled = true;
+                }
+                
             }
 
             
         }
+
+        private void runAITurn(Player player)
+        {
+            Card card = this.gameState.deck.getNextCard();
+            int cardId = card.getCard_Id();
+            switch (cardId)
+            {
+                //what to do if they draw this card
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                case 8:
+                case 12:
+                    handleGenericCardAI(player);
+                    break;
+
+                case 7:
+                    handleCard7AI(player);
+                    break;
+
+                case 10:
+                    handleCard10AI(player);
+                    break;
+
+                case 11:
+                    handleCard11AI(player);
+                    break;
+
+                case -1:
+                    handleSorryCardAI(player);
+                    break;
+
+            }
+        }
+
+        private void handleSorryCardAI(Player p)
+        {
+            //String player = this.gameState.players[this.gameState.currentPlayer].PlayerName;
+            //Pawn[] allSwitchablePawn = findWhichPawnsCanSwitch(playerId);
+
+            //Checks what pawns are at start
+            //Player currentPlayer = this.gameState.players[this.gameState.currentPlayer];
+            //Pawn[] allPawns = currentPlayer.pawns;
+            //ArrayList availablePawns = new ArrayList();
+
+            //for (int i = 0; i < allPawns.Length; i++)
+            //{
+            //   Pawn currentPawn = allPawns[i];
+            //    if (currentPawn.inStart)
+            //    {
+            //        availablePawns.Add(currentPawn);
+            //    }
+            //}
+
+            //allPawns = (Pawn[])availablePawns.ToArray(typeof(Pawn));
+
+            //if (allPawns.Length == 0 || allSwitchablePawn.Length == 0)
+            //{
+            //    ContentLog.Text = "You don't have any pawns at Start or none of the opponents moved :( ";
+            //}
+            //else
+            //{
+            //    Window1 options = new Window1(2, player, 0, allPawns, allSwitchablePawn, this);
+            //    options.Show();
+            //}
+        }
+
+        private void handleCard11AI(Player p)
+        {
+
+            int playerId = p.playerNumber;
+            Pawn[] availablePawns = getWhichPawnsCanMoveOnCard11();
+            Pawn[] switchablePawn = findWhichPawnsCanSwitch(playerId);
+            String player = this.gameState.players[this.gameState.currentPlayer].PlayerName;
+            //if (availablePawns.Length != 0 && switchablePawn.Length != 0)
+            //{
+            //    Window1 options = new Window1(11, player, 11, availablePawns, switchablePawn, this);
+            //    options.Show();
+                //if the player wants to switch then....
+
+            //}
+            //else if (availablePawns.Length != 0)
+            //{
+            //    handleGenericCard(11, playerId);
+            //}
+            //else
+            //{
+            //    ContentLog.Text = "Unfortunately you have no pawns that can move 11 moves nor are there any pawns that you can switch! Turn skipped.";
+            //}
+        }
+
+        private void handleCard10AI(Player p)
+        {
+            //int playerId = p.playerNumber;
+            //throw new NotImplementedException();
+            //Pawn[] availablePawns10 = pawnsFor10Part1(10);
+            //Pawn[] availablePawns1 = pawnsFor10Part1(-1);
+            //String player = this.gameState.players[this.gameState.currentPlayer].PlayerName;
+            //if (availablePawns10.Length != 0 && availablePawns1.Length != 0)
+            //{
+             //   Window1 options = new Window1(10, player, 10, null, null, this);
+            //    options.Show();
+            //}
+            //else if (availablePawns10.Length != 0 && availablePawns1.Length == 0)
+            //{
+            //    handleGenericCard(10, playerId);
+            //}
+            //else if (availablePawns10.Length == 0 && availablePawns1.Length != 0)
+            //{
+             //   handleGenericCard(-1, playerId);
+            //}
+            //else
+            //{
+            //    ContentLog.Text = "Sorry no options available for Card 10. Turn forfeit!";
+            //}
+        }
+
+        private void handleCard7AI(Player p)
+        {
+            //throw new NotImplementedException();
+            //Pawn[] availablePawns = pawnsFor7();
+            //String player = this.gameState.players[this.gameState.currentPlayer].PlayerName;
+            //if (availablePawns.Length != 0)
+            //{
+            //    Window1 options = new Window1(6, player, 7, availablePawns, null, this);
+            //    options.Show();
+            //}
+            //else
+            //{
+            //    ContentLog.Text = "Sorry no available moves for 7 :(";
+            //}
+        }
+
+        private void handleGenericCardAI(Player p)
+        {
+            //throw new NotImplementedException();
+            //Pawn[] availablePawns;
+            //if (value == 7)
+            //{
+            //    availablePawns = pawnsFor7();
+            //}
+            //else
+            //{
+            //    availablePawns = getWhichPawnsCanMove();
+            //}
+            //if (availablePawns == null)
+            //{
+            //    //This is actually not quite the correct implementation, but we need another method to check if a pawn can move 10 spots or not
+            //    if (value == 10)
+            //    {
+            //        String player = this.gameState.players[this.gameState.currentPlayer].PlayerName;
+            //        Window1 options = new Window1(0, player, -1, availablePawns, null, this);
+            //        options.Show();
+            //    }
+            //    ContentLog.Text = "Unfortunately you have no pawns that can move that distance! Turn skipped.";
+            //}
+            //else
+            //{
+            //    ContentLog.Text = "Picked up a card of value " + value + "!";
+            //    //Wait a bit
+            //    String player = this.gameState.players[this.gameState.currentPlayer].PlayerName;
+            //    Window1 options = new Window1(0, player, value, availablePawns, null, this);
+            //    options.Show();
+            //}
+
+        }
+
         //this method will manage the card that has been drawn
         private void activateCard(int cardId, int playerId)
         {
@@ -754,7 +937,17 @@ namespace WpfApp1
                 {
                     Player tempPlayer = this.gameState.players[i];
                     Pawn currentPawn = tempPlayer.pawns[j];
-                    drawAtNextPosition(currentPawn);
+                    this.mainBoard.landingSpaces[currentPawn.spaceNumber].localPawn = currentPawn;
+                    if (currentPawn.inStart)
+                    {
+                        drawAtStart(currentPawn);
+                    }
+                    else
+                    {
+                        drawAtNextPosition(currentPawn);
+                    }
+                    //drawAtNextPosition(currentPawn);
+                    
                 }
             }
         }
@@ -954,6 +1147,30 @@ namespace WpfApp1
             return allPawns;
         }
         */
+
+        public Boolean isAIPlayer(Player p)
+        {
+            if (!(p.realPlayer))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public Boolean potentialPawnToMove(Pawn p, int distance)
+        {
+            if (p.inStart && drawOutsideStart(p))
+            {
+                return false;
+            }
+            //else if (mainBoard.validateFutureLocation(p, distance, true))
+
+
+            return true;
+        }
     }
     
 }
