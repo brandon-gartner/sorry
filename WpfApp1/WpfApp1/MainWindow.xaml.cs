@@ -77,12 +77,15 @@ namespace WpfApp1
                 //Card card = this.gameState.deck.getNextCard();
                 //activateCard(card.getCard_Id(), gameState.currentPlayer);
 
-                Card temp = new Card(1);
+                Card temp = new Card(7);
+                /*
                 drawOutsideStart(this.gameState.players[0].pawns[0]);
                 this.gameState.players[1].pawns[0].spaceNumber = 5;
                 drawAtNextPosition(this.gameState.players[1].pawns[0]);
                 this.mainBoard.landingSpaces[4].localPawn = this.gameState.players[0].pawns[0];
                 this.mainBoard.landingSpaces[5].localPawn = this.gameState.players[1].pawns[0];
+                */
+                drawOutsideStart(this.gameState.players[0].pawns[0]);
                 activateCard(temp.getCard_Id(), gameState.currentPlayer);
 
                 Next_Turn.IsEnabled = true;
@@ -193,7 +196,7 @@ namespace WpfApp1
                     break;
 
                 case 10:
-                    handleGenericCard(cardId, playerId);
+                    handleCard10(playerId);
                     break;
 
                 case 11:
@@ -233,7 +236,7 @@ namespace WpfApp1
 
             allPawns = (Pawn[])availablePawns.ToArray(typeof(Pawn));
 
-            if (allPawns == null)
+            if (allPawns.Length == 0 || allSwitchablePawn.Length == 0)
             {
                 ContentLog.Text = "You don't have any pawns at Start :(";
             }
@@ -268,7 +271,7 @@ namespace WpfApp1
                 options.Show();
             }
         }
-        //create card 11
+        //create card 11 (TEMP WORKS)
         private void handleCard11(int playerId)
         {
             Pawn[] availablePawns = getWhichPawnsCanMoveOnCard11();
@@ -309,7 +312,30 @@ namespace WpfApp1
             Window1 options = new Window1(6, player, 7, availablePawns, null, this);
             options.Show();
         }
-        //This is for the sorry card(replacing pawn from start with another pawn)
+        //This is for the card 10
+        private void handleCard10(int playerId)
+        {
+            Pawn[] availablePawns10 = pawnsFor10Part1(10);
+            Pawn[] availablePawns1 = pawnsFor10Part1(-1);
+            String player = this.gameState.players[this.gameState.currentPlayer].PlayerName;
+            if(availablePawns10.Length != 0 && availablePawns1.Length != 0)
+            {
+                Window1 options = new Window1(10, player, 10, null, null, this);
+                options.Show();
+            }
+            else if(availablePawns10.Length != 0 && availablePawns1.Length == 0)
+            {
+                handleGenericCard(10, playerId);
+            }
+            else if(availablePawns10.Length == 0 && availablePawns1.Length != 0)
+            {
+                handleGenericCard(-1, playerId);
+            }
+            else
+            {
+                ContentLog.Text = "Sorry no options available for Card 10. Turn forfeit!";
+            }
+        }
         
 
 
@@ -337,7 +363,6 @@ namespace WpfApp1
             }
 
         }
-
         //This helper isuse
         public void only11Helper(Window1 input, int value)
         {
@@ -362,7 +387,7 @@ namespace WpfApp1
         //Ok so this is the first helper that decides whether to call the generic cards or to split
         public void _7Helper(Window1 input)
         {
-            if (input.getChoice11().Equals("Put all 7 on one pawn"))
+            if (input.getChoice7().Equals("Put all 7 on one pawn"))
             {
                 handleGenericCard(7, this.gameState.currentPlayer);
             }
@@ -405,6 +430,23 @@ namespace WpfApp1
             }
            
         }
+        //This handler is for the first part of card 10
+        public void _10Helper(Window1 input)
+        {
+            if(input.card10Choice.Equals("Move a pawn forward 10 spaces"))
+            {
+                Pawn[] pawns = pawnsFor10Part1(10);
+                int playerId = this.gameState.currentPlayer;
+                handleGenericCard(10, playerId);
+            }
+            else
+            {
+                Pawn[] pawns = pawnsFor10Part1(-1);
+                int playerId = this.gameState.currentPlayer;
+                handleGenericCard(10, playerId);
+            }
+        }
+
 
         /*HANDLING SWITCHING THE PAWNS*/
         //For switching pawns (for sorry card)
@@ -514,6 +556,39 @@ namespace WpfApp1
             }
             Pawn[] allSwitchablePawn = (Pawn[])availablePawns.ToArray(typeof(Pawn));
             return allSwitchablePawn;
+        }
+
+        //used for card 10
+        private Pawn[] pawnsFor10Part1(int movement)
+        {
+            Player currentPlayer = this.gameState.players[this.gameState.currentPlayer];
+            //get all current player's pawns
+            Pawn[] allPawns = currentPlayer.pawns;
+            //create an arraylist to store the pawns
+            ArrayList availablePawns = new ArrayList();
+
+            for (int i = 0; i < allPawns.Length; i++)
+            {
+                Pawn currentPawn = allPawns[i];
+                if(movement == 10)
+                {
+                    if (this.mainBoard.validateFutureLocation(currentPawn, 10, true))
+                    {
+                        availablePawns.Add(currentPawn);
+                    }
+                }
+                else
+                {
+                    if (this.mainBoard.validateFutureLocation(currentPawn, -1, true))
+                    {
+                        availablePawns.Add(currentPawn);
+                    }
+                }
+
+            }
+
+            allPawns = (Pawn[])availablePawns.ToArray(typeof(Pawn));
+            return allPawns;
         }
 
         /*DRAWING PAWNS + PLAYERS*/

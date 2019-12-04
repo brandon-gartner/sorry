@@ -182,12 +182,10 @@ namespace WpfApp1
                 //if you land on a non-safe space, your safety should be set to false
                 //if you land on a NormalSpace, nothing special happens
                 case 0:
-                    main.drawAtNextPosition(p);
                     s.localPawn = p;
                     return;
                 //if you land on a SlideEnd, nothing special happens 
                 case 1:
-                    main.drawAtNextPosition(p);
                     s.localPawn = p;
                     return;
                 //if you land on a HomeSpace, the pawn is decommissioned and no longer is active
@@ -198,7 +196,6 @@ namespace WpfApp1
                     return;
                 //if you land on a SlideEndStartExit, nothing special happens
                 case 3:
-                    main.drawAtNextPosition(p);
                     s.localPawn = p;
                     return;
                 //if you land on a SafetySpace, you should become safe
@@ -208,14 +205,12 @@ namespace WpfApp1
                     return;
                 //if you land on a ConnectingSpace, nothing special should happen
                 case 5:
-                    main.drawAtNextPosition(p);
                     s.localPawn = p;
                     break;
                 //if you land on a SlideStart, you will start to slide
                 case 6:
                     slide(p, s);
                     s.localPawn = p;
-                    main.drawAtNextPosition(p);
                     break;
                     return;
                 //if you land on a safetyEntry
