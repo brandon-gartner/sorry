@@ -50,12 +50,14 @@ namespace WpfApp1
         public MainWindow()
         {
             InitializeComponent();
+            Load.IsEnabled = false;
         }
         //this will start the game and initiate the gamestate
         private void GameStart(object sender, RoutedEventArgs e)
         {
             if (!isGameRunning)
             {
+                Load.IsEnabled = true;
                 gameState = new GameState(this);
                 this.mainBoard = new Board(this.gameState.players, this);
                 drawInitialPawns();
