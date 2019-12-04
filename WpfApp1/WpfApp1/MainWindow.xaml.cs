@@ -72,13 +72,18 @@ namespace WpfApp1
             //if the gams is not running then it will exit the method
             if (isGameRunning)
             {
-                Card card = this.gameState.deck.getNextCard();
-                activateCard(card.getCard_Id(), gameState.currentPlayer);
 
-                //Card temp = new Card(11);
-                //drawOutsideStart(this.gameState.players[0].pawns[0]);
-                //drawOutsideStart(this.gameState.players[1].pawns[0]);
-                //activateCard(temp.getCard_Id(), gameState.currentPlayer);
+                //CURRENTLY TESTING CARDS
+                //Card card = this.gameState.deck.getNextCard();
+                //activateCard(card.getCard_Id(), gameState.currentPlayer);
+
+                Card temp = new Card(1);
+                drawOutsideStart(this.gameState.players[0].pawns[0]);
+                this.gameState.players[1].pawns[0].spaceNumber = 5;
+                drawAtNextPosition(this.gameState.players[1].pawns[0]);
+                this.mainBoard.landingSpaces[4].localPawn = this.gameState.players[0].pawns[0];
+                this.mainBoard.landingSpaces[5].localPawn = this.gameState.players[1].pawns[0];
+                activateCard(temp.getCard_Id(), gameState.currentPlayer);
 
                 Next_Turn.IsEnabled = true;
                 DrawCard.IsEnabled = false;
@@ -312,7 +317,7 @@ namespace WpfApp1
         public void genericHelper(Window1 input, int value)
         {
             Pawn selectedPawn = input.getSelectedPawn();
-            this.gameState.mainBoard.MovePawn(selectedPawn, value, true);
+            this.mainBoard.MovePawn(selectedPawn, value, true);
         }
 
         //This is used by the sorry card as well as the 11 card(if they want to switch)
@@ -390,13 +395,13 @@ namespace WpfApp1
                 }
 
                 Pawn[] newPawns = (Pawn[])availablePawns.ToArray(typeof(Pawn));
-                this.gameState.mainBoard.MovePawn(selectedPawn, firstMove, true);
+                this.mainBoard.MovePawn(selectedPawn, firstMove, true);
                 input = new Window1(7, input.playerName, (7 - input.move7), newPawns, null, this);
                 input.Show();
             }
             else
             {
-                this.gameState.mainBoard.MovePawn(selectedPawn, input.value, true);
+                this.mainBoard.MovePawn(selectedPawn, input.value, true);
             }
            
         }
@@ -600,18 +605,22 @@ namespace WpfApp1
             if (pawn.color.Equals("Red"))
             {
                 pawn.spaceNumber = 4;
+                this.mainBoard.landingSpaces[4].localPawn = pawn;
             }
             else if (pawn.color.Equals("Blue"))
             {
                 pawn.spaceNumber = 19;
+                this.mainBoard.landingSpaces[19].localPawn = pawn;
             }
             else if (pawn.color.Equals("Green"))
             {
                 pawn.spaceNumber = 34;
+                this.mainBoard.landingSpaces[34].localPawn = pawn;
             }
             else
             {
                 pawn.spaceNumber = 49;
+                this.mainBoard.landingSpaces[49].localPawn = pawn;
             }
             drawAtNextPosition(pawn);
         }

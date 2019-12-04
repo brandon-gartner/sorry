@@ -105,15 +105,19 @@ namespace WpfApp1
             }
             else if (forward)
             {
-                for (int i = 0; i < movementDistance; i++)
+                //Does pawnStep right until the before last move
+                for (int i = 0; i < movementDistance - 1; i++)
                 {
                     PawnStep(p, false, true);
                 }
+                //Does pawnStep for checking if there is a pawn there already
                 Boolean collision = PawnStep(p, true, true);
+                //If there is, it calls handle collision
                 if (collision)
                 {
                     HandleCollision(p, p.spaceNumber);
                 }
+                //Draws
                 this.main.drawAtNextPosition(p);
             }
             else
@@ -159,7 +163,7 @@ namespace WpfApp1
                 {
                     for (int j = 0; j < players[i].pawns.Length; j++)
                     {
-                        if (players[i].pawns[j].spaceNumber == p.spaceNumber + 1)
+                        if (players[i].pawns[j].spaceNumber == p.spaceNumber)
                         {
                             p.spaceNumber = p.validateNextLocation(forward);
                             LandedOn(p, landingSpaces[p.spaceNumber]);
