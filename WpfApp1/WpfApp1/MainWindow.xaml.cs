@@ -72,6 +72,7 @@ namespace WpfApp1
             //if the gams is not running then it will exit the method
             if (isGameRunning)
             {
+
                 //CURRENTLY TESTING CARDS
                 //Card card = this.gameState.deck.getNextCard();
                 //activateCard(card.getCard_Id(), gameState.currentPlayer);

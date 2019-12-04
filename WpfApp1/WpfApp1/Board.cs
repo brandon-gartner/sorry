@@ -185,7 +185,7 @@ namespace WpfApp1
                     main.drawAtNextPosition(p);
                     s.localPawn = p;
                     return;
-                //if you land on a SlideEnd, nothing special happens
+                //if you land on a SlideEnd, nothing special happens 
                 case 1:
                     main.drawAtNextPosition(p);
                     s.localPawn = p;
@@ -205,30 +205,35 @@ namespace WpfApp1
                 case 4:
                     s.localPawn = p;
                     p.safe = true;
-                    p.SetSpaceNumber(0);
                     return;
-                //if you land on a SafetyEntry, if your next movement is forward, it should move you onto the safety array of the player.  if not, nothing
+                //if you land on a ConnectingSpace, nothing special should happen
                 case 5:
                     main.drawAtNextPosition(p);
-                    break;
-                //if you land on a ConnectingSpace, nothing special should happen
-                case 6:
-                    main.drawAtNextPosition(p);
                     s.localPawn = p;
-                    return;
+                    break;
                 //if you land on a SlideStart, you will start to slide
-                case 7:
+                case 6:
                     slide(p, s);
+                    s.localPawn = p;
                     main.drawAtNextPosition(p);
                     break;
-
+                    return;
+                //if you land on a safetyEntry
+                case 7:
+                    s.localPawn = p;
+                    p.safe = true;
+                    p.SetSpaceNumber(0);
+                    return;
+                //if you land on a safetyExit
                 case 8:
                     for (int i = 0; i < players.Length; i++)
                     {
                         if (players[i].PlayerName.Equals(p.playerName))
                         {
                             p.SetSpaceNumber((i * 15) + 2);
+                            main.drawAtNextPosition(p);
                             p.safe = false;
+                            main.drawAtNextPosition(p);
                             break;
                         }
                     }
@@ -239,6 +244,7 @@ namespace WpfApp1
 
         public void SteppedOn(Pawn p, Space s, int startPosition)
         {
+            //if you land on a SafetyEntry, if your next movement is forward, it should move you onto the safety array of the player.  if not, nothing
             switch (s.type)
             {
                 //if you step on a NormalSpace, nothing special happens
@@ -258,17 +264,17 @@ namespace WpfApp1
                 //if you step on a SafetySpace, it shouldn't do anything, as you may be getting sent back anyway
                 case 4:
                     return;
-                //if you step on a SafetyEntry, your next step should be onto the safety array
+                //if you step on a ConnectingSpace, nothing special should happen
                 case 5:
+                    return;
+                //if you step on a SlideStart, nothing should happen, because you need to land on it
+                case 6:
+                    return;
+                //if you step on a SafetyEntry, your next step should be onto the safety array
+                case 7:
                     p.safe = true;
                     p.SetSpaceNumber(0);
                     break;
-                //if you step on a ConnectingSpace, nothing special should happen
-                case 6:
-                    return;
-                //if you step on a SlideStart, nothing should happen, because you need to land on it
-                case 7:
-                    return;
                 //if you step on a SafetyExit, safe becomes false, and your position becomes 
                 case 8:
                     for (int i = 0; i < players.Length; i++)
