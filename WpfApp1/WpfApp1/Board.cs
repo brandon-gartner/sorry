@@ -111,7 +111,19 @@ namespace WpfApp1
                     //Does pawnStep right until the before last move
                     for (int i = 0; i < movementDistance - 1; i++)
                     {
-                        PawnStep(p, false, true);
+                        if(!p.goingIntoSafety)
+                        {
+                            PawnStep(p, false, true);
+                        }
+                        else if(p.goingIntoSafety && p.safe == false)
+                        {
+                            PawnStepFirstSafe(p, false, true);
+                        }
+                        //PawnStep in safety
+                        else
+                        {
+
+                        }
                     }
                     //Does pawnStep for checking if there is a pawn there already
                     Boolean collision = checkCollisions(p, true);
@@ -179,6 +191,14 @@ namespace WpfApp1
             }
         }
 
+        public void PawnStepFirstSafe(Pawn p, Boolean last, Boolean forward)
+        {
+            if(!last)
+            {
+                this.main.drawInSafety(p);
+            }
+        }
+
         public Boolean checkCollisions(Pawn p, Boolean forward)
         {
             if (forward)
@@ -237,7 +257,7 @@ namespace WpfApp1
                     break;
                 //if you land on a safetyEntry
                 case 7:
-                    if(s.player.Equals(p.playerName))
+                    if(s.player.PlayerName.Equals(p.playerName))
                     {
                         s.localPawn = p;
                         p.safe = true;
@@ -293,10 +313,10 @@ namespace WpfApp1
                     return;
                 //if you step on a SafetyEntry, your next step should be onto the safety array
                 case 7:
-                    if (s.player.Equals(p.playerName))
+                    if (s.player.PlayerName.Equals(p.playerName))
                     {
-                        p.safe = true;
-                        p.SetSpaceNumber(0);
+                        p.goingIntoSafety = true;
+                        //p.SetSpaceNumber(0);
                     }
 
                     break;
