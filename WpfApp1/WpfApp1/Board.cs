@@ -99,40 +99,48 @@ namespace WpfApp1
         {
             //So first it needs to check whether or not the pawn is in start(if it's not in start it does the other stuff)
             //YOU GOTTA ADD WHATEVER HAPPENS TO THE BOARD CUZ I HAVE NO CLUE (in the initial if)
-            if(p.inStart)
+            if (p.inStart)
             {
                 this.main.drawOutsideStart(p);
             }
-            else if (forward)
+            else if (validateFutureLocation(p, movementDistance, forward))
             {
-                //Does pawnStep right until the before last move
-                for (int i = 0; i < movementDistance - 1; i++)
+                if (forward)
                 {
-                    PawnStep(p, false, true);
+
+                    //Does pawnStep right until the before last move
+                    for (int i = 0; i < movementDistance - 1; i++)
+                    {
+                        PawnStep(p, false, true);
+                    }
+                    //Does pawnStep for checking if there is a pawn there already
+                    Boolean collision = checkCollisions(p, true);
+                    //If there is, it calls handle collision
+                    if (collision)
+                    {
+                        HandleCollision(p, p.spaceNumber);
+                    }
+                    //Draws
+                    PawnStep(p, true, true);
                 }
-                //Does pawnStep for checking if there is a pawn there already
-                Boolean collision = checkCollisions(p, true);
-                //If there is, it calls handle collision
-                if (collision)
+                else
                 {
-                    HandleCollision(p, p.spaceNumber);
+
+                    for (int i = 0; i < movementDistance - 1; i++)
+                    {
+                        PawnStep(p, false, false);
+                    }
+                    Boolean collision = checkCollisions(p, false);
+                    if (collision)
+                    {
+                        HandleCollision(p, p.spaceNumber);
+                    }
+                    PawnStep(p, true, false);
                 }
-                //Draws
-                PawnStep(p, true, true);
             }
             else
             {
-
-                for (int i = 0; i < movementDistance - 1; i++)
-                {
-                    PawnStep(p, false, false);
-                }
-                Boolean collision = checkCollisions(p, false);
-                if (collision)
-                {
-                    HandleCollision(p, p.spaceNumber);
-                }
-                PawnStep(p, true, false);
+                main.ContentLog.Text = "Unfortunately, you already have a pawn in that location.";
             }
         }
 

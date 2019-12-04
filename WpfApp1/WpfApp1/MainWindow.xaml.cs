@@ -78,7 +78,7 @@ namespace WpfApp1
                 activateCard(card.getCard_Id(), gameState.currentPlayer);
 
 
-                //Card temp = new Card(7);
+                Card temp = new Card(3);
                 /*
                 drawOutsideStart(this.gameState.players[0].pawns[0]);
                 this.gameState.players[1].pawns[0].spaceNumber = 5;
@@ -86,8 +86,8 @@ namespace WpfApp1
                 this.mainBoard.landingSpaces[4].localPawn = this.gameState.players[0].pawns[0];
                 this.mainBoard.landingSpaces[5].localPawn = this.gameState.players[1].pawns[0];
                 */
-                //drawOutsideStart(this.gameState.players[0].pawns[0]);
-                //activateCard(temp.getCard_Id(), gameState.currentPlayer);
+               // drawOutsideStart(this.gameState.players[0].pawns[0]);
+                activateCard(temp.getCard_Id(), gameState.currentPlayer);
                 
 
                 Next_Turn.IsEnabled = true;
