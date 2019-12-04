@@ -45,7 +45,7 @@ namespace WpfApp1
             if(numberType == 0)
             {
                 Choice_enem.Visibility = Visibility.Hidden;
-                Instructions.Text = playerName + "! Pick which pawn to move " + value + " spaces (or move out of home!";
+                Instructions.Text = playerName + "! Pick which pawn to move " + value + " spaces (or move out of home if not 7)!";
                 if(value == 11)
                 {
                     Instructions.Text = playerName + "! Sorry no pawns can be exchanged! Pick which pawn to move.";
@@ -119,6 +119,7 @@ namespace WpfApp1
                 Choice_enem.Items.Add("Put all 7 on one pawn");
                 Choice_enem.Items.Add("Separate between 2 pawns");
             }
+            //for card 10
             else if(numberType == 10)
             {
                 Choice_enem.Visibility = Visibility.Hidden;
@@ -126,6 +127,7 @@ namespace WpfApp1
                 Choice.Items.Add("Move a pawn forward 10 spaces");
                 Choice.Items.Add("Move a pawn backward 1 space");
             }
+            //For card 7 part 2
             else
             {
 
@@ -145,6 +147,11 @@ namespace WpfApp1
                 else
                 {
                     Instructions.Text = playerName + "! Pick the pawn you want to move for the rest of the spaces";
+
+                    for (int i = 0; i < allPawns.Length; i++)
+                    {
+                        Choice.Items.Add(allPawns[i].pawnToString());
+                    }
                     Choice_enem.Visibility = Visibility.Hidden;
                 }
 
@@ -211,7 +218,11 @@ namespace WpfApp1
             //This is for when splitting the pawn into 2
             else if(this.numberType == 7)
             {
-                this.move7 = Convert.ToInt32(Choice_enem.Text);
+                if(this.value == 7)
+                {
+                    this.move7 = Convert.ToInt32(Choice_enem.Text);
+                }
+
                 String inputtedText = Choice.Text;
                 for (int i = 0; i < allPawns.Length; i++)
                 {

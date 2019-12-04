@@ -24,6 +24,12 @@ namespace WpfApp1
         public int startPositionCol;
         public int startPositionRow;
 
+        //For safety spaces
+        public int safetyColumn;
+        public int safetyRow;
+        public Boolean goingIntoSafety = false;
+        
+
 
         /*So basically the color is going to be the color of the pawn*/
         public Pawn(int numberOfPawn, String color, int playerNumber, String playerName)
@@ -112,6 +118,50 @@ namespace WpfApp1
             }
         }
 
+        public void sendToSafety()
+        {
+            this.safe = true;
+            if (color.Equals("Red"))
+            {
+                this.safetyRow = 1;
+                this.safetyColumn = 2;
+            }
+            else if (color.Equals("Green"))
+            {
+                this.safetyRow = 14;
+                this.safetyColumn = 13;
+            }
+            else if (color.Equals("Blue"))
+            {
+                this.safetyRow = 2;
+                this.safetyColumn = 14;
+            }
+            else
+            {
+                this.safetyRow = 13;
+                this.safetyColumn = 1;
+            }
+        }
+
+        public void updateSafety()
+        {
+            if (color.Equals("Red"))
+            {
+                this.safetyRow++;
+            }
+            else if (color.Equals("Green"))
+            {
+                this.safetyRow--;
+            }
+            else if (color.Equals("Blue"))
+            {
+                this.safetyColumn--;
+            }
+            else
+            {
+                this.safetyColumn++;
+            }
+        }
         
 
         public void SetSpaceNumber(int newSpaceNumber)

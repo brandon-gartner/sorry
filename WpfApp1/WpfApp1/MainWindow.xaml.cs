@@ -80,25 +80,27 @@ namespace WpfApp1
 
                 if(!bruh)
                 {
-                    Card temp = new Card(12);
+                    Card temp = new Card(7);
+                    
+
                     /*
-                    drawOutsideStart(this.gameState.players[0].pawns[0]);
-                    this.gameState.players[1].pawns[0].spaceNumber = 5;
-                    drawAtNextPosition(this.gameState.players[1].pawns[0]);
-                    this.mainBoard.landingSpaces[4].localPawn = this.gameState.players[0].pawns[0];
-                    this.mainBoard.landingSpaces[5].localPawn = this.gameState.players[1].pawns[0];
+                    this.gameState.players[0].pawns[0].spaceNumber = 14;
+                    this.gameState.players[0].pawns[0].inStart = false;
+                    drawAtNextPosition(this.gameState.players[0].pawns[0]);
+                    this.mainBoard.landingSpaces[14].localPawn = this.gameState.players[0].pawns[0];
+                    this.gameState.players[0].pawns[1].spaceNumber = 12;
+                    this.gameState.players[0].pawns[1].inStart = false;
+                    drawAtNextPosition(this.gameState.players[0].pawns[1]);
+                    this.mainBoard.landingSpaces[12].localPawn = this.gameState.players[0].pawns[1];
                     */
-                    /*drawOutsideStart(this.gameState.players[0].pawns[0]);
-                    this.gameState.players[1].pawns[0].spaceNumber = 6;
-                    drawAtNextPosition(this.gameState.players[1].pawns[0]);
-                    this.mainBoard.landingSpaces[6].localPawn = this.gameState.players[1].pawns[0];
-                    */
-                    this.gameState.players[1].pawns[0].spaceNumber = 6;
-                    this.gameState.players[1].pawns[0].inStart = false;
-                    drawAtNextPosition(this.gameState.players[1].pawns[0]);
-                    this.mainBoard.landingSpaces[6].localPawn = this.gameState.players[1].pawns[0];
-                    activateCard(temp.getCard_Id(), gameState.currentPlayer);
+                    
+                    this.gameState.players[0].pawns[0].spaceNumber = 58;
+                    this.gameState.players[0].pawns[0].inStart = false;
+                    drawAtNextPosition(this.gameState.players[0].pawns[0]);
+                    this.mainBoard.landingSpaces[58].localPawn = this.gameState.players[0].pawns[0];
+                    
                     //this.bruh = true;
+                    activateCard(temp.getCard_Id(), gameState.currentPlayer);
                 }
                 else
                 {
@@ -858,6 +860,73 @@ namespace WpfApp1
             }
 
         }
+
+        public void drawAtEnd(Pawn pawn)
+        {
+            pawn.decommissioned = true;
+            MainGrid.Children.Remove(pawn.image);
+            if (pawn.color.Equals("Red"))
+            {
+                Grid.SetRow(pawn.image, 6);
+                Grid.SetColumn(pawn.image, 2);
+            }
+            else if(pawn.color.Equals("Blue"))
+            {
+                Grid.SetRow(pawn.image, 2);
+                Grid.SetColumn(pawn.image, 9);
+            }
+            else if(pawn.color.Equals("Green"))
+            {
+                Grid.SetRow(pawn.image, 9);
+                Grid.SetColumn(pawn.image, 13);
+            }
+            else
+            {
+                Grid.SetRow(pawn.image, 13);
+                Grid.SetRow(pawn.image, 6);
+            }
+            MainGrid.Children.Add(pawn.image);
+        }
+
+        public void drawInSafety(Pawn pawn)
+        {
+            Player player = this.gameState.players[this.gameState.currentPlayer];
+            player.safetySpaces[0].localPawn = pawn;
+            pawn.sendToSafety();
+            this.MainGrid.Children.Remove(pawn.image);
+            Grid.SetRow(pawn.image, pawn.safetyRow);
+            Grid.SetColumn(pawn.image, pawn.safetyColumn);
+            this.MainGrid.Children.Add(pawn.image);
+        }
+
+        public void updateInSafety(Pawn pawn)
+        {
+            Player player = this.gameState.players[this.gameState.currentPlayer];
+            for (int i = 0; i < player.safetySpaces.Length; i++)
+            {
+                if (player.safetySpaces[i].localPawn == pawn)
+                {
+                    player.safetySpaces[i].localPawn = null;
+                    player.safetySpaces[i + 1].localPawn = pawn;
+                    break;
+                }
+            }
+            if(player.safetySpaces[4].localPawn == pawn)
+            {
+                drawAtEnd(pawn);
+                player.safetySpaces[4].localPawn = null;
+            }
+            else
+            {
+                pawn.updateSafety();
+                this.MainGrid.Children.Remove(pawn.image);
+                Grid.SetRow(pawn.image, pawn.safetyRow);
+                Grid.SetColumn(pawn.image, pawn.safetyColumn);
+                this.MainGrid.Children.Add(pawn.image);
+            }
+
+        }
+
         /*
         private Pawn[] getPawnsOnCards1And2()
         {

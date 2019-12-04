@@ -9,7 +9,7 @@ namespace WpfApp1
     public class Player
     {
         public String PlayerName { get; set; }
-        public Space[] SafetySpaceAndHome = new Space[7];
+        public Space[] safetySpaces = new Space[5];
         public Pawn[] pawns;
         public Boolean realPlayer;
         public String color;
@@ -29,31 +29,53 @@ namespace WpfApp1
             {
                 this.pawns[i] = new Pawn(i+1, color, this.playerNumber, this.PlayerName);
             }
+            this.realPlayer = true;
             InitialisePlayersBoard();
-            realPlayer = true;
         }
 
-        //if it is an AI player
+        //if it is a null player
         public Player(String color)
         {
-            this.PlayerName = "AI";
             this.pawns = new Pawn[3];
             for (int i = 0; i < 3; i++)
             {
                 this.pawns[i] = new Pawn(i+1, color, this.playerNumber, this.PlayerName);
             }
-            this.PlayerName = "CPU";
+            this.PlayerName = "nullPlayer";
+            this.realPlayer = false;
             InitialisePlayersBoard();
+        }
+
+        //if it is a CPU player
+        public Player(String color, Boolean AI)
+        {
+            if (AI)
+            {
+                this.pawns = new Pawn[3];
+                for (int i = 0; i < 3; i++)
+                {
+                    this.pawns[i] = new Pawn(i + 1, color, this.playerNumber, this.PlayerName);
+                }
+                this.PlayerName = "AI";
+                InitialisePlayersBoard();
+            }
+            else
+            {
+                throw new ArgumentException("generate the AI with this true");
+            }
+            
         }
 
         public void InitialisePlayersBoard()
         {
-            for (int i = 1; i < 6; i++)
+            for (int i = 1; i < safetySpaces.Length - 1; i++)
             {
-                this.SafetySpaceAndHome[i] = new Space(4, this);
+                this.safetySpaces[i] = new Space(4, this);
             }
-            this.SafetySpaceAndHome[5] = new Space(2);
+            this.safetySpaces[4] = new Space(2);
         }
+
+
 
         //This is actually useless
         /*
