@@ -103,39 +103,36 @@ namespace WpfApp1
             {
                 this.main.drawOutsideStart(p);
             }
-            if (validateFutureLocation(p, movementDistance, forward))
-            {
             else if (forward)
+            {
+                //Does pawnStep right until the before last move
+                for (int i = 0; i < movementDistance - 1; i++)
                 {
-                    //Does pawnStep right until the before last move
-                    for (int i = 0; i < movementDistance - 1; i++)
-                    {
-                        PawnStep(p, false, true);
-                    }
-                    //Does pawnStep for checking if there is a pawn there already
-                    Boolean collision = checkCollisions(p, true);
-                    //If there is, it calls handle collision
-                    if (collision)
-                    {
-                        HandleCollision(p, p.spaceNumber);
-                    }
-                    //Draws
-                    PawnStep(p, true, true);
+                    PawnStep(p, false, true);
                 }
-                else
+                //Does pawnStep for checking if there is a pawn there already
+                Boolean collision = checkCollisions(p, true);
+                //If there is, it calls handle collision
+                if (collision)
                 {
+                    HandleCollision(p, p.spaceNumber);
+                }
+                //Draws
+                PawnStep(p, true, true);
+            }
+            else
+            {
 
-                    for (int i = 0; i < movementDistance - 1; i++)
-                    {
-                        PawnStep(p, false, false);
-                    }
-                    Boolean collision = checkCollisions(p, false);
-                    if (collision)
-                    {
-                        HandleCollision(p, p.spaceNumber);
-                    }
-                    PawnStep(p, true, false);
+                for (int i = 0; i < movementDistance - 1; i++)
+                {
+                    PawnStep(p, false, false);
                 }
+                Boolean collision = checkCollisions(p, false);
+                if (collision)
+                {
+                    HandleCollision(p, p.spaceNumber);
+                }
+                PawnStep(p, true, false);
             }
         }
 
@@ -315,7 +312,7 @@ namespace WpfApp1
             }
             else
             {
-                for (; landingSpaces[p.spaceNumber].type == 1 || landingSpaces[p.spaceNumber].type == 3;)
+                for (; landingSpaces[p.spaceNumber].type == 1;)
                 {
                     if (landingSpaces[p.spaceNumber].localPawn != p)
                     {
