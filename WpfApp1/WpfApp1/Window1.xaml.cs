@@ -226,6 +226,8 @@ namespace WpfApp1
             else if(this.numberType == 10)
             {
                 this.card10Choice = Choice.Text;
+                this.main._10Helper(this);
+                this.Close();
             }
             this.Close();
 

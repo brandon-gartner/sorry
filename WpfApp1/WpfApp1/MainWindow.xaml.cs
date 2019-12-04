@@ -74,11 +74,11 @@ namespace WpfApp1
             {
 
                 //CURRENTLY TESTING CARDS
-                //Card card = this.gameState.deck.getNextCard();
-                //activateCard(card.getCard_Id(), gameState.currentPlayer);
+                Card card = this.gameState.deck.getNextCard();
+                activateCard(card.getCard_Id(), gameState.currentPlayer);
 
 
-                Card temp = new Card(10);
+                //Card temp = new Card(7);
                 /*
                 drawOutsideStart(this.gameState.players[0].pawns[0]);
                 this.gameState.players[1].pawns[0].spaceNumber = 5;
@@ -86,8 +86,8 @@ namespace WpfApp1
                 this.mainBoard.landingSpaces[4].localPawn = this.gameState.players[0].pawns[0];
                 this.mainBoard.landingSpaces[5].localPawn = this.gameState.players[1].pawns[0];
                 */
-                drawOutsideStart(this.gameState.players[0].pawns[0]);
-                activateCard(temp.getCard_Id(), gameState.currentPlayer);
+                //drawOutsideStart(this.gameState.players[0].pawns[0]);
+                //activateCard(temp.getCard_Id(), gameState.currentPlayer);
                 
 
                 Next_Turn.IsEnabled = true;
@@ -235,7 +235,7 @@ namespace WpfApp1
 
             if (allPawns.Length == 0 || allSwitchablePawn.Length == 0)
             {
-                ContentLog.Text = "You don't have any pawns at Start :(";
+                ContentLog.Text = "You don't have any pawns at Start or none of the opponents moved :( ";
             }
             else
             {
@@ -314,8 +314,16 @@ namespace WpfApp1
         {
             Pawn[] availablePawns = pawnsFor7();
             String player = this.gameState.players[this.gameState.currentPlayer].PlayerName;
-            Window1 options = new Window1(6, player, 7, availablePawns, null, this);
-            options.Show();
+            if(availablePawns.Length != 0)
+            {
+                Window1 options = new Window1(6, player, 7, availablePawns, null, this);
+                options.Show();
+            }
+            else
+            {
+                ContentLog.Text = "Sorry no available moves for 7 :(";
+            }
+
         }
         //This is for the card 10
         private void handleCard10(int playerId)
