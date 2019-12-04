@@ -15,7 +15,7 @@ namespace WpfApp1
         public Player[] players;
         public Deck deck;
         public int currentPlayer = -1;
-        public Board mainBoard;
+        //public Board mainBoard;
         public GameState(MainWindow main)
         {
             /*Creating the three players and getting their names and such*/
