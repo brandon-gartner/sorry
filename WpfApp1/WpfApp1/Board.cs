@@ -122,7 +122,7 @@ namespace WpfApp1
                         //PawnStep in safety
                         else
                         {
-
+                            PawnStepSafe(p, false, true);
                         }
                     }
                     //Does pawnStep for checking if there is a pawn there already
@@ -133,7 +133,19 @@ namespace WpfApp1
                         HandleCollision(p, p.spaceNumber);
                     }
                     //Draws
-                    PawnStep(p, true, true);
+                    if (p.goingIntoSafety && p.safe == false)
+                    {
+                        PawnStepFirstSafe(p, true, true);
+                    }
+                    else if (!p.safe)
+                    {
+                        PawnStep(p, true, true);
+                    }
+                    else
+                    {
+                        PawnStepSafe(p, true, true);
+                    }
+
                 }
                 else
                 {
@@ -190,15 +202,71 @@ namespace WpfApp1
                 return;
             }
         }
+        //IMPLEMENT GOING BACKKK
+        //Update pawn location for the first entry
 
+        //FOR SAFETY STUFF
         public void PawnStepFirstSafe(Pawn p, Boolean last, Boolean forward)
         {
-            if(!last)
+             this.main.drawInSafety(p);
+        }
+
+        //update pawn location when its in safe
+        public Boolean PawnStepSafe(Pawn p, Boolean last, Boolean forward)
+        {
+            
+            this.main.updateInSafety(p);
+            if(p.decommissioned && last)
             {
-                this.main.drawInSafety(p);
+                return true;
+            }
+            else
+            {
+                p.decommissioned = false;
+                return false;
+            }
+            
+        }
+
+        public Boolean validateFutureLocationSafety(Pawn p, int distance, Boolean forward)
+        {
+            Player currentPlayer = this.main.gameState.players[this.main.gameState.currentPlayer];
+            Space finalSpace;
+            if(p.safe)
+            {
+                for(int i = 0; i < currentPlayer.safetySpaces.Length; i++)
+                {
+                    if(currentPlayer.safetySpaces[i].localPawn == p)
+                    {
+                        if(i + distance > (currentPlayer.safetySpaces.Length-1))
+                        {
+                            this.main.ContentLog.Text = "Sorry! That's too far!";
+                            return false;
+                        }
+                        else if(currentPlayer.safetySpaces[i + distance].localPawn != null)
+                        {
+                            this.main.ContentLog.Text = "Sorry! There's a pawn there!";
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                if(p.color.Equals("Red"))
+                {
+                    if((p.spaceNumber < 2 && (p.spaceNumber + distance) > 2) || (p.spaceNumber > 2 && (p.spaceNumber + distance) > 2 && (p.spaceNumber + distance) < p.spaceNumber))
+                    {
+
+                    }
+                }
+                return true;
             }
         }
 
+
+        //FOR NORMAL BOARD
         public Boolean checkCollisions(Pawn p, Boolean forward)
         {
             if (forward)
@@ -260,8 +328,9 @@ namespace WpfApp1
                     if(s.player.PlayerName.Equals(p.playerName))
                     {
                         s.localPawn = p;
-                        p.safe = true;
-                        p.SetSpaceNumber(0);
+                        p.goingIntoSafety = true;
+                        //p.safe = true;
+                        //p.SetSpaceNumber(0);
                     }
 
                     return;

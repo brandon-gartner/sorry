@@ -98,12 +98,16 @@ namespace WpfApp1
                     this.mainBoard.landingSpaces[12].localPawn = this.gameState.players[0].pawns[1];
                     */
                     
-                    //this.gameState.players[0].pawns[0].spaceNumber = 58;
-                    //this.gameState.players[0].pawns[0].inStart = false;
-                    //drawAtNextPosition(this.gameState.players[0].pawns[0]);
-                    //this.mainBoard.landingSpaces[58].localPawn = this.gameState.players[0].pawns[0];
+
+                    this.gameState.players[0].pawns[0].safe = true;
+                    this.gameState.players[0].pawns[0].inStart = false;
+                    Player player = this.gameState.players[0];
+                    player.safetySpaces[1].localPawn = player.pawns[0];
+                    drawInSafety(this.gameState.players[0].pawns[0]);
+                    updateInSafety(this.gameState.players[0].pawns[0]);
+                    this.mainBoard.landingSpaces[0].localPawn = this.gameState.players[0].pawns[0];
                     
-                    //this.bruh = true;
+                    this.bruh = true;
                     activateCard(temp.getCard_Id(), gameState.currentPlayer);
                 }
                 else
@@ -996,7 +1000,8 @@ namespace WpfApp1
             Grid.SetColumn(pawn.image, pawn.startPositionCol);
             MainGrid.Children.Add(pawn.image);
         }
-        public void drawOutsideStart(Pawn pawn)
+        //MAKE SURE THAT THE PAWN OUTSIDE IS THE SAME COLOR
+        public Boolean drawOutsideStart(Pawn pawn)
         {
             Boolean isThereAPawnPresent = false;
             
@@ -1050,6 +1055,7 @@ namespace WpfApp1
             {
                 ContentLog.Text = "Sorry! there is a card outside start!";
             }
+            return isThereAPawnPresent;
 
         }
 
