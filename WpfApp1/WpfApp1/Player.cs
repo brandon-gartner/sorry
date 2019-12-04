@@ -68,7 +68,7 @@ namespace WpfApp1
 
         public void InitialisePlayersBoard()
         {
-            for (int i = 1; i < safetySpaces.Length - 1; i++)
+            for (int i = 0; i < safetySpaces.Length - 1; i++)
             {
                 this.safetySpaces[i] = new Space(4, this);
             }
