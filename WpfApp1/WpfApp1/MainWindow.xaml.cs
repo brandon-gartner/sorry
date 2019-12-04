@@ -99,8 +99,7 @@ namespace WpfApp1
         private void GameLoad(object sender, RoutedEventArgs e)
         {
             //check if the game is runnig and if not display a message
-            if (isGameRunning)
-            {
+
                 BinaryFormatter load = new BinaryFormatter();
                 this.pubStream = new FileStream(@".\save.txt", FileMode.Open, FileAccess.Read);
                 this.gameState = (GameState)load.Deserialize(this.pubStream);
@@ -109,11 +108,6 @@ namespace WpfApp1
                 loadedPlayers = stateToLoad.GetPlayers();
                 loadedPlayerCount = stateToLoad.GetPlayerCount();
                 */
-            }
-            else
-            {
-                MessageBox.Show("The game has not started");
-            }
         }
         //this method will save the game
         private void GameSave(object sender, RoutedEventArgs e)
