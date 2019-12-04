@@ -43,6 +43,7 @@ namespace WpfApp1
         int loadedPlayerCount;
         public GameState gameState;
         public Board mainBoard;
+        public Boolean bruh = false;
 
         //Rando
 
@@ -74,21 +75,39 @@ namespace WpfApp1
             {
 
                 //CURRENTLY TESTING CARDS
-                //Card card = this.gameState.deck.getNextCard();
-                //activateCard(card.getCard_Id(), gameState.currentPlayer);
 
 
-                Card temp = new Card(3);
-                /*
-                drawOutsideStart(this.gameState.players[0].pawns[0]);
-                this.gameState.players[1].pawns[0].spaceNumber = 5;
-                drawAtNextPosition(this.gameState.players[1].pawns[0]);
-                this.mainBoard.landingSpaces[4].localPawn = this.gameState.players[0].pawns[0];
-                this.mainBoard.landingSpaces[5].localPawn = this.gameState.players[1].pawns[0];
-                */
-               // drawOutsideStart(this.gameState.players[0].pawns[0]);
-                activateCard(temp.getCard_Id(), gameState.currentPlayer);
-                
+
+                if(!bruh)
+                {
+                    Card temp = new Card(-1);
+                    /*
+                    drawOutsideStart(this.gameState.players[0].pawns[0]);
+                    this.gameState.players[1].pawns[0].spaceNumber = 5;
+                    drawAtNextPosition(this.gameState.players[1].pawns[0]);
+                    this.mainBoard.landingSpaces[4].localPawn = this.gameState.players[0].pawns[0];
+                    this.mainBoard.landingSpaces[5].localPawn = this.gameState.players[1].pawns[0];
+                    */
+                    /*drawOutsideStart(this.gameState.players[0].pawns[0]);
+                    this.gameState.players[1].pawns[0].spaceNumber = 6;
+                    drawAtNextPosition(this.gameState.players[1].pawns[0]);
+                    this.mainBoard.landingSpaces[6].localPawn = this.gameState.players[1].pawns[0];
+                    */
+                    this.gameState.players[1].pawns[0].spaceNumber = 6;
+                    this.gameState.players[1].pawns[0].inStart = false;
+                    drawAtNextPosition(this.gameState.players[1].pawns[0]);
+                    this.mainBoard.landingSpaces[6].localPawn = this.gameState.players[1].pawns[0];
+                    activateCard(temp.getCard_Id(), gameState.currentPlayer);
+                    this.bruh = true;
+                }
+                else
+                {
+                    Card card = this.gameState.deck.getNextCard();
+                    activateCard(card.getCard_Id(), gameState.currentPlayer);
+                }
+
+
+
 
                 Next_Turn.IsEnabled = true;
                 DrawCard.IsEnabled = false;
@@ -235,7 +254,7 @@ namespace WpfApp1
 
             if (allPawns.Length == 0 || allSwitchablePawn.Length == 0)
             {
-                ContentLog.Text = "You don't have any pawns at Start :(";
+                ContentLog.Text = "You don't have any pawns at Start or none of the opponents moved :( ";
             }
             else
             {
@@ -314,8 +333,16 @@ namespace WpfApp1
         {
             Pawn[] availablePawns = pawnsFor7();
             String player = this.gameState.players[this.gameState.currentPlayer].PlayerName;
-            Window1 options = new Window1(6, player, 7, availablePawns, null, this);
-            options.Show();
+            if(availablePawns.Length != 0)
+            {
+                Window1 options = new Window1(6, player, 7, availablePawns, null, this);
+                options.Show();
+            }
+            else
+            {
+                ContentLog.Text = "Sorry no available moves for 7 :(";
+            }
+
         }
         //This is for the card 10
         private void handleCard10(int playerId)
@@ -466,7 +493,9 @@ namespace WpfApp1
         private void switchPawns(Pawn pawnAtStart, Pawn pawnToSwitch)
         {
             pawnAtStart.spaceNumber = pawnToSwitch.spaceNumber;
+            this.mainBoard.landingSpaces[pawnToSwitch.spaceNumber].localPawn = pawnAtStart;
             drawAtNextPosition(pawnAtStart);
+            pawnAtStart.inStart = false;
             drawAtStart(pawnToSwitch);
 
         }
@@ -477,6 +506,7 @@ namespace WpfApp1
             int temp = currentPlayerPawn.spaceNumber;
             currentPlayerPawn.spaceNumber = pawnToSwitch.spaceNumber;
             pawnToSwitch.spaceNumber = temp;
+            
 
             drawAtNextPosition(currentPlayerPawn);
             drawAtNextPosition(pawnToSwitch);
@@ -585,13 +615,11 @@ namespace WpfApp1
                 Pawn currentPawn = allPawns[i];
                 if(movement == 10)
                 {
-                    if(!currentPawn.inStart)
+                    if (this.mainBoard.validateFutureLocation(currentPawn, 10, true))
                     {
-                        if (this.mainBoard.validateFutureLocation(currentPawn, 10, true))
-                        {
-                            availablePawns.Add(currentPawn);
-                        }
+                        availablePawns.Add(currentPawn);
                     }
+                    
 
                 }
                 else
@@ -766,6 +794,7 @@ namespace WpfApp1
 
         public void drawAtStart(Pawn pawn)
         {
+            //this.mainBoard.landingSpaces[pawn.spaceNumber].localPawn = null;
             MainGrid.Children.Remove(pawn.image);
             pawn.inStart = true;
             pawn.spaceNumber = 99;
@@ -775,28 +804,59 @@ namespace WpfApp1
         }
         public void drawOutsideStart(Pawn pawn)
         {
-            pawn.inStart = false;
+            Boolean isThereAPawnPresent = false;
+            
             if (pawn.color.Equals("Red"))
             {
-                pawn.spaceNumber = 4;
-                this.mainBoard.landingSpaces[4].localPawn = pawn;
+                if(this.mainBoard.landingSpaces[4].localPawn == null)
+                {
+                    pawn.spaceNumber = 4;
+                    this.mainBoard.landingSpaces[4].localPawn = pawn;
+                }
+                else
+                {
+                    isThereAPawnPresent = true;
+                }
             }
             else if (pawn.color.Equals("Blue"))
             {
-                pawn.spaceNumber = 19;
-                this.mainBoard.landingSpaces[19].localPawn = pawn;
+                if (this.mainBoard.landingSpaces[19].localPawn == null)
+                {
+                    pawn.spaceNumber = 19;
+                    this.mainBoard.landingSpaces[19].localPawn = pawn;
+                }
+                else
+                {
+                    isThereAPawnPresent = true;
+                }
             }
             else if (pawn.color.Equals("Green"))
             {
-                pawn.spaceNumber = 34;
-                this.mainBoard.landingSpaces[34].localPawn = pawn;
+                if (this.mainBoard.landingSpaces[34].localPawn == null)
+                {
+                    pawn.spaceNumber = 34;
+                    this.mainBoard.landingSpaces[34].localPawn = pawn;
+                }
+                else
+                {
+                    isThereAPawnPresent = true;
+                }
             }
             else
             {
                 pawn.spaceNumber = 49;
                 this.mainBoard.landingSpaces[49].localPawn = pawn;
             }
-            drawAtNextPosition(pawn);
+            if(!isThereAPawnPresent)
+            {
+                pawn.inStart = false;
+                drawAtNextPosition(pawn);
+            }
+            else
+            {
+                ContentLog.Text = "Sorry! there is a card outside start!";
+            }
+
         }
         /*
         private Pawn[] getPawnsOnCards1And2()

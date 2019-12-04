@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
         x:FieldModifier ="public"
-        Title="MainWindow" Height="886.477" Width="1009.21">
+        Title="MainWindow" Height="932.477" Width="1009.21">
     <Grid x:Name="MainGrid" HorizontalAlignment="Left" Margin="72,144,0,0" Height="650" VerticalAlignment="Top" Width="650">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -180,7 +180,7 @@
                 </TransformGroup>
             </TextBlock.RenderTransform>
         </TextBlock>
-        <TextBlock x:Name="ContentLog" Grid.Column="1" HorizontalAlignment="Left" Height="41" Margin="0,60,-10.875,-61" Grid.Row="15" TextWrapping="Wrap" VerticalAlignment="Top" Width="624" TextAlignment="Center" FontSize="24" Grid.ColumnSpan="15"><Run Text="Content Log"/></TextBlock>
+        <TextBlock x:Name="ContentLog" Grid.Column="1" HorizontalAlignment="Left" Height="71" Margin="0,60,-11,-91" Grid.Row="15" TextWrapping="Wrap" VerticalAlignment="Top" Width="624" TextAlignment="Center" FontSize="24" Grid.ColumnSpan="15"><Run Text="Content Log"/></TextBlock>
         <TextBlock x:Name="Player_Display" Grid.Column="15" HorizontalAlignment="Left" Height="41" Margin="93.5,35,-224.5,0" Grid.Row="11" Grid.RowSpan="2" TextWrapping="Wrap" VerticalAlignment="Top" Width="172" TextAlignment="Center" FontSize="16" Text="Displays player turn"/>
         <Button x:Name="Next_Turn" Content="Next Turn" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Grid.Column="15" Margin="67.5,0,-176.5,0" Grid.Row="8" Height="77" Grid.RowSpan="2" FontSize="22" FontFamily="Georgia" Click="Next_Turn_Click" IsEnabled="False"/>
         <Border BorderBrush="Black" BorderThickness="1" Grid.ColumnSpan="4" HorizontalAlignment="Left" Height="30" Margin="28,5,0,0" VerticalAlignment="Top" Width="116" Grid.Column="1" Background="#FFF92F2F"/>
