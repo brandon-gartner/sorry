@@ -80,7 +80,7 @@ namespace WpfApp1
 
                 if(!bruh)
                 {
-                    Card temp = new Card(-1);
+                    Card temp = new Card(12);
                     /*
                     drawOutsideStart(this.gameState.players[0].pawns[0]);
                     this.gameState.players[1].pawns[0].spaceNumber = 5;
@@ -98,7 +98,7 @@ namespace WpfApp1
                     drawAtNextPosition(this.gameState.players[1].pawns[0]);
                     this.mainBoard.landingSpaces[6].localPawn = this.gameState.players[1].pawns[0];
                     activateCard(temp.getCard_Id(), gameState.currentPlayer);
-                    this.bruh = true;
+                    //this.bruh = true;
                 }
                 else
                 {
