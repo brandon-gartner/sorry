@@ -104,6 +104,7 @@ namespace WpfApp1
                 this.pubStream = new FileStream(@".\save.txt", FileMode.Open, FileAccess.Read);
                 this.gameState = (GameState)load.Deserialize(this.pubStream);
                 this.pubStream.Close();
+                LoadDrawInitialPawns();
                 /*scrapped idea
                 loadedPlayers = stateToLoad.GetPlayers();
                 loadedPlayerCount = stateToLoad.GetPlayerCount();
@@ -547,6 +548,62 @@ namespace WpfApp1
                 }
             }
         }
+
+        private void LoadDrawInitialPawns()//***********************************************************************************test
+        {
+            for (int i = 0; i < this.gameState.players.Length; i++)
+            {
+                for (int j = 0; j < this.gameState.players[i].pawns.Length; j++)
+                {
+                    Player tempPlayer = this.gameState.players[i];
+                    Pawn currentPawn = tempPlayer.pawns[j];
+                    currentPawn.colorCorrection();
+                }
+            }
+
+            for (int i = 0; i < this.gameState.players.Length; i++)
+            {
+                for (int j = 0; j < this.gameState.players[i].pawns.Length; j++)
+                {
+                    Player tempPlayer = this.gameState.players[i];
+                    Pawn currentPawn = tempPlayer.pawns[j];
+                    if (tempPlayer.color.Equals("Red"))
+                    {
+                        Grid.SetRow(currentPawn.image, 2);
+                        Grid.SetColumn(currentPawn.image, 4);
+                        MainGrid.Children.Add(currentPawn.image);
+                    }
+                    else if (tempPlayer.color.Equals("Blue"))
+                    {
+                        Grid.SetRow(currentPawn.image, 4);
+                        Grid.SetColumn(currentPawn.image, 13);
+                        MainGrid.Children.Add(currentPawn.image);
+                    }
+                    else if (tempPlayer.color.Equals("Yellow"))
+                    {
+                        Grid.SetRow(currentPawn.image, 11);
+                        Grid.SetColumn(currentPawn.image, 2);
+                        MainGrid.Children.Add(currentPawn.image);
+                    }
+                    else
+                    {
+                        Grid.SetRow(currentPawn.image, 13);
+                        Grid.SetColumn(currentPawn.image, 11);
+                        MainGrid.Children.Add(currentPawn.image);
+                    }
+                }
+            }
+            for (int i = 0; i < this.gameState.players.Length; i++)
+            {
+                for (int j = 0; j < this.gameState.players[i].pawns.Length; j++)
+                {
+                    Player tempPlayer = this.gameState.players[i];
+                    Pawn currentPawn = tempPlayer.pawns[j];
+                    drawAtNextPosition(currentPawn);
+                }
+            }
+        }
+
 
         public void drawAtNextPosition(Pawn pawn)
         {
