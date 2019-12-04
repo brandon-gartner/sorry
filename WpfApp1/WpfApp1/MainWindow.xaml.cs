@@ -78,7 +78,7 @@ namespace WpfApp1
 
 
 
-                if(!bruh)
+                if(bruh)
                 {
                     Card temp = new Card(7);
                     
@@ -129,6 +129,7 @@ namespace WpfApp1
                 this.pubStream = new FileStream(@".\save.txt", FileMode.Open, FileAccess.Read);
                 this.gameState = (GameState)load.Deserialize(this.pubStream);
                 this.pubStream.Close();
+                this.mainBoard = new Board(this.gameState.players, this);//testing***************************************
                 LoadDrawInitialPawns();
                 /*scrapped idea
                 loadedPlayers = stateToLoad.GetPlayers();
@@ -751,8 +752,17 @@ namespace WpfApp1
                 {
                     Player tempPlayer = this.gameState.players[i];
                     Pawn currentPawn = tempPlayer.pawns[j];
-                    drawAtNextPosition(currentPawn);
                     this.mainBoard.landingSpaces[currentPawn.spaceNumber].localPawn = currentPawn;
+                    if (currentPawn.inStart)
+                    {
+                        drawAtStart(currentPawn);
+                    }
+                    else
+                    {
+                        drawAtNextPosition(currentPawn);
+                    }
+                    //drawAtNextPosition(currentPawn);
+                    
                 }
             }
         }
