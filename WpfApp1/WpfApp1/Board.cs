@@ -146,8 +146,9 @@ namespace WpfApp1
 
         public void HandleCollision(Pawn p, int location)
         {
-            if (landingSpaces[p.spaceNumber + 1].localPawn != p)
+            if (landingSpaces[p.spaceNumber+ 1].localPawn != null && landingSpaces[p.spaceNumber + 1].localPawn != p)
             {
+
                 ReturnHome(landingSpaces[p.spaceNumber + 1].localPawn);
                 //landingSpaces[p.spaceNumber].localPawn = p;
             }
@@ -323,7 +324,7 @@ namespace WpfApp1
             }
             else
             {
-                for (; landingSpaces[p.spaceNumber].type == 1;)
+                for (; !(landingSpaces[p.spaceNumber].type == 1) && !(landingSpaces[p.spaceNumber].type == 3);)
                 {
                     if (landingSpaces[p.spaceNumber].localPawn != p)
                     {
