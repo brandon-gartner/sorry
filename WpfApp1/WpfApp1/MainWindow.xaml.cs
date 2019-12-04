@@ -252,7 +252,15 @@ namespace WpfApp1
         //WORKS FOR MOVING OUT OF INITIAL SPACE AND MOVING(*havent tested collision yet)
         private void handleGenericCard(int value, int playerId)
         {
-            Pawn[] availablePawns = getWhichPawnsCanMove();
+            Pawn[] availablePawns;
+            if(value == 7)
+            {
+                availablePawns = pawnsFor7();
+            }
+            else
+            {
+                availablePawns = getWhichPawnsCanMove();
+            }
             if (availablePawns == null)
             {
                 //This is actually not quite the correct implementation, but we need another method to check if a pawn can move 10 spots or not
@@ -410,21 +418,29 @@ namespace WpfApp1
             Pawn selectedPawn = input.gotPawn;
             if(input.value == 7)
             {
-                Pawn[] gotPawns = input.allPawns;
-                ArrayList availablePawns = new ArrayList();
-
-                for (int i = 0; i < gotPawns.Length; i++)
+                if (input.allPawns.Length >= 2)
                 {
-                    if (gotPawns[i] != selectedPawn)
-                    {
-                        availablePawns.Add(gotPawns[i]);
-                    }
-                }
+                    Pawn[] gotPawns = input.allPawns;
+                    ArrayList availablePawns = new ArrayList();
 
-                Pawn[] newPawns = (Pawn[])availablePawns.ToArray(typeof(Pawn));
-                this.mainBoard.MovePawn(selectedPawn, firstMove, true);
-                input = new Window1(7, input.playerName, (7 - input.move7), newPawns, null, this);
-                input.Show();
+                    for (int i = 0; i < gotPawns.Length; i++)
+                    {
+                        if (gotPawns[i] != selectedPawn)
+                        {
+                            availablePawns.Add(gotPawns[i]);
+                        }
+                    }
+
+                    Pawn[] newPawns = (Pawn[])availablePawns.ToArray(typeof(Pawn));
+                    this.mainBoard.MovePawn(selectedPawn, firstMove, true);
+                    input = new Window1(7, input.playerName, (7 - input.move7), newPawns, null, this);
+                    input.Show();
+                }
+                else
+                {
+                    ContentLog.Text = "Sorry no moves available!";
+                }
+                   
             }
             else
             {
@@ -593,6 +609,27 @@ namespace WpfApp1
             return allPawns;
         }
 
+        private Pawn[] pawnsFor7()
+        {
+            Player currentPlayer = this.gameState.players[this.gameState.currentPlayer];
+            //get all current player's pawns
+            Pawn[] allPawns = currentPlayer.pawns;
+            //create an arraylist to store the pawns
+            ArrayList availablePawns = new ArrayList();
+
+            for (int i = 0; i < allPawns.Length; i++)
+            {
+                Pawn currentPawn = allPawns[i];
+                if (!currentPawn.decommissioned && !currentPawn.inStart)
+                {
+                    availablePawns.Add(currentPawn);
+                }
+            }
+
+            allPawns = (Pawn[])availablePawns.ToArray(typeof(Pawn));
+            return allPawns;
+        }
+
         /*DRAWING PAWNS + PLAYERS*/
         private void drawInitialPawns()
         {
@@ -604,6 +641,7 @@ namespace WpfApp1
                     Pawn currentPawn = tempPlayer.pawns[j];
                     if (tempPlayer.color.Equals("Red"))
                     {
+
                         Grid.SetRow(currentPawn.image, 2);
                         Grid.SetColumn(currentPawn.image, 4);
                         MainGrid.Children.Add(currentPawn.image);
