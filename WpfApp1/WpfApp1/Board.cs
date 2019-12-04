@@ -165,7 +165,6 @@ namespace WpfApp1
                 p.spaceNumber = p.validateNextLocation(forward);
                 SteppedOn(p, landingSpaces[p.spaceNumber], startingLocation);
                 this.main.drawAtNextPosition(p);
-                landingSpaces[p.spaceNumber].localPawn = null;
                 return;
             }
             else
@@ -174,6 +173,7 @@ namespace WpfApp1
                 landingSpaces[p.spaceNumber].localPawn = null;
                 p.spaceNumber = p.validateNextLocation(forward);
                 LandedOn(p, landingSpaces[p.spaceNumber]);
+                this.main.drawAtNextPosition(p);
                 return;
             }
         }
