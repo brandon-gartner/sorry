@@ -72,14 +72,13 @@ namespace WpfApp1
             //if the gams is not running then it will exit the method
             if (isGameRunning)
             {
-                //CURRENTLY TESTING CARDS
-                //Card card = this.gameState.deck.getNextCard();
-                //activateCard(card.getCard_Id(), gameState.currentPlayer);
+                Card card = this.gameState.deck.getNextCard();
+                activateCard(card.getCard_Id(), gameState.currentPlayer);
 
-                Card temp = new Card(11);
-                drawOutsideStart(this.gameState.players[0].pawns[0]);
-                drawOutsideStart(this.gameState.players[1].pawns[0]);
-                activateCard(temp.getCard_Id(), gameState.currentPlayer);
+                //Card temp = new Card(11);
+                //drawOutsideStart(this.gameState.players[0].pawns[0]);
+                //drawOutsideStart(this.gameState.players[1].pawns[0]);
+                //activateCard(temp.getCard_Id(), gameState.currentPlayer);
 
                 Next_Turn.IsEnabled = true;
                 DrawCard.IsEnabled = false;
