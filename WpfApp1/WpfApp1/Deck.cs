@@ -3,7 +3,7 @@ using WpfApp1;
 
 namespace WpfApp1
 {
-
+    [Serializable]
     public class Deck
     {
         //a deck needs to have a minimum of 45 cards 
