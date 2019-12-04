@@ -77,6 +77,7 @@ namespace WpfApp1
                 //Card card = this.gameState.deck.getNextCard();
                 //activateCard(card.getCard_Id(), gameState.currentPlayer);
 
+
                 Card temp = new Card(7);
                 /*
                 drawOutsideStart(this.gameState.players[0].pawns[0]);
@@ -87,6 +88,7 @@ namespace WpfApp1
                 */
                 drawOutsideStart(this.gameState.players[0].pawns[0]);
                 activateCard(temp.getCard_Id(), gameState.currentPlayer);
+                
 
                 Next_Turn.IsEnabled = true;
                 DrawCard.IsEnabled = false;
