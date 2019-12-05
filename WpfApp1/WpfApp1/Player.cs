@@ -14,6 +14,7 @@ namespace WpfApp1
         public Boolean realPlayer;
         public String color;
         public int playerNumber;
+        public int score;
         //public Boolean endedTurn;
 
 
@@ -22,6 +23,7 @@ namespace WpfApp1
         public Player(String playerName, String color, int playerNumber)
         {
             this.color = color;
+            this.score = 0;
             this.playerNumber = playerNumber;
             this.pawns = new Pawn[3];
             this.PlayerName = playerName;
@@ -47,10 +49,12 @@ namespace WpfApp1
         }
 
         //if it is a CPU player
-        public Player(String color, Boolean AI)
+        public Player(String color, Boolean AI, int PlayerNumber)
         {
             if (AI)
             {
+                this.playerNumber = PlayerNumber;
+                this.color = color;
                 this.pawns = new Pawn[3];
                 for (int i = 0; i < 3; i++)
                 {

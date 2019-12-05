@@ -13,7 +13,7 @@ namespace WpfApp1
         public MainWindow main;
         public Player[] players;
         public Space[] landingSpaces;
-
+        
         //takes an array of players, and a mainWindow
         public Board(Player[] players, MainWindow main)
         {
@@ -203,6 +203,14 @@ namespace WpfApp1
         //IF YOU WANT IT TO ACTUALLY DISPLAY EVERY LITTLE WHILE ADD A DISPATCHER
         public void PawnStep(Pawn p, Boolean last, Boolean forward)
         {
+            for (int i = 0; i < players.Length; i++)
+            {
+                if (players[i].PlayerName.Equals(p.playerName))
+                {
+                    players[i].score++;
+                    break;
+                }
+            }
             int startingLocation = p.spaceNumber;
             if (!last)
             {
@@ -723,6 +731,25 @@ namespace WpfApp1
             p.inStart = true;
             p.spaceNumber = 99;
             main.drawAtStart(p);
+        }
+
+        public Boolean checkDistancedCollision(Pawn p, int value, Boolean forward)
+        {
+            if (forward)
+            {
+                if (landingSpaces[p.spaceNumber + value].localPawn != null && !(p.playerName.Equals(landingSpaces[p.spaceNumber + value].localPawn.playerName)))
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                if (landingSpaces[p.spaceNumber - value].localPawn != null && !(p.playerName.Equals(landingSpaces[p.spaceNumber - value].localPawn.playerName)))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
