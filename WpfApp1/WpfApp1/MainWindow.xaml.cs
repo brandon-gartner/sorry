@@ -82,12 +82,12 @@ namespace WpfApp1
 
 
 
-                if(bruh)
+                if(!bruh)
                 {
                     Card temp = new Card(4);
                     
                     Player player = this.gameState.players[0];
-                    /*
+                    
                     this.gameState.players[0].pawns[0].safe = true;
                     this.gameState.players[0].pawns[0].inStart = false;
                     player.safetySpaces[2].localPawn = player.pawns[0];
@@ -99,13 +99,19 @@ namespace WpfApp1
 
                     player.safetySpaces[0].localPawn = player.pawns[1];
                     drawInSafety(this.gameState.players[0].pawns[1]);
-                    */
                     
+                    /*
                     this.gameState.players[0].pawns[0].inStart = false;
                     this.gameState.players[0].pawns[0].spaceNumber = 59;
                     this.mainBoard.landingSpaces[59].localPawn = this.gameState.players[0].pawns[0];
                     drawAtNextPosition(this.gameState.players[0].pawns[0]);
                     
+                    this.gameState.players[0].pawns[0].inStart = false;
+                    this.gameState.players[0].pawns[0].spaceNumber = 4;
+                    this.mainBoard.landingSpaces[4].localPawn = this.gameState.players[0].pawns[0];
+                    drawAtNextPosition(this.gameState.players[0].pawns[0]);
+                    */
+
                     this.bruh = false;
                     activateCard(temp.getCard_Id(), gameState.currentPlayer);
                 }
@@ -623,7 +629,7 @@ namespace WpfApp1
             for (int i = 0; i < allPawns.Length; i++)
             {
                 Pawn currentPawn = allPawns[i];
-                if (currentPawn.inStart)
+                if (!currentPawn.inStart && !currentPawn.safe && !currentPawn.decommissioned)
                 {
                     availablePawns.Add(currentPawn);
                 }
@@ -631,9 +637,13 @@ namespace WpfApp1
 
             allPawns = (Pawn[])availablePawns.ToArray(typeof(Pawn));
 
-            if (allPawns.Length == 0 || allSwitchablePawn.Length == 0)
+            if(allPawns.Length != 0 && allSwitchablePawn.Length == 0)
             {
-                ContentLog.Text = "You don't have any pawns at Start or none of the opponents moved :( ";
+                handleGenericCard(4, playerId);
+            }
+            else if (allPawns.Length == 0 || allSwitchablePawn.Length == 0)
+            {
+                ContentLog.Text = "You don't have any pawns out or none of the opponents moved :( ";
             }
             else
             {
@@ -774,7 +784,7 @@ namespace WpfApp1
             {
                 Pawn pawnAtStart = input.gotPawn;
                 Pawn pawnToSwitch = input.otherPlayerPawn;
-                switchPawns(pawnAtStart, pawnToSwitch);
+                switchPawns11(pawnAtStart, pawnToSwitch);
             }
             else if(value == 11)
             {
@@ -783,6 +793,19 @@ namespace WpfApp1
                 switchPawns11(currentPlayerPawn, pawnToSwitch);
             }
 
+        }
+        public void onlySorryHelper(Window1 input)
+        {
+            if(input.sorryChoice.Equals("Switch"))
+            {
+                String player = this.gameState.players[this.gameState.currentPlayer].PlayerName;
+                Window1 options = new Window1(20, player, 0, input.allPawns, findWhichPawnsCanSwitch(this.gameState.currentPlayer), this);
+                options.Show();
+            }
+            else
+            {
+                handleGenericCard(4, this.gameState.currentPlayer);
+            }
         }
         //This helper isuse
         public void only11Helper(Window1 input, int value)
@@ -879,6 +902,7 @@ namespace WpfApp1
 
         /*HANDLING SWITCHING THE PAWNS*/
         //For switching pawns (for sorry card) (SORRY CARD IS OBSOLETE CHANGE THIS)
+        /*
         private void switchPawns(Pawn pawnAtStart, Pawn pawnToSwitch)
         {
             pawnAtStart.spaceNumber = pawnToSwitch.spaceNumber;
@@ -888,7 +912,7 @@ namespace WpfApp1
             drawAtStart(pawnToSwitch);
 
         }
-
+        */
         //For switching pawns (card 11)
         private void switchPawns11(Pawn currentPlayerPawn, Pawn pawnToSwitch)
         {
@@ -1139,7 +1163,15 @@ namespace WpfApp1
                     Player tempPlayer = this.gameState.players[i];
                     Pawn currentPawn = tempPlayer.pawns[j];
                     this.mainBoard.landingSpaces[currentPawn.spaceNumber].localPawn = currentPawn;
-                    if (currentPawn.inStart)
+                    if(currentPawn.decommissioned)
+                    {
+                        drawAtEnd(currentPawn);
+                    }
+                    else if(currentPawn.safe)
+                    {
+                        drawInSafety(currentPawn);
+                    }
+                    else if (currentPawn.inStart)
                     {
                         drawAtStart(currentPawn);
                     }
@@ -1213,9 +1245,15 @@ namespace WpfApp1
                     pawn.spaceNumber = 4;
                     this.mainBoard.landingSpaces[4].localPawn = pawn;
                 }
-                else
+                else if(this.mainBoard.landingSpaces[4].localPawn.color.Equals("Red"))
                 {
                     isThereAPawnPresent = true;
+                }
+                else
+                {
+                    drawAtStart(this.mainBoard.landingSpaces[4].localPawn);
+                    pawn.spaceNumber = 4;
+                    this.mainBoard.landingSpaces[4].localPawn = pawn;
                 }
             }
             else if (pawn.color.Equals("Blue"))
@@ -1225,9 +1263,15 @@ namespace WpfApp1
                     pawn.spaceNumber = 19;
                     this.mainBoard.landingSpaces[19].localPawn = pawn;
                 }
-                else
+                else if(this.mainBoard.landingSpaces[19].localPawn.color.Equals("Blue"))
                 {
                     isThereAPawnPresent = true;
+                }
+                else
+                {
+                    drawAtStart(this.mainBoard.landingSpaces[19].localPawn);
+                    pawn.spaceNumber = 19;
+                    this.mainBoard.landingSpaces[19].localPawn = pawn;
                 }
             }
             else if (pawn.color.Equals("Green"))
@@ -1237,15 +1281,34 @@ namespace WpfApp1
                     pawn.spaceNumber = 34;
                     this.mainBoard.landingSpaces[34].localPawn = pawn;
                 }
-                else
+                else if(this.mainBoard.landingSpaces[34].localPawn.color.Equals("Green"))
                 {
                     isThereAPawnPresent = true;
+                }
+                else
+                {
+                    drawAtStart(this.mainBoard.landingSpaces[34].localPawn);
+                    pawn.spaceNumber = 34;
+                    this.mainBoard.landingSpaces[34].localPawn = pawn;
                 }
             }
             else
             {
-                pawn.spaceNumber = 49;
-                this.mainBoard.landingSpaces[49].localPawn = pawn;
+                if (this.mainBoard.landingSpaces[49].localPawn == null)
+                {
+                    pawn.spaceNumber = 49;
+                    this.mainBoard.landingSpaces[49].localPawn = pawn;
+                }
+                else if (this.mainBoard.landingSpaces[49].localPawn.color.Equals("Green"))
+                {
+                    isThereAPawnPresent = true;
+                }
+                else
+                {
+                    drawAtStart(this.mainBoard.landingSpaces[49].localPawn);
+                    pawn.spaceNumber = 49;
+                    this.mainBoard.landingSpaces[49].localPawn = pawn;
+                }
             }
             if(!isThereAPawnPresent)
             {
@@ -1254,7 +1317,7 @@ namespace WpfApp1
             }
             else
             {
-                ContentLog.Text = "Sorry! there is a card outside start!";
+                ContentLog.Text = "Sorry! there is a pawn of your own kind outside start!";
             }
             return isThereAPawnPresent;
 
@@ -1329,19 +1392,26 @@ namespace WpfApp1
         public void decreaseInSafety(Pawn pawn)
         {
             Player player = this.gameState.players[this.gameState.currentPlayer];
-            if(player.safetySpaces[0].localPawn == pawn)
+            if (pawn.color.Equals("Red"))
             {
-
+                pawn.safetyRow--;
             }
-            for (int i = 0; i < player.safetySpaces.Length; i++)
+            else if (pawn.color.Equals("Green"))
             {
-                if (player.safetySpaces[i].localPawn == pawn)
-                {
-                    player.safetySpaces[i].localPawn = null;
-                    player.safetySpaces[i - 1].localPawn = pawn;
-                    break;
-                }
+                pawn.safetyRow++;
             }
+            else if (pawn.color.Equals("Blue"))
+            {
+                pawn.safetyColumn++;
+            }
+            else
+            {
+                pawn.safetyColumn--;
+            }
+            this.MainGrid.Children.Remove(pawn.image);
+            Grid.SetRow(pawn.image, pawn.safetyRow);
+            Grid.SetColumn(pawn.image, pawn.safetyColumn);
+            this.MainGrid.Children.Add(pawn.image);
         }
 
         /*
