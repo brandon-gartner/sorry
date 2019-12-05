@@ -212,50 +212,107 @@ namespace WpfApp1
         {
             Card card = this.gameState.deck.getNextCard();
             int cardId = card.getCard_Id();
+            Boolean didStart = false;
             switch (cardId)
             {
                 //what to do if they draw this card
                 case 1:
+                    didStart = handleStart(player, 1);
+                    if (didStart)
+                    {
+                        return;
+                    }
                     handleGenericCardAI(player, 1);
                     break;
                 case 2:
+                    didStart = handleStart(player, 2);
+                    if (didStart)
+                    {
+                        return;
+                    }
                     handleGenericCardAI(player, 2);
                     break;
                 case 3:
+                    didStart = handleStart(player, 3);
+                    if (didStart)
+                    {
+                        return;
+                    }
                     handleGenericCardAI(player, 3);
                     break;
                 case 4:
+                    didStart = handleStart(player, -4);
+                    if (didStart)
+                    {
+                        return;
+                    }
                     handleGenericCardAI(player, -4);
                     break;
                 case 5:
+                    didStart = handleStart(player, 5);
+                    if (didStart)
+                    {
+                        return;
+                    }
                     handleGenericCardAI(player, 5);
                     break;
                 case 8:
+                    didStart = handleStart(player, 8);
+                    if (didStart)
+                    {
+                        return;
+                    }
                     handleGenericCardAI(player, 8);
                     break;
                 case 12:
+                    didStart = handleStart(player, 12);
+                    if (didStart)
+                    {
+                        return;
+                    }
                     handleGenericCardAI(player, 12);
                     break;
 
                 case 7:
+                    didStart = handleStart(player, 7);
+                    if (didStart)
+                    {
+                        return;
+                    }
                     handleCard7AI(player, 7);
                     break;
 
                 case 10:
+                    didStart = handleStart(player, 10);
+                    if (didStart)
+                    {
+                        return;
+                    }
                     handleCard10AI(player, 10);
                     break;
 
                 case 11:
+                    didStart = handleStart(player, 11);
+                    if (didStart)
+                    {
+                        return;
+                    }
                     handleCard11AI(player, 11);
                     break;
 
                 case -1:
+                    didStart = handleStart(player, -4);
+                    if (didStart)
+                    {
+                        return;
+                    }
                     handleSorryCardAI(player, -4);
                     break;
 
             }
             gameState.updatePlayer();
         }
+
 
         private void handleSorryCardAI(Player p, int value)
         {
@@ -290,6 +347,11 @@ namespace WpfApp1
 
             //sorry card will switch the pawnn into the choosen annemy's pawn and bring the ennemy back to start
             Pawn pawn = selectPawnToMove(p, value, true);
+            if (pawn.playerNumber == -1)
+            {
+                ContentLog.Text = "AI could not move a pawn out of start and had no pawns outside of start.";
+                return;
+            }
             int greatestScore = -1;
             Player pla = new Player("tempMax");
             for (int i = 0; i < mainBoard.players.Length; i++)
@@ -350,7 +412,11 @@ namespace WpfApp1
             //    ContentLog.Text = "Unfortunately you have no pawns that can move 11 moves nor are there any pawns that you can switch! Turn skipped.";
             //}
             Pawn pawn = selectPawnToMove(p, 11, true);
-
+            if (pawn.playerNumber == -1)
+            {
+                ContentLog.Text = "AI could not move a pawn out of start and had no pawns outside of start.";
+                return;
+            }
             int greatestScore = -1;
             Player pla = new Player("tempMax");
             for (int i = 0; i < mainBoard.players.Length; i++)
@@ -415,6 +481,12 @@ namespace WpfApp1
             //}
             Pawn pawn = selectPawnToMove(p, value, true);
 
+            if (pawn.playerNumber == -1)
+            {
+                ContentLog.Text = "AI could not move a pawn out of start and had no pawns outside of start.";
+                return;
+            }
+
             if (mainBoard.validateFutureLocation(pawn, value, true))
             {
                 this.mainBoard.MovePawn(pawn, value, true);//the first input is the pawn second if the value of the movement and the third is if it is going forward or not
@@ -440,6 +512,12 @@ namespace WpfApp1
             //    ContentLog.Text = "Sorry no available moves for 7 :(";
             //}
             Pawn pawn = selectPawnToMove(p, value, true);
+
+            if (pawn.playerNumber == -1)
+            {
+                ContentLog.Text = "AI could not move a pawn out of start and had no pawns outside of start.";
+                return;
+            }
             //move 7 spce forward or split between two pawns and move 7 spaces between the two
             this.mainBoard.MovePawn(pawn, value, true);//the first input is the pawn second if the value of the movement and the third is if it is going forward or not
         }
@@ -477,17 +555,24 @@ namespace WpfApp1
             //}
             //Generic card then it will go the length of the value variable
             Pawn pawn = selectPawnToMove(p, value, true);
+
+            if (pawn.playerNumber == -1)
+            {
+                ContentLog.Text = "AI could not move a pawn out of start and had no pawns outside of start.";
+                return;
+            }
+
             this.mainBoard.MovePawn(pawn, value, true);//the first input is the pawn second if the value of the movement and the third is if it is going forward or not
 
         }
 
         //this method will manage the card that has been drawn
         private void activateCard(int cardId, int playerId)
-        {
-            //this switch case will manage everycard differently
+        {//this switch case will manage everycard differently
             switch (cardId)
             {
-
+                
+            
                 //For fire and ice cards
                 case 1:
                 case 2:
@@ -1326,6 +1411,18 @@ namespace WpfApp1
 
         public Pawn selectPawnToMove(Player p, int value, Boolean forward)
         {
+            Boolean freeFromStart = false;
+            for (int i = 0; i < p.pawns.Length; i++)
+            {
+                if (!(p.pawns[i].inStart))
+                {
+                    freeFromStart = true;
+                }
+            }
+            if (!(freeFromStart))
+            {
+                return new Pawn(-1, null, -1, "");
+            }
             Boolean hasHighPriority = false;
             Boolean[] pawnMovement = potentialPriorityPawns(p, value, forward);
             foreach (Boolean b in pawnMovement)
@@ -1381,6 +1478,35 @@ namespace WpfApp1
                 }
             }
             return p.pawns[1];
+        }
+
+        public Boolean handleStart(Player p, int CardID)
+        {
+            if (CardID == -1 || CardID == -4)
+            {
+                return false;
+            }
+            Boolean hasAnyStarted = false;
+            for (int i = 0; i < 3; i++)
+            {
+                if (p.pawns[i].safe)
+                {
+                    hasAnyStarted = true;
+                }
+            }
+
+            if (!(hasAnyStarted) || mainBoard.landingSpaces[(p.playerNumber * 15) + 4].localPawn == null || mainBoard.landingSpaces[(p.playerNumber * 15) + 4].localPawn.playerNumber != p.playerNumber)
+            {
+                for (int i = 0; i < p.pawns.Length; i++)
+                {
+                    if (p.pawns[i].inStart)
+                    {
+                        drawAtStart(p.pawns[i]);
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
     }
     
