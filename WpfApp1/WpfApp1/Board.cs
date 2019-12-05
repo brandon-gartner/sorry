@@ -103,7 +103,7 @@ namespace WpfApp1
             {
                 this.main.drawOutsideStart(p);
             }
-            else if (validateFutureLocation(p, movementDistance, forward))
+            else if (validateFutureLocation(p, movementDistance, forward) || validateFutureLocationSafety(p, movementDistance, forward))
             {
                 if (forward)
                 {
@@ -111,18 +111,17 @@ namespace WpfApp1
                     //Does pawnStep right until the before last move
                     for (int i = 0; i < movementDistance - 1; i++)
                     {
-                        if(!p.goingIntoSafety)
-                        {
-                            PawnStep(p, false, true);
-                        }
-                        else if(p.goingIntoSafety && p.safe == false)
+                        if (p.goingIntoSafety && p.safe == false)
                         {
                             PawnStepFirstSafe(p, false, true);
                         }
-                        //PawnStep in safety
-                        else
+                        else if (p.safe == true)
                         {
                             PawnStepSafe(p, false, true);
+                        }
+                        else
+                        {
+                            PawnStep(p, false, true);
                         }
                     }
                     //Does pawnStep for checking if there is a pawn there already
@@ -137,34 +136,56 @@ namespace WpfApp1
                     {
                         PawnStepFirstSafe(p, true, true);
                     }
-                    else if (!p.safe)
+                    else if (p.safe == true)
                     {
-                        PawnStep(p, true, true);
+                        PawnStepSafe(p, true, true);
                     }
                     else
                     {
-                        PawnStepSafe(p, true, true);
+                        PawnStep(p, true, true);
                     }
 
                 }
                 else
                 {
 
-                    for (int i = 0; i < movementDistance - 1; i++)
+                    for (int i = 0; i > movementDistance + 1; i--)
                     {
-                        PawnStep(p, false, false);
+                        if (p.goingIntoSafety && p.safe == false)
+                        {
+                            PawnStepFirstSafe(p, false, false);
+                        }
+                        else if (p.safe == true)
+                        {
+                            PawnStepSafe(p, false, false);
+                        }
+                        else
+                        {
+                            PawnStep(p, false, false);
+                        }
                     }
                     Boolean collision = checkCollisions(p, false);
                     if (collision)
                     {
                         HandleCollision(p, p.spaceNumber);
                     }
-                    PawnStep(p, true, false);
+                    if (p.goingIntoSafety && p.safe == false)
+                    {
+                        PawnStepFirstSafe(p, true, false);
+                    }
+                    else if (p.safe == true)
+                    {
+                        PawnStepSafe(p, true, false);
+                    }
+                    else
+                    {
+                        PawnStep(p, true, false);
+                    }
                 }
             }
             else
             {
-                main.ContentLog.Text = "Unfortunately, you already have a pawn in that location.";
+                
             }
         }
 
@@ -211,28 +232,43 @@ namespace WpfApp1
              this.main.drawInSafety(p);
         }
 
-        //update pawn location when its in safe
+        //update pawn location when its in safe(MAYBE EDIT)
         public Boolean PawnStepSafe(Pawn p, Boolean last, Boolean forward)
         {
-            
-            this.main.updateInSafety(p);
-            if(p.decommissioned && last)
-            {
-                return true;
-            }
-            else
-            {
-                p.decommissioned = false;
-                return false;
-            }
-            
+            //if(forward)
+           // {
+                this.main.updateInSafety(p);
+                if (p.decommissioned && last)
+                {
+                    return true;
+                }
+                else
+                {
+                    p.decommissioned = false;
+                    return false;
+                }
+            //}
+            //else
+            //{
+              //  this.main.decreaseInSafety(p);
+            //}
+
         }
 
+        //CHECK FIRST THAT THE FINAL LOCATION WORKS
         public Boolean validateFutureLocationSafety(Pawn p, int distance, Boolean forward)
         {
             Player currentPlayer = this.main.gameState.players[this.main.gameState.currentPlayer];
-            Space finalSpace;
-            if(p.safe)
+            int finalLocation = 0;
+            if ((p.spaceNumber + distance) > 59)
+            {
+                finalLocation = (p.spaceNumber + distance) - 60;
+            }
+            else
+            {
+                finalLocation = p.spaceNumber + distance;
+            }
+            if (p.safe)
             {
                 for(int i = 0; i < currentPlayer.safetySpaces.Length; i++)
                 {
@@ -256,9 +292,70 @@ namespace WpfApp1
             {
                 if(p.color.Equals("Red"))
                 {
-                    if((p.spaceNumber < 2 && (p.spaceNumber + distance) > 2) || (p.spaceNumber > 2 && (p.spaceNumber + distance) > 2 && (p.spaceNumber + distance) < p.spaceNumber))
+                    if((p.spaceNumber < 2 && finalLocation > 2) || (p.spaceNumber > 2 && finalLocation > 2 && finalLocation < p.spaceNumber))
                     {
-
+                        int remainingDistance = finalLocation - 2;
+                        if(remainingDistance > (currentPlayer.safetySpaces.Length - 1))
+                        {
+                            this.main.ContentLog.Text = "Sorry! That's too far!";
+                            return false;
+                        }
+                        else if(currentPlayer.safetySpaces[remainingDistance - 1].localPawn != null)
+                        {
+                            this.main.ContentLog.Text = "Sorry! There's a pawn there!";
+                            return false;
+                        }
+                    }
+                }
+                else if(p.color.Equals("Blue"))
+                {
+                    if ((p.spaceNumber < 17 && finalLocation > 17))
+                    {
+                        int remainingDistance = finalLocation - 2;
+                        if (remainingDistance > (currentPlayer.safetySpaces.Length - 1))
+                        {
+                            this.main.ContentLog.Text = "Sorry! That's too far!";
+                            return false;
+                        }
+                        else if (currentPlayer.safetySpaces[remainingDistance - 1].localPawn != null)
+                        {
+                            this.main.ContentLog.Text = "Sorry! There's a pawn there!";
+                            return false;
+                        }
+                    }
+                }
+                else if (p.color.Equals("Green"))
+                {
+                    if ((p.spaceNumber < 32 && finalLocation > 32))
+                    {
+                        int remainingDistance = finalLocation - 2;
+                        if (remainingDistance > (currentPlayer.safetySpaces.Length - 1))
+                        {
+                            this.main.ContentLog.Text = "Sorry! That's too far!";
+                            return false;
+                        }
+                        else if (currentPlayer.safetySpaces[remainingDistance - 1].localPawn != null)
+                        {
+                            this.main.ContentLog.Text = "Sorry! There's a pawn there!";
+                            return false;
+                        }
+                    }
+                }
+                else if (p.color.Equals("Yellow"))
+                {
+                    if ((p.spaceNumber < 47 && finalLocation > 47))
+                    {
+                        int remainingDistance = finalLocation - 2;
+                        if (remainingDistance > (currentPlayer.safetySpaces.Length - 1))
+                        {
+                            this.main.ContentLog.Text = "Sorry! That's too far!";
+                            return false;
+                        }
+                        else if (currentPlayer.safetySpaces[remainingDistance - 1].localPawn != null)
+                        {
+                            this.main.ContentLog.Text = "Sorry! There's a pawn there!";
+                            return false;
+                        }
                     }
                 }
                 return true;
@@ -269,6 +366,10 @@ namespace WpfApp1
         //FOR NORMAL BOARD
         public Boolean checkCollisions(Pawn p, Boolean forward)
         {
+            if(p.safe)
+            {
+                return false;
+            }
             if (forward)
             {
                 if (landingSpaces[p.spaceNumber + 1].localPawn != null)
@@ -427,6 +528,10 @@ namespace WpfApp1
         //returns false if you can't move there, true if you can.
         public Boolean validateFutureLocation(Pawn p, int distance, Boolean forward)
         {
+            if(p.safe)
+            {
+                return false;
+            }
             //if the pawn is moving forward
             if (forward)
             {
@@ -441,7 +546,38 @@ namespace WpfApp1
                     potentialLocation = p.spaceNumber + distance;
                 }
 
-                if(landingSpaces[potentialLocation].localPawn == null)
+                //Checking if it moves past the safety spaces
+                if(p.color.Equals("Red"))
+                {
+                    if((p.spaceNumber < 2 && potentialLocation > 2) || (p.spaceNumber > 2 && potentialLocation > 2 && potentialLocation < p.spaceNumber))
+                    {
+                        return false;
+                    }
+                }
+                else if(p.color.Equals("Blue"))
+                {
+                    if(p.spaceNumber < 17 && potentialLocation > 17)
+                    {
+                        return false;
+                    }
+                }
+                else if(p.color.Equals("Green"))
+                {
+                    if (p.spaceNumber < 32 && potentialLocation > 32)
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    if (p.spaceNumber < 47 && potentialLocation > 47)
+                    {
+                        return false;
+                    }
+                }
+
+
+                if (landingSpaces[potentialLocation].localPawn == null)
                 {
                     return true;
                 }
@@ -452,6 +588,7 @@ namespace WpfApp1
                     {
                         if (landingSpaces[potentialLocation].localPawn != p && landingSpaces[potentialLocation].localPawn.playerName.Equals(p.playerName))
                         {
+                            this.main.ContentLog.Text = "Unfortunately, you already have a pawn in that location.";
                             return false;
                         }
                     }
@@ -467,7 +604,11 @@ namespace WpfApp1
                 }
                 else
                 {
-                    potentialLocation = p.spaceNumber - distance;
+                    potentialLocation = p.spaceNumber + distance;
+                }
+                if (landingSpaces[potentialLocation].localPawn == null)
+                {
+                    return true;
                 }
                 for (int i = 0; i < players.Length; i++)
                 {
@@ -475,6 +616,7 @@ namespace WpfApp1
                     {
                         if (landingSpaces[potentialLocation].localPawn != p && landingSpaces[potentialLocation].localPawn.playerName.Equals(p.playerName))
                         {
+                            this.main.ContentLog.Text = "Unfortunately, you already have a pawn in that location.";
                             return false;
                         }
                     }

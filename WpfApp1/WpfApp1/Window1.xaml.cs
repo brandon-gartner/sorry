@@ -45,7 +45,7 @@ namespace WpfApp1
             if(numberType == 0)
             {
                 Choice_enem.Visibility = Visibility.Hidden;
-                Instructions.Text = playerName + "! Pick which pawn to move " + value + " spaces (or move out of home if not 7)!";
+                Instructions.Text = playerName + "! Pick which pawn to move " + value + " spaces (or move out of home if not 7 or negative)!";
                 if(value == 11)
                 {
                     Instructions.Text = playerName + "! Sorry no pawns can be exchanged! Pick which pawn to move.";

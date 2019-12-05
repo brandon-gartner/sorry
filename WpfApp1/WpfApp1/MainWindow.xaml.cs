@@ -84,30 +84,29 @@ namespace WpfApp1
 
                 if(bruh)
                 {
-                    Card temp = new Card(7);
+                    Card temp = new Card(4);
                     
-
+                    Player player = this.gameState.players[0];
                     /*
-                    this.gameState.players[0].pawns[0].spaceNumber = 14;
-                    this.gameState.players[0].pawns[0].inStart = false;
-                    drawAtNextPosition(this.gameState.players[0].pawns[0]);
-                    this.mainBoard.landingSpaces[14].localPawn = this.gameState.players[0].pawns[0];
-                    this.gameState.players[0].pawns[1].spaceNumber = 12;
-                    this.gameState.players[0].pawns[1].inStart = false;
-                    drawAtNextPosition(this.gameState.players[0].pawns[1]);
-                    this.mainBoard.landingSpaces[12].localPawn = this.gameState.players[0].pawns[1];
-                    */
-                    
-
                     this.gameState.players[0].pawns[0].safe = true;
                     this.gameState.players[0].pawns[0].inStart = false;
-                    Player player = this.gameState.players[0];
-                    player.safetySpaces[1].localPawn = player.pawns[0];
+                    player.safetySpaces[2].localPawn = player.pawns[0];
                     drawInSafety(this.gameState.players[0].pawns[0]);
                     updateInSafety(this.gameState.players[0].pawns[0]);
-                    this.mainBoard.landingSpaces[0].localPawn = this.gameState.players[0].pawns[0];
+                    updateInSafety(this.gameState.players[0].pawns[0]);
+                    this.gameState.players[0].pawns[1].safe = true;
+                    this.gameState.players[0].pawns[1].inStart = false;
+
+                    player.safetySpaces[0].localPawn = player.pawns[1];
+                    drawInSafety(this.gameState.players[0].pawns[1]);
+                    */
                     
-                    this.bruh = true;
+                    this.gameState.players[0].pawns[0].inStart = false;
+                    this.gameState.players[0].pawns[0].spaceNumber = 59;
+                    this.mainBoard.landingSpaces[59].localPawn = this.gameState.players[0].pawns[0];
+                    drawAtNextPosition(this.gameState.players[0].pawns[0]);
+                    
+                    this.bruh = false;
                     activateCard(temp.getCard_Id(), gameState.currentPlayer);
                 }
                 else
@@ -219,11 +218,12 @@ namespace WpfApp1
                 case 1:
                 case 2:
                 case 3:
-                case 4:
                 case 5:
                 case 8:
                 case 12:
                     handleGenericCardAI(player);
+                    break;
+                case 4:
                     break;
 
                 case 7:
@@ -388,11 +388,13 @@ namespace WpfApp1
                 case 1:
                 case 2:
                 case 3:
-                case 4:
                 case 5:
                 case 8:
                 case 12:
                     handleGenericCard(cardId, playerId);
+                    break;
+                case 4:
+                    handleGenericCard(-4, playerId);
                     break;
 
                 case 7:
@@ -455,9 +457,13 @@ namespace WpfApp1
         private void handleGenericCard(int value, int playerId)
         {
             Pawn[] availablePawns;
-            if(value == 7)
+            if (value == 7)
             {
                 availablePawns = pawnsFor7();
+            }
+            else if (value < 0)
+            {
+                availablePawns = pawnsFor10Part1(value);
             }
             else
             {
@@ -465,13 +471,6 @@ namespace WpfApp1
             }
             if (availablePawns == null)
             {
-                //This is actually not quite the correct implementation, but we need another method to check if a pawn can move 10 spots or not
-                if (value == 10)
-                {
-                    String player = this.gameState.players[this.gameState.currentPlayer].PlayerName;
-                    Window1 options = new Window1(0, player, -1, availablePawns, null, this);
-                    options.Show();
-                }
                 ContentLog.Text = "Unfortunately you have no pawns that can move that distance! Turn skipped.";
             }
             else
@@ -556,14 +555,27 @@ namespace WpfApp1
                 ContentLog.Text = "Sorry no options available for Card 10. Turn forfeit!";
             }
         }
-        
+        /*
+        private void handleCard4()
+        {
+            Pawn[] allPawns = pawnsFor10Part1(-4);
+            String player = this.gameState.players[this.gameState.currentPlayer].PlayerName;
+        }
+        */
 
 
         /*HANDLERS FOR WINDOW OPTIONS*/
         public void genericHelper(Window1 input, int value)
         {
             Pawn selectedPawn = input.getSelectedPawn();
-            this.mainBoard.MovePawn(selectedPawn, value, true);
+            if(value > 0)
+            {
+                this.mainBoard.MovePawn(selectedPawn, value, true);
+            }
+            else
+            {
+                this.mainBoard.MovePawn(selectedPawn, value, false);
+            }
         }
 
         //This is used by the sorry card as well as the 11 card(if they want to switch)
@@ -671,13 +683,13 @@ namespace WpfApp1
             {
                 Pawn[] pawns = pawnsFor10Part1(-1);
                 int playerId = this.gameState.currentPlayer;
-                handleGenericCard(10, playerId);
+                handleGenericCard(-1, playerId);
             }
         }
 
 
         /*HANDLING SWITCHING THE PAWNS*/
-        //For switching pawns (for sorry card)
+        //For switching pawns (for sorry card) (SORRY CARD IS OBSOLETE CHANGE THIS)
         private void switchPawns(Pawn pawnAtStart, Pawn pawnToSwitch)
         {
             pawnAtStart.spaceNumber = pawnToSwitch.spaceNumber;
@@ -803,7 +815,7 @@ namespace WpfApp1
                 Pawn currentPawn = allPawns[i];
                 if(movement == 10)
                 {
-                    if (this.mainBoard.validateFutureLocation(currentPawn, 10, true))
+                    if (this.mainBoard.validateFutureLocation(currentPawn, 10, true) || currentPawn.inStart)
                     {
                         availablePawns.Add(currentPawn);
                     }
@@ -814,7 +826,7 @@ namespace WpfApp1
                 {
                     if (!currentPawn.inStart)
                     {
-                        if (this.mainBoard.validateFutureLocation(currentPawn, -1, true))
+                        if (this.mainBoard.validateFutureLocation(currentPawn, movement, false) || this.mainBoard.validateFutureLocationSafety(currentPawn, movement, false))
                         {
                             availablePawns.Add(currentPawn);
                         }
@@ -1123,6 +1135,24 @@ namespace WpfApp1
                 this.MainGrid.Children.Add(pawn.image);
             }
 
+        }
+
+        public void decreaseInSafety(Pawn pawn)
+        {
+            Player player = this.gameState.players[this.gameState.currentPlayer];
+            if(player.safetySpaces[0].localPawn == pawn)
+            {
+
+            }
+            for (int i = 0; i < player.safetySpaces.Length; i++)
+            {
+                if (player.safetySpaces[i].localPawn == pawn)
+                {
+                    player.safetySpaces[i].localPawn = null;
+                    player.safetySpaces[i - 1].localPawn = pawn;
+                    break;
+                }
+            }
         }
 
         /*
