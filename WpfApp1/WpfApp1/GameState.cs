@@ -30,6 +30,7 @@ namespace WpfApp1
             Boolean failed = false;
             do
             {
+                failed = false;
                 AIPlayer = Interaction.InputBox("How many AI players would you like?", "AI Player Count", "Please enter a number between 0 and 1.  If you selected 1, before, please select 1 now.  If you selected 4 before, select 0.");
                 CountAI = Convert.ToInt32(AIPlayer);
                 if (playerCount == 1 && CountAI != 1)
@@ -42,7 +43,7 @@ namespace WpfApp1
                 }
             } while (CountAI <= -1 || CountAI >= 2 || failed);
 
-            players = new Player[playerCount];
+            players = new Player[playerCount + CountAI];
             /*Asking their names and what colour they want (probably the easiest way to do this is to use the same idea 
               as for the player names but correspond an integer with a color(here i just hardcoded it for ease of use*/
             String[] colors = { "Red", "Blue", "Green", "Yellow" };
@@ -64,10 +65,17 @@ namespace WpfApp1
                     continue;
                 }
                 players[i] = new Player(playerName, colors[i], i+1);
+                
+            }
+            if (playerCount != players.Length)
+            {
+                players[players.Length - 1] = new Player(colors[players.Length - 1], true, players.Length - 1);
+                MessageBox.Show(colors[3]);
+                MessageBox.Show(Convert.ToString(players.Length));
             }
 
             //OK SO THE FOLLOWING HAS TO BE MOVED TO MAIN WINDOW.cs
-            
+
             /*Creating board (locations)*/
             /*
             this.mainBoard = new Board(players, this.main);
