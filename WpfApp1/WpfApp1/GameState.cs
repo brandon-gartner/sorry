@@ -21,9 +21,26 @@ namespace WpfApp1
             String playerCountInput;
             do
             {
-                playerCountInput = Interaction.InputBox("How many players are there?", "Player Count", "Please enter a number between 2 and 4");
+                playerCountInput = Interaction.InputBox("How many human players are there?  Please enter a number between 1 and 4.  If you selected 1, you must have an AI.  If you selected 4, you cannot.", "Human Player Count", "");
                 playerCount = Convert.ToInt32(playerCountInput);
-            } while (playerCount <= 1 || playerCount >= 5);
+            } while (playerCount <= 0 || playerCount >= 5);
+
+            String AIPlayer;
+            int CountAI = 0;
+            Boolean failed = false;
+            do
+            {
+                AIPlayer = Interaction.InputBox("How many AI players would you like?", "AI Player Count", "Please enter a number between 0 and 1.  If you selected 1, before, please select 1 now.  If you selected 4 before, select 0.");
+                CountAI = Convert.ToInt32(AIPlayer);
+                if (playerCount == 1 && CountAI != 1)
+                {
+                    failed = true;
+                }
+                else if (playerCount == 4 && CountAI != 0)
+                {
+                    failed = true;
+                }
+            } while (CountAI <= -1 || CountAI >= 2 || failed);
 
             players = new Player[playerCount];
             /*Asking their names and what colour they want (probably the easiest way to do this is to use the same idea 

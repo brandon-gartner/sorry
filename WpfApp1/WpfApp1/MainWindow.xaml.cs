@@ -217,35 +217,48 @@ namespace WpfApp1
             {
                 //what to do if they draw this card
                 case 1:
+                    handleGenericCardAI(player, 1);
+                    break;
                 case 2:
+                    handleGenericCardAI(player, 2);
+                    break;
                 case 3:
+                    handleGenericCardAI(player, 3);
+                    break;
                 case 4:
+                    handleGenericCardAI(player, -4);
+                    break;
                 case 5:
+                    handleGenericCardAI(player, 5);
+                    break;
                 case 8:
+                    handleGenericCardAI(player, 8);
+                    break;
                 case 12:
-                    handleGenericCardAI(player);
+                    handleGenericCardAI(player, 12);
                     break;
 
                 case 7:
-                    handleCard7AI(player);
+                    handleCard7AI(player, 7);
                     break;
 
                 case 10:
-                    handleCard10AI(player);
+                    handleCard10AI(player, 10);
                     break;
 
                 case 11:
-                    handleCard11AI(player);
+                    handleCard11AI(player, 11);
                     break;
 
                 case -1:
-                    handleSorryCardAI(player);
+                    handleSorryCardAI(player, -4);
                     break;
 
             }
+            gameState.updatePlayer();
         }
 
-        private void handleSorryCardAI(Player p)
+        private void handleSorryCardAI(Player p, int value)
         {
             //String player = this.gameState.players[this.gameState.currentPlayer].PlayerName;
             //Pawn[] allSwitchablePawn = findWhichPawnsCanSwitch(playerId);
@@ -275,9 +288,47 @@ namespace WpfApp1
             //    Window1 options = new Window1(2, player, 0, allPawns, allSwitchablePawn, this);
             //    options.Show();
             //}
+
+            //sorry card will switch the pawnn into the choosen annemy's pawn and bring the ennemy back to start
+            Pawn pawn = selectPawnToMove(p, value, true);
+            int greatestScore = -1;
+            Player pla = new Player("tempMax");
+            for (int i = 0; i < mainBoard.players.Length; i++)
+            {
+                if (mainBoard.players[i].score > greatestScore)
+                {
+                    greatestScore = mainBoard.players[i].score;
+                    p = mainBoard.players[i];
+                }
+            }
+            if (pla.score > 45)
+            {
+                Random rng = new Random();
+                int random = rng.Next(3);
+                Boolean hasNonSafeNonStart = false;
+                for (int i = 0; i < pla.pawns.Length; i++)
+                {
+                    if (!(pla.pawns[i].safe) || !(pla.pawns[i].inStart))
+                    {
+                        hasNonSafeNonStart = true;
+                    }
+                }
+                if (hasNonSafeNonStart)
+                {
+                    for (; (pla.pawns[random].safe) || (pla.pawns[random].inStart);)
+                    {
+                        switchPawns11(pawn, pla.pawns[random]);
+                    }
+                }
+
+            }
+            else
+            {
+                this.mainBoard.MovePawn(pawn, value, true);
+            }
         }
 
-        private void handleCard11AI(Player p)
+        private void handleCard11AI(Player p, int value)
         {
 
             int playerId = p.playerNumber;
@@ -288,7 +339,7 @@ namespace WpfApp1
             //{
             //    Window1 options = new Window1(11, player, 11, availablePawns, switchablePawn, this);
             //    options.Show();
-                //if the player wants to switch then....
+            //if the player wants to switch then....
 
             //}
             //else if (availablePawns.Length != 0)
@@ -299,9 +350,47 @@ namespace WpfApp1
             //{
             //    ContentLog.Text = "Unfortunately you have no pawns that can move 11 moves nor are there any pawns that you can switch! Turn skipped.";
             //}
+            Pawn pawn = selectPawnToMove(p, 11, true);
+
+            int greatestScore = -1;
+            Player pla = new Player("tempMax");
+            for (int i = 0; i < mainBoard.players.Length; i++)
+            {
+                if (mainBoard.players[i].score > greatestScore)
+                {
+                    greatestScore = mainBoard.players[i].score;
+                    p = mainBoard.players[i];
+                }
+            }
+            if (pla.score > 45)
+            {
+                Random rng = new Random();
+                int random = rng.Next(3);
+                Boolean hasNonSafeNonStart = false;
+                for (int i = 0; i < pla.pawns.Length; i++)
+                {
+                    if (!(pla.pawns[i].safe) || !(pla.pawns[i].inStart)){
+                        hasNonSafeNonStart = true;
+                    }
+                }
+                if (hasNonSafeNonStart)
+                {
+                    for (; (pla.pawns[random].safe) || (pla.pawns[random].inStart);)
+                    {
+                        switchPawns11(pawn, pla.pawns[random]);
+                    }
+                }
+                
+            }
+            else
+            {
+                this.mainBoard.MovePawn(pawn, value, true);
+            }
+            //card is to to advance 11 or switch or forfeit
+            //the first input is the pawn second if the value of the movement and the third is if it is going forward or not
         }
 
-        private void handleCard10AI(Player p)
+        private void handleCard10AI(Player p, int value)
         {
             //int playerId = p.playerNumber;
             //throw new NotImplementedException();
@@ -310,7 +399,7 @@ namespace WpfApp1
             //String player = this.gameState.players[this.gameState.currentPlayer].PlayerName;
             //if (availablePawns10.Length != 0 && availablePawns1.Length != 0)
             //{
-             //   Window1 options = new Window1(10, player, 10, null, null, this);
+            //   Window1 options = new Window1(10, player, 10, null, null, this);
             //    options.Show();
             //}
             //else if (availablePawns10.Length != 0 && availablePawns1.Length == 0)
@@ -319,15 +408,25 @@ namespace WpfApp1
             //}
             //else if (availablePawns10.Length == 0 && availablePawns1.Length != 0)
             //{
-             //   handleGenericCard(-1, playerId);
+            //   handleGenericCard(-1, playerId);
             //}
             //else
             //{
             //    ContentLog.Text = "Sorry no options available for Card 10. Turn forfeit!";
             //}
+            Pawn pawn = selectPawnToMove(p, value, true);
+
+            if (mainBoard.validateFutureLocation(pawn, value, true))
+            {
+                this.mainBoard.MovePawn(pawn, value, true);//the first input is the pawn second if the value of the movement and the third is if it is going forward or not
+            }
+            else
+            {
+                this.mainBoard.MovePawn(pawn, -1, true);
+            }
         }
 
-        private void handleCard7AI(Player p)
+        private void handleCard7AI(Player p, int value)
         {
             //throw new NotImplementedException();
             //Pawn[] availablePawns = pawnsFor7();
@@ -341,9 +440,12 @@ namespace WpfApp1
             //{
             //    ContentLog.Text = "Sorry no available moves for 7 :(";
             //}
+            Pawn pawn = selectPawnToMove(p, value, true);
+            //move 7 spce forward or split between two pawns and move 7 spaces between the two
+            this.mainBoard.MovePawn(pawn, value, true);//the first input is the pawn second if the value of the movement and the third is if it is going forward or not
         }
 
-        private void handleGenericCardAI(Player p)
+        private void handleGenericCardAI(Player p, int value)
         {
             //throw new NotImplementedException();
             //Pawn[] availablePawns;
@@ -361,10 +463,10 @@ namespace WpfApp1
             //    if (value == 10)
             //    {
             //        String player = this.gameState.players[this.gameState.currentPlayer].PlayerName;
-            //        Window1 options = new Window1(0, player, -1, availablePawns, null, this);
-            //        options.Show();
+            //        Window1 options = new Window1(0, player, -1, availablePawns, null, this);//to remove
+            //        options.Show();//to remove
             //    }
-            //    ContentLog.Text = "Unfortunately you have no pawns that can move that distance! Turn skipped.";
+            //    ContentLog.Text = "Unfortunately you have no pawns that can move that distance! Turn skipped.";//to remove
             //}
             //else
             //{
@@ -374,6 +476,9 @@ namespace WpfApp1
             //    Window1 options = new Window1(0, player, value, availablePawns, null, this);
             //    options.Show();
             //}
+            //Generic card then it will go the length of the value variable
+            Pawn pawn = selectPawnToMove(p, value, true);
+            this.mainBoard.MovePawn(pawn, value, true);//the first input is the pawn second if the value of the movement and the third is if it is going forward or not
 
         }
 
@@ -1160,16 +1265,93 @@ namespace WpfApp1
             }
         }
 
-        public Boolean potentialPawnToMove(Pawn p, int distance)
+        public Boolean[] potentialPawnToMoveStandard(Player p, int distance)
         {
-            if (p.inStart && drawOutsideStart(p))
+            Boolean[] movementArray = new Boolean[3];
+            for (int i = 0; i < p.pawns.Length; i++)
             {
-                return false;
+                if (p.pawns[i].inStart && drawOutsideStart(p.pawns[i]))
+                {
+                    movementArray[i] = false;
+                }
+                else if (mainBoard.validateFutureLocation(p.pawns[i], distance, true))
+                {
+                    movementArray[i] = false;
+                }
+
+
+                movementArray[i] = true;
             }
-            //else if (mainBoard.validateFutureLocation(p, distance, true))
+            return movementArray;
+        }
 
+        public Boolean[] potentialPriorityPawns(Player p, int value, Boolean forward)
+        {
+            Boolean[] isHighPriority = new Boolean[3];
+            for (int i = 0; i < 3; i++)
+            {
+                isHighPriority[i] = mainBoard.checkDistancedCollision(p.pawns[i], value, forward);
+            }
+            return isHighPriority;
+        }
 
-            return true;
+        public Pawn selectPawnToMove(Player p, int value, Boolean forward)
+        {
+            Boolean hasHighPriority = false;
+            Boolean[] pawnMovement = potentialPriorityPawns(p, value, forward);
+            foreach (Boolean b in pawnMovement)
+            {
+                if (b)
+                {
+                    hasHighPriority = true;
+                    break;
+                }
+            }
+            if (hasHighPriority)
+            {
+                Random rng = new Random();
+                int random = rng.Next(3);
+                for (; pawnMovement[random];)
+                {
+                    if (!(p.pawns[random].safe) || !(p.pawns[random].inStart))
+                    {
+                        return p.pawns[random];
+                    }
+                }
+            }
+            else
+            {
+                Boolean hasPawnToNotUse = false;
+                pawnMovement = potentialPawnToMoveStandard(p, value);
+                foreach (Boolean b in pawnMovement)
+                {
+                    if (!b)
+                    {
+                        hasPawnToNotUse = true;
+                        break;
+                    }
+                }
+                if (hasPawnToNotUse)
+                {
+                    Random rng = new Random();
+                    int random = rng.Next(3);
+                    for (; !(pawnMovement[random]) && !(p.pawns[random].safe) || !(p.pawns[random].inStart);)
+                    {
+                            return p.pawns[random];
+                    }
+                }
+                else
+                {
+                    
+                        Random rng = new Random();
+                        int random = rng.Next(3);
+                    for (; !(p.pawns[random].safe) || !(p.pawns[random].inStart); )
+                    {
+                        return p.pawns[random];
+                    }
+                }
+            }
+            return p.pawns[1];
         }
     }
     
