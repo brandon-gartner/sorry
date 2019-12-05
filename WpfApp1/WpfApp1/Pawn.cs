@@ -121,6 +121,8 @@ namespace WpfApp1
         public void sendToSafety()
         {
             this.safe = true;
+            this.goingIntoSafety = false;
+            this.spaceNumber = 99;
             if (color.Equals("Red"))
             {
                 this.safetyRow = 1;
