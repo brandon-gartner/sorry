@@ -15,6 +15,7 @@ namespace WpfApp1
         public Player[] players;
         public Deck deck;
         public int currentPlayer = -1;
+        int CountAI = 0;
         public GameState(MainWindow main)
         {
             /*Creating the three players and getting their names and such*/
@@ -26,7 +27,7 @@ namespace WpfApp1
             } while (playerCount <= 0 || playerCount >= 5);
 
             String AIPlayer;
-            int CountAI = 0;
+            CountAI = 0;
             Boolean failed = false;
             do
             {
@@ -70,8 +71,6 @@ namespace WpfApp1
             if (playerCount != players.Length)
             {
                 players[players.Length - 1] = new Player(colors[players.Length - 1], true, players.Length - 1);
-                MessageBox.Show(colors[3]);
-                MessageBox.Show(Convert.ToString(players.Length));
             }
 
             //OK SO THE FOLLOWING HAS TO BE MOVED TO MAIN WINDOW.cs
@@ -126,7 +125,7 @@ namespace WpfApp1
         public void updatePlayer()
         {
             
-            if (this.currentPlayer < this.playerCount - 1)
+            if (this.currentPlayer < (this.playerCount + CountAI) - 1)
             {
                 this.currentPlayer++;
             }

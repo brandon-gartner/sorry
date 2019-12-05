@@ -56,11 +56,12 @@ namespace WpfApp1
                 this.playerNumber = PlayerNumber;
                 this.color = color;
                 this.pawns = new Pawn[3];
+                this.PlayerName = "AI";
                 for (int i = 0; i < 3; i++)
                 {
                     this.pawns[i] = new Pawn(i + 1, color, this.playerNumber, this.PlayerName);
                 }
-                this.PlayerName = "AI";
+
                 InitialisePlayersBoard();
             }
             else
