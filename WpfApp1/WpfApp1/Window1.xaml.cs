@@ -27,6 +27,7 @@ namespace WpfApp1
         String card11Choice;
         public String card7Choice;
         public String card10Choice;
+        public String sorryChoice;
         public int move7;
         public MainWindow main;
         public int value;
@@ -59,6 +60,13 @@ namespace WpfApp1
             }
             //for card sorry
             else if(numberType == 2)
+            {
+                Choice_enem.Visibility = Visibility.Hidden;
+                Instructions.Text = "Pick whether you want to switch or move forwards 4 spaces!";
+                Choice.Items.Add("Switch");
+                Choice.Items.Add("Move Forward");
+            }
+            else if(numberType == 20)
             {
                 this.otherPawns = otherPawns;
                 Instructions.Text = playerName + "! Pick which pawn you want to switch with what other players' pawn! (Sorry Card)";
@@ -178,7 +186,7 @@ namespace WpfApp1
                 this.Close();
             }
             //Sorry
-            else if(this.numberType == 2 || this.numberType == 4)
+            else if(this.numberType == 20 || this.numberType == 4)
             {
                 String inputtedPlayerPawn = Choice.Text;
                 String inputtedEnemPawn = Choice_enem.Text;
@@ -239,6 +247,13 @@ namespace WpfApp1
                 this.card10Choice = Choice.Text;
                 this.main._10Helper(this);
                 this.Close();
+            }
+            else if(this.numberType == 2)
+            {
+                this.sorryChoice = Choice.Text;
+                this.main.onlySorryHelper(this);
+                this.Close();
+
             }
             this.Close();
 

@@ -235,8 +235,8 @@ namespace WpfApp1
         //update pawn location when its in safe(MAYBE EDIT)
         public Boolean PawnStepSafe(Pawn p, Boolean last, Boolean forward)
         {
-            //if(forward)
-           // {
+            if(forward)
+            {
                 this.main.updateInSafety(p);
                 if (p.decommissioned && last)
                 {
@@ -247,11 +247,40 @@ namespace WpfApp1
                     p.decommissioned = false;
                     return false;
                 }
-            //}
-            //else
-            //{
-              //  this.main.decreaseInSafety(p);
-            //}
+            }
+            else
+            {
+                if(p.color.Equals("Red") && p.safetyColumn == 2 && p.safetyRow == 1)
+                {
+                    p.safe = false;
+                    p.spaceNumber = 4;
+                    PawnStep(p, last, forward);
+                }
+                else if(p.color.Equals("Green") && p.safetyColumn == 13 && p.safetyRow == 14)
+                {
+                    p.safe = false;
+                    p.spaceNumber = 32;
+                    PawnStep(p, last, forward);
+                }
+                else if (p.color.Equals("Blue") && p.safetyColumn == 14 && p.safetyRow == 2)
+                {
+                    p.safe = false;
+                    p.spaceNumber = 17;
+                    PawnStep(p, last, forward);
+                }
+                else if (p.color.Equals("Yellow") && p.safetyColumn == 1 && p.safetyRow == 13)
+                {
+                    p.safe = false;
+                    p.spaceNumber = 47;
+                    PawnStep(p, last, forward);
+                }
+                else
+                {
+                    this.main.decreaseInSafety(p);
+                    return true;
+                }
+                return true;
+            }
 
         }
 
@@ -268,93 +297,156 @@ namespace WpfApp1
             {
                 finalLocation = p.spaceNumber + distance;
             }
-            if (p.safe)
+            if (forward)
             {
-                for(int i = 0; i < currentPlayer.safetySpaces.Length; i++)
+                if (p.safe)
                 {
-                    if(currentPlayer.safetySpaces[i].localPawn == p)
+                    for (int i = 0; i < currentPlayer.safetySpaces.Length; i++)
                     {
-                        if(i + distance > (currentPlayer.safetySpaces.Length-1))
+                        if (currentPlayer.safetySpaces[i].localPawn == p)
                         {
-                            this.main.ContentLog.Text = "Sorry! That's too far!";
-                            return false;
-                        }
-                        else if(currentPlayer.safetySpaces[i + distance].localPawn != null)
-                        {
-                            this.main.ContentLog.Text = "Sorry! There's a pawn there!";
-                            return false;
+                            if (i + distance > (currentPlayer.safetySpaces.Length - 1))
+                            {
+                                this.main.ContentLog.Text = "Sorry! That's too far!";
+                                return false;
+                            }
+                            else if (currentPlayer.safetySpaces[i + distance].localPawn != null)
+                            {
+                                this.main.ContentLog.Text = "Sorry! There's a pawn there!";
+                                return false;
+                            }
                         }
                     }
+                    return true;
                 }
-                return true;
+                else
+                {
+                    if (p.color.Equals("Red"))
+                    {
+                        if ((p.spaceNumber < 2 && finalLocation > 2) || (p.spaceNumber > 2 && finalLocation > 2 && finalLocation < p.spaceNumber))
+                        {
+                            int remainingDistance = finalLocation - 2;
+                            if (remainingDistance > (currentPlayer.safetySpaces.Length - 1))
+                            {
+                                this.main.ContentLog.Text = "Sorry! That's too far!";
+                                return false;
+                            }
+                            else if (currentPlayer.safetySpaces[remainingDistance - 1].localPawn != null)
+                            {
+                                this.main.ContentLog.Text = "Sorry! There's a pawn there!";
+                                return false;
+                            }
+                        }
+                    }
+                    else if (p.color.Equals("Blue"))
+                    {
+                        if ((p.spaceNumber < 17 && finalLocation > 17))
+                        {
+                            int remainingDistance = finalLocation - 2;
+                            if (remainingDistance > (currentPlayer.safetySpaces.Length - 1))
+                            {
+                                this.main.ContentLog.Text = "Sorry! That's too far!";
+                                return false;
+                            }
+                            else if (currentPlayer.safetySpaces[remainingDistance - 1].localPawn != null)
+                            {
+                                this.main.ContentLog.Text = "Sorry! There's a pawn there!";
+                                return false;
+                            }
+                        }
+                    }
+                    else if (p.color.Equals("Green"))
+                    {
+                        if ((p.spaceNumber < 32 && finalLocation > 32))
+                        {
+                            int remainingDistance = finalLocation - 2;
+                            if (remainingDistance > (currentPlayer.safetySpaces.Length - 1))
+                            {
+                                this.main.ContentLog.Text = "Sorry! That's too far!";
+                                return false;
+                            }
+                            else if (currentPlayer.safetySpaces[remainingDistance - 1].localPawn != null)
+                            {
+                                this.main.ContentLog.Text = "Sorry! There's a pawn there!";
+                                return false;
+                            }
+                        }
+                    }
+                    else if (p.color.Equals("Yellow"))
+                    {
+                        if ((p.spaceNumber < 47 && finalLocation > 47))
+                        {
+                            int remainingDistance = finalLocation - 2;
+                            if (remainingDistance > (currentPlayer.safetySpaces.Length - 1))
+                            {
+                                this.main.ContentLog.Text = "Sorry! That's too far!";
+                                return false;
+                            }
+                            else if (currentPlayer.safetySpaces[remainingDistance - 1].localPawn != null)
+                            {
+                                this.main.ContentLog.Text = "Sorry! There's a pawn there!";
+                                return false;
+                            }
+                        }
+                    }
+                    return true;
+                }
             }
             else
             {
-                if(p.color.Equals("Red"))
+
+                if (p.safe)
                 {
-                    if((p.spaceNumber < 2 && finalLocation > 2) || (p.spaceNumber > 2 && finalLocation > 2 && finalLocation < p.spaceNumber))
+                    for (int i = 0; i < currentPlayer.safetySpaces.Length; i++)
                     {
-                        int remainingDistance = finalLocation - 2;
-                        if(remainingDistance > (currentPlayer.safetySpaces.Length - 1))
+           
+
+                        if (currentPlayer.safetySpaces[i].localPawn == p)
                         {
-                            this.main.ContentLog.Text = "Sorry! That's too far!";
-                            return false;
-                        }
-                        else if(currentPlayer.safetySpaces[remainingDistance - 1].localPawn != null)
-                        {
-                            this.main.ContentLog.Text = "Sorry! There's a pawn there!";
-                            return false;
-                        }
-                    }
-                }
-                else if(p.color.Equals("Blue"))
-                {
-                    if ((p.spaceNumber < 17 && finalLocation > 17))
-                    {
-                        int remainingDistance = finalLocation - 2;
-                        if (remainingDistance > (currentPlayer.safetySpaces.Length - 1))
-                        {
-                            this.main.ContentLog.Text = "Sorry! That's too far!";
-                            return false;
-                        }
-                        else if (currentPlayer.safetySpaces[remainingDistance - 1].localPawn != null)
-                        {
-                            this.main.ContentLog.Text = "Sorry! There's a pawn there!";
-                            return false;
-                        }
-                    }
-                }
-                else if (p.color.Equals("Green"))
-                {
-                    if ((p.spaceNumber < 32 && finalLocation > 32))
-                    {
-                        int remainingDistance = finalLocation - 2;
-                        if (remainingDistance > (currentPlayer.safetySpaces.Length - 1))
-                        {
-                            this.main.ContentLog.Text = "Sorry! That's too far!";
-                            return false;
-                        }
-                        else if (currentPlayer.safetySpaces[remainingDistance - 1].localPawn != null)
-                        {
-                            this.main.ContentLog.Text = "Sorry! There's a pawn there!";
-                            return false;
-                        }
-                    }
-                }
-                else if (p.color.Equals("Yellow"))
-                {
-                    if ((p.spaceNumber < 47 && finalLocation > 47))
-                    {
-                        int remainingDistance = finalLocation - 2;
-                        if (remainingDistance > (currentPlayer.safetySpaces.Length - 1))
-                        {
-                            this.main.ContentLog.Text = "Sorry! That's too far!";
-                            return false;
-                        }
-                        else if (currentPlayer.safetySpaces[remainingDistance - 1].localPawn != null)
-                        {
-                            this.main.ContentLog.Text = "Sorry! There's a pawn there!";
-                            return false;
+                            if ((i + distance) < 0)
+                            {
+                                int finalLocationBack = distance + (i + 1);
+                                if ((p.color.Equals("Red")))
+                                {
+                                    finalLocationBack = 4 + finalLocationBack;
+                                    if (finalLocationBack < 0)
+                                    {
+                                        finalLocationBack = 60 + finalLocationBack;
+                                    }
+                                }
+                                else if ((p.color.Equals("Blue")))
+                                {
+                                    finalLocationBack = 17 + finalLocationBack;
+                                }
+                                else if ((p.color.Equals("Green")))
+                                {
+                                    finalLocationBack = 32 + finalLocationBack;
+                                }
+                                else if ((p.color.Equals("Yellow")))
+                                {
+                                    finalLocationBack = 47 + finalLocationBack;
+                                }
+
+                                if(this.landingSpaces[finalLocation].localPawn == null)
+                                {
+                                    return true;
+                                }
+                                else if (this.landingSpaces[finalLocation].localPawn.color.Equals(p.color))
+                                {
+                                    return false;
+                                }
+                                else
+                                {
+                                    return true;
+                                }
+                            }
+                            else
+                            {
+                                if(this.landingSpaces[i + distance].localPawn != null)
+                                {
+                                    return false;
+                                }
+                            }
                         }
                     }
                 }
