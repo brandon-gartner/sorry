@@ -68,7 +68,11 @@ namespace WpfApp1
 
                 isGameRunning = true;
                 gameState.updatePlayer();
-                this.Player_Display.Text = this.gameState.players[this.gameState.currentPlayer].PlayerName +" it is your turn!";
+
+                
+
+                this.Player_Display.Text = this.gameState.players[this.gameState.currentPlayer].PlayerName + " it is your turn!";
+
             }
         }
 
@@ -79,47 +83,9 @@ namespace WpfApp1
             {
 
                 //CURRENTLY TESTING CARDS
-
-
-
-                if(!bruh)
-                {
-                    Card temp = new Card(4);
-                    
-                    Player player = this.gameState.players[0];
-                    
-                    this.gameState.players[0].pawns[0].safe = true;
-                    this.gameState.players[0].pawns[0].inStart = false;
-                    player.safetySpaces[2].localPawn = player.pawns[0];
-                    drawInSafety(this.gameState.players[0].pawns[0]);
-                    updateInSafety(this.gameState.players[0].pawns[0]);
-                    updateInSafety(this.gameState.players[0].pawns[0]);
-                    this.gameState.players[0].pawns[1].safe = true;
-                    this.gameState.players[0].pawns[1].inStart = false;
-
-                    player.safetySpaces[0].localPawn = player.pawns[1];
-                    drawInSafety(this.gameState.players[0].pawns[1]);
-                    
-                    /*
-                    this.gameState.players[0].pawns[0].inStart = false;
-                    this.gameState.players[0].pawns[0].spaceNumber = 59;
-                    this.mainBoard.landingSpaces[59].localPawn = this.gameState.players[0].pawns[0];
-                    drawAtNextPosition(this.gameState.players[0].pawns[0]);
-                    
-                    this.gameState.players[0].pawns[0].inStart = false;
-                    this.gameState.players[0].pawns[0].spaceNumber = 4;
-                    this.mainBoard.landingSpaces[4].localPawn = this.gameState.players[0].pawns[0];
-                    drawAtNextPosition(this.gameState.players[0].pawns[0]);
-                    */
-
-                    this.bruh = false;
-                    activateCard(temp.getCard_Id(), gameState.currentPlayer);
-                }
-                else
-                {
                     Card card = this.gameState.deck.getNextCard();
                     activateCard(card.getCard_Id(), gameState.currentPlayer);
-                }
+                
 
 
 
@@ -353,7 +319,7 @@ namespace WpfApp1
 
             //sorry card will switch the pawnn into the choosen annemy's pawn and bring the ennemy back to start
             Pawn pawn = selectPawnToMove(p, value, true);
-            if (pawn.playerNumber == -1)
+            if (pawn.playerNumber == -1 || pawn.numberOfPawn == -1)
             {
                 ContentLog.Text = "AI could not move a pawn out of start and had no pawns outside of start.";
                 return;
@@ -418,7 +384,7 @@ namespace WpfApp1
             //    ContentLog.Text = "Unfortunately you have no pawns that can move 11 moves nor are there any pawns that you can switch! Turn skipped.";
             //}
             Pawn pawn = selectPawnToMove(p, 11, true);
-            if (pawn.playerNumber == -1)
+            if (pawn.playerNumber == -1 || pawn.numberOfPawn == -1)
             {
                 ContentLog.Text = "AI could not move a pawn out of start and had no pawns outside of start.";
                 return;
@@ -487,7 +453,7 @@ namespace WpfApp1
             //}
             Pawn pawn = selectPawnToMove(p, value, true);
 
-            if (pawn.playerNumber == -1)
+            if (pawn.playerNumber == -1 || pawn.numberOfPawn == -1)
             {
                 ContentLog.Text = "AI could not move a pawn out of start and had no pawns outside of start.";
                 return;
@@ -519,7 +485,7 @@ namespace WpfApp1
             //}
             Pawn pawn = selectPawnToMove(p, value, true);
 
-            if (pawn.playerNumber == -1)
+            if (pawn.playerNumber == -1 || pawn.numberOfPawn == -1)
             {
                 ContentLog.Text = "AI could not move a pawn out of start and had no pawns outside of start.";
                 return;
@@ -562,7 +528,7 @@ namespace WpfApp1
             //Generic card then it will go the length of the value variable
             Pawn pawn = selectPawnToMove(p, value, true);
 
-            if (pawn.playerNumber == -1)
+            if (pawn.playerNumber == -1 || pawn.numberOfPawn == -1)
             {
                 ContentLog.Text = "AI could not move a pawn out of start and had no pawns outside of start.";
                 return;
@@ -1491,7 +1457,7 @@ namespace WpfApp1
             }
             if (!(freeFromStart))
             {
-                return new Pawn(-1, null, -1, "");
+                return new Pawn(-1, "Blue", -1, "");
             }
             Boolean hasHighPriority = false;
             Boolean[] pawnMovement = potentialPriorityPawns(p, value, forward);
@@ -1559,7 +1525,7 @@ namespace WpfApp1
             Boolean hasAnyStarted = false;
             for (int i = 0; i < 3; i++)
             {
-                if (p.pawns[i].safe)
+                if (p.pawns[i].inStart)
                 {
                     hasAnyStarted = true;
                 }
@@ -1571,7 +1537,8 @@ namespace WpfApp1
                 {
                     if (p.pawns[i].inStart)
                     {
-                        drawAtStart(p.pawns[i]);
+                        drawOutsideStart(p.pawns[i]);
+                        p.pawns[i].inStart = false;
                         return true;
                     }
                 }
