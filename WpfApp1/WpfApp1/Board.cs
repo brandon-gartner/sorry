@@ -737,9 +737,11 @@ namespace WpfApp1
         {
             if (forward)
             {
-                if (landingSpaces[p.spaceNumber + value].localPawn != null && !(p.playerName.Equals(landingSpaces[p.spaceNumber + value].localPawn.playerName)))
+                if (landingSpaces[p.spaceNumber + value].localPawn != null && (p.playerName.Equals(landingSpaces[p.spaceNumber + value].localPawn.playerName)))
                 {
-                    return true;
+                    
+                        return true;
+                    
                 }
             }
             else

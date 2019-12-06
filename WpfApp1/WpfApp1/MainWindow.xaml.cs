@@ -1531,16 +1531,22 @@ namespace WpfApp1
                 }
             }
 
-            if (!(hasAnyStarted) || mainBoard.landingSpaces[(p.playerNumber * 15) + 4].localPawn == null || mainBoard.landingSpaces[(p.playerNumber * 15) + 4].localPawn.playerNumber != p.playerNumber)
+            if (!(hasAnyStarted) || mainBoard.landingSpaces[(p.playerNumber * 15) + 4].localPawn == null || mainBoard.landingSpaces[(p.playerNumber * 15) + 4].localPawn.playerNumber == p.playerNumber)
             {
                 for (int i = 0; i < p.pawns.Length; i++)
                 {
-                    if (p.pawns[i].inStart)
+                    if (!(p.pawns[i].inStart))
+                    {
+                        return true;
+                    }
+                    else
                     {
                         drawOutsideStart(p.pawns[i]);
                         p.pawns[i].inStart = false;
                         return true;
                     }
+                    
+                    
                 }
             }
             return false;
