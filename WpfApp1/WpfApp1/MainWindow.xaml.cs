@@ -75,6 +75,25 @@ namespace WpfApp1
 
                     this.Player_Display.Text = this.gameState.players[this.gameState.currentPlayer].PlayerName + " it is your turn!";
 
+                    for(int i = 0; i < this.gameState.players.Length; i++)
+                    {
+                        if (this.gameState.players[i].color.Equals("Red"))
+                        {
+                            PlayerRed.Text = this.gameState.players[i].PlayerName;
+                        }
+                        else if (this.gameState.players[i].color.Equals("Blue"))
+                        {
+                            PlayerBlue.Text = this.gameState.players[i].PlayerName;
+                        }
+                        else if (this.gameState.players[i].color.Equals("Green"))
+                        {
+                            Player_Green.Text = this.gameState.players[i].PlayerName;
+                        }
+                        else
+                        {
+                            Player_Yellow.Text = this.gameState.players[i].PlayerName;
+                        }
+                    }
                 }
             }
             catch (Exception)
@@ -98,20 +117,6 @@ namespace WpfApp1
                 Card card = this.gameState.deck.getNextCard();
                 activateCard(card.getCard_Id(), gameState.currentPlayer);
 
-                /*
-                this.gameState.players[0].pawns[0].spaceNumber = 49;
-                this.gameState.players[0].pawns[0].inStart = false;
-                this.mainBoard.landingSpaces[49].localPawn = this.gameState.players[0].pawns[0];
-                drawAtNextPosition(this.gameState.players[0].pawns[0]);
-
-                Card card = new Card(5);
-                this.gameState.currentPlayer = 3;
-
-
-               activateCard(card.getCard_Id(), gameState.currentPlayer);
-               
-            */
-
                 Next_Turn.IsEnabled = true;
                 DrawCard.IsEnabled = false;
 
@@ -132,10 +137,29 @@ namespace WpfApp1
                 this.pubStream.Close();
                 this.mainBoard = new Board(this.gameState.players, this);//testing***************************************
                 LoadDrawInitialPawns();
-                /*scrapped idea
-                loadedPlayers = stateToLoad.GetPlayers();
-                loadedPlayerCount = stateToLoad.GetPlayerCount();
-                */
+            for (int i = 0; i < this.gameState.players.Length; i++)
+            {
+                if (this.gameState.players[i].color.Equals("Red"))
+                {
+                    PlayerRed.Text = this.gameState.players[i].PlayerName;
+                }
+                else if (this.gameState.players[i].color.Equals("Blue"))
+                {
+                    PlayerBlue.Text = this.gameState.players[i].PlayerName;
+                }
+                else if (this.gameState.players[i].color.Equals("Green"))
+                {
+                    Player_Green.Text = this.gameState.players[i].PlayerName;
+                }
+                else
+                {
+                    Player_Yellow.Text = this.gameState.players[i].PlayerName;
+                }
+            }
+            /*scrapped idea
+            loadedPlayers = stateToLoad.GetPlayers();
+            loadedPlayerCount = stateToLoad.GetPlayerCount();
+            */
         }
         //this method will save the game
         private void GameSave(object sender, RoutedEventArgs e)
