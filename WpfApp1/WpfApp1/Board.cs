@@ -350,7 +350,7 @@ namespace WpfApp1
                     {
                         if ((p.spaceNumber < 17 && finalLocation > 17))
                         {
-                            int remainingDistance = finalLocation - 2;
+                            int remainingDistance = finalLocation - 17;
                             if (remainingDistance > (currentPlayer.safetySpaces.Length - 1))
                             {
                                 this.main.ContentLog.Text = "Sorry! That's too far!";
@@ -367,7 +367,7 @@ namespace WpfApp1
                     {
                         if ((p.spaceNumber < 32 && finalLocation > 32))
                         {
-                            int remainingDistance = finalLocation - 2;
+                            int remainingDistance = finalLocation - 32;
                             if (remainingDistance > (currentPlayer.safetySpaces.Length - 1))
                             {
                                 this.main.ContentLog.Text = "Sorry! That's too far!";
@@ -384,7 +384,7 @@ namespace WpfApp1
                     {
                         if ((p.spaceNumber < 47 && finalLocation > 47))
                         {
-                            int remainingDistance = finalLocation - 2;
+                            int remainingDistance = finalLocation - 47;
                             if (remainingDistance > (currentPlayer.safetySpaces.Length - 1))
                             {
                                 this.main.ContentLog.Text = "Sorry! That's too far!";

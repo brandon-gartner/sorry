@@ -62,7 +62,7 @@ namespace WpfApp1
             else if(numberType == 2)
             {
                 Choice_enem.Visibility = Visibility.Hidden;
-                Instructions.Text = "Pick whether you want to switch or move forwards 4 spaces!";
+                Instructions.Text = playerName + " pick whether you want to switch or move forwards 4 spaces!";
                 Choice.Items.Add("Switch");
                 Choice.Items.Add("Move Forward");
             }
