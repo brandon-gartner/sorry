@@ -56,24 +56,36 @@ namespace WpfApp1
         //this will start the game and initiate the gamestate
         private void GameStart(object sender, RoutedEventArgs e)
         {
-            if (!isGameRunning)
+            try
             {
-                Save.IsEnabled = true;
-                Load.IsEnabled = true;
-                gameState = new GameState(this);
-                this.mainBoard = new Board(this.gameState.players, this);
-                drawInitialPawns();
-                DrawCard.IsEnabled = true;
-                Start.IsEnabled = false;
+                if (!isGameRunning)
+                {
+                    Save.IsEnabled = true;
+                    Load.IsEnabled = true;
+                    gameState = new GameState(this);
+                    this.mainBoard = new Board(this.gameState.players, this);
+                    drawInitialPawns();
+                    DrawCard.IsEnabled = true;
+                    Start.IsEnabled = false;
 
-                isGameRunning = true;
-                gameState.updatePlayer();
+                    isGameRunning = true;
+                    gameState.updatePlayer();
 
-                
 
-                this.Player_Display.Text = this.gameState.players[this.gameState.currentPlayer].PlayerName + " it is your turn!";
 
+                    this.Player_Display.Text = this.gameState.players[this.gameState.currentPlayer].PlayerName + " it is your turn!";
+
+                }
             }
+            catch (Exception)
+            {
+                MessageBox.Show("Sorry, You probably inputted a wrong value. Please restart");
+                DrawCard.IsEnabled = false;
+                Start.IsEnabled = true;
+                Save.IsEnabled = false;
+                Load.IsEnabled = false;
+            }
+           
         }
 
         private void ClickDraw(object sender, RoutedEventArgs e)
@@ -83,12 +95,22 @@ namespace WpfApp1
             {
 
                 //CURRENTLY TESTING CARDS
-                    Card card = this.gameState.deck.getNextCard();
-                    activateCard(card.getCard_Id(), gameState.currentPlayer);
-                
+                Card card = this.gameState.deck.getNextCard();
+                activateCard(card.getCard_Id(), gameState.currentPlayer);
+
+                /*
+                this.gameState.players[0].pawns[0].spaceNumber = 49;
+                this.gameState.players[0].pawns[0].inStart = false;
+                this.mainBoard.landingSpaces[49].localPawn = this.gameState.players[0].pawns[0];
+                drawAtNextPosition(this.gameState.players[0].pawns[0]);
+
+                Card card = new Card(5);
+                this.gameState.currentPlayer = 3;
 
 
-
+               activateCard(card.getCard_Id(), gameState.currentPlayer);
+               
+            */
 
                 Next_Turn.IsEnabled = true;
                 DrawCard.IsEnabled = false;
@@ -609,7 +631,7 @@ namespace WpfApp1
             }
             else if (allPawns.Length == 0 || allSwitchablePawn.Length == 0)
             {
-                ContentLog.Text = "You don't have any pawns out or none of the opponents moved :( ";
+                ContentLog.Text = "You don't have any pawns out or none of the opponents moved :( (Sorry Card) ";
             }
             else
             {
@@ -634,9 +656,9 @@ namespace WpfApp1
             {
                 availablePawns = getWhichPawnsCanMove();
             }
-            if (availablePawns == null)
+            if (availablePawns.Length == 0)
             {
-                ContentLog.Text = "Unfortunately you have no pawns that can move that distance! Turn skipped.";
+                ContentLog.Text = "Unfortunately you have no pawns that can move that distance! Turn skipped. (Card " + value +")";
             }
             else
             {
@@ -779,8 +801,16 @@ namespace WpfApp1
             if (input.getChoice11().Equals("Switch"))
             {
                 Pawn[] newPawns = currentPawnsCanSwitch(input.allPawns);
-                Window1 optionsSwitch = new Window1(4, input.playerName, 11, newPawns, input.otherPawns, this);
-                optionsSwitch.Show();
+                if(newPawns.Length != 0)
+                {
+                    Window1 optionsSwitch = new Window1(4, input.playerName, 11, newPawns, input.otherPawns, this);
+                    optionsSwitch.Show();
+                }
+                else
+                {
+                    ContentLog.Text = "Sorry, no available pawns to switch for card 11 :(";
+                }
+
             }
             else if (input.getChoice11().Equals("Forfeit"))
             {
